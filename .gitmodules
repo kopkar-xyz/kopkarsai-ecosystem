@@ -1,0 +1,3 @@
+[submodule "docs/project-knowledge"]
+	path = docs/project-knowledge
+	url = git@github.com:kopkar-xyz/project-knowledge.git
