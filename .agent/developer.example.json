@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "developer": {
+    "display_name": "Alexander Agung",
+    "github_username": "ekyaaa",
+    "email": "developer@kopkarsai.id"
+  },
+  "workspace": {
+    "machine_label": "dev-nobara",
+    "preferred_editor": "cursor"
+  },
+  "project": {
+    "project_number": 1,
+    "project_owner": "kopkar-xyz",
+    "project_title": "kopkar-sai",
+    "status_field": "Status",
+    "priority_field": "Priority"
+  }
+}

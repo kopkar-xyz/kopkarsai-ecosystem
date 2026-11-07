@@ -1,0 +1,2343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta & Daftar Lengkap Fitur Ekosistem Digital KOPKAR SAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Identitas Warna Resmi KopKar & Nuansa Sakura Jepang */
+      --primary-green: #0F5132;
+      --primary-dark: #0B3D25;
+      --primary-light: #198754;
+      --accent-gold: #F5B324;
+      --accent-gold-hover: #E5A417;
+      --accent-gold-soft: #FEF3C7;
+      --accent-blue: #1D4ED8;
+      --accent-blue-soft: #DBEAFE;
+      
+      /* Sentuhan Nuansa Jepang & Sakura (Sesuai Arahan Rapat Manajer 7 Nov 2026) */
+      --accent-sakura: #E85A71;
+      --accent-sakura-dark: #BE3A50;
+      --accent-sakura-soft: #FFF0F5;
+      --accent-sakura-light: #FFE4E8;
+      --border-sakura: #FFCCD5;
+
+      /* Label Unik Proposal OOS & Fitur Tambahan */
+      --badge-oos-bg: #F3E8FF;
+      --badge-oos-text: #6B21A8;
+      --badge-oos-border: #D8B4FE;
+      --badge-new-bg: #FFE4E8;
+      --badge-new-text: #9F1239;
+      --badge-new-border: #FDA4AF;
+
+      --bg-canvas: #F8FAF9;
+      --surface-white: #FFFFFF;
+      --surface-mint: #EAF6EE;
+      --surface-cream: #FEF9E7;
+      --surface-blue: #EFF6FF;
+      --surface-dock: #0B2E1E;
+      --text-main: #0B2E1E;
+      --text-muted: #4A5568;
+      --text-light: #718096;
+      --border-soft: #E2E8F0;
+      --border-green: #A7F3D0;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      
+      --shadow-subtle: 0 4px 20px -2px rgba(11, 46, 30, 0.05), 0 2px 6px -1px rgba(11, 46, 30, 0.03);
+      --shadow-card: 0 10px 25px -4px rgba(11, 46, 30, 0.08), 0 4px 10px -2px rgba(11, 46, 30, 0.04);
+      --shadow-hover: 0 20px 35px -6px rgba(11, 46, 30, 0.14), 0 8px 16px -3px rgba(11, 46, 30, 0.08);
+      --font-family: 'Plus Jakarta Sans', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 24px 80px 24px;
+    }
+
+    /* Top Notice: Truth Source Banner */
+    .truth-source-alert {
+      background: linear-gradient(90deg, #FFF0F5 0%, #FEF9E7 100%);
+      border: 1px solid var(--border-sakura);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 2px 8px rgba(232, 90, 113, 0.08);
+      flex-wrap: wrap;
+    }
+
+    .truth-source-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13.5px;
+      color: #881337;
+    }
+
+    .truth-badge-pill {
+      background: var(--accent-sakura);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .demo-date-pill {
+      background: rgba(15, 81, 50, 0.1);
+      color: var(--primary-green);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(15, 81, 50, 0.2);
+    }
+
+    /* Header Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-green) 55%, #18603D 85%, #2A4836 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-xl);
+      padding: 44px 40px;
+      margin-bottom: 32px;
+      box-shadow: 0 16px 36px -10px rgba(11, 61, 37, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(232, 90, 113, 0.22) 0%, rgba(245, 179, 36, 0.15) 50%, rgba(15, 81, 50, 0) 75%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(8px);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FEF3C7;
+      border: 1px solid rgba(254, 243, 199, 0.3);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 33px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-subtitle {
+      font-size: 15.5px;
+      color: #E2E8F0;
+      max-width: 920px;
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    /* Filosofi Branding Card (Arahan Rapat Manajer) */
+    .philosophy-strip {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 13.5px;
+      color: #F8FAF9;
+      line-height: 1.6;
+    }
+
+    .philosophy-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    /* Checklist Status Block */
+    .checklist-card {
+      background: var(--surface-white);
+      border-radius: var(--radius-xl);
+      padding: 30px;
+      margin-bottom: 36px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .checklist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .checklist-title {
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checklist-stats-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-baseline { background: #D1FAE5; color: #065F46; }
+    .stat-oos { background: var(--badge-oos-bg); color: var(--badge-oos-text); border: 1px solid var(--badge-oos-border); }
+    .stat-new { background: var(--badge-new-bg); color: var(--badge-new-text); border: 1px solid var(--badge-new-border); }
+
+    .checklist-table-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .checklist-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .checklist-table th {
+      background: #F8FAFC;
+      padding: 12px 14px;
+      font-weight: 700;
+      color: #334155;
+      border-bottom: 2px solid var(--border-soft);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .checklist-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-soft);
+      vertical-align: middle;
+    }
+
+    .checklist-table tr:hover td {
+      background-color: #F8FAF9;
+    }
+
+    .status-check {
+      color: #059669;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Controls Bar: Filter Tabs & Live Search */
+    .controls-wrapper {
+      background: var(--surface-white);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-subtle);
+      border: 1px solid var(--border-soft);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: sticky;
+      top: 16px;
+      z-index: 50;
+    }
+
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tab-btn {
+      background: #F1F5F9;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-btn:hover {
+      background: #E2E8F0;
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      background: var(--primary-green);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(15, 81, 50, 0.25);
+    }
+
+    .tab-btn.tab-oos.active {
+      background: #6B21A8;
+      box-shadow: 0 4px 12px rgba(107, 33, 168, 0.25);
+    }
+
+    .tab-btn.tab-new.active {
+      background: var(--accent-sakura);
+      box-shadow: 0 4px 12px rgba(232, 90, 113, 0.25);
+    }
+
+    .search-input-wrap {
+      position: relative;
+      min-width: 280px;
+      flex-grow: 1;
+      max-width: 380px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 16px 10px 38px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-family: inherit;
+      font-size: 13px;
+      background-color: #F8FAF9;
+      color: var(--text-main);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      background-color: #FFFFFF;
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94A3B8;
+      pointer-events: none;
+      font-size: 14px;
+    }
+
+    /* Section Headers */
+    .section-title-wrap {
+      margin-top: 48px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--border-soft);
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title-pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .badge-kopkar { background-color: #D1FAE5; color: #065F46; }
+    .badge-marketplace { background-color: #DBEAFE; color: #1E40AF; }
+    .badge-shared { background-color: #FEF3C7; color: #92400E; }
+    .badge-oos { background-color: var(--badge-oos-bg); color: var(--badge-oos-text); border: 1px solid var(--badge-oos-border); }
+    .badge-new { background-color: var(--badge-new-bg); color: var(--badge-new-text); border: 1px solid var(--badge-new-border); }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--surface-white);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-subtle);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card);
+      border-color: #CBD5E1;
+    }
+
+    /* Highlight Card Borders for OOS and New */
+    .feature-card.card-oos {
+      border-left: 4px solid #7C3AED;
+      background: linear-gradient(180deg, #FAF5FF 0%, #FFFFFF 25%);
+    }
+
+    .feature-card.card-new {
+      border-left: 4px solid var(--accent-sakura);
+      background: linear-gradient(180deg, #FFF5F7 0%, #FFFFFF 25%);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .feature-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .icon-green { background: #EAF6EE; color: #0F5132; }
+    .icon-blue { background: #EFF6FF; color: #1D4ED8; }
+    .icon-gold { background: #FEF9E7; color: #B45309; }
+    .icon-purple { background: var(--badge-oos-bg); color: var(--badge-oos-text); }
+    .icon-sakura { background: var(--badge-new-bg); color: var(--badge-new-text); }
+
+    .card-tags {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    /* Feature Code Badge */
+    .code-badge {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .code-baseline { background: #E2E8F0; color: #1E293B; border: 1px solid #CBD5E1; }
+    .code-oos { background: var(--badge-oos-bg); color: var(--badge-oos-text); border: 1px solid var(--badge-oos-border); }
+    .code-new { background: var(--badge-new-bg); color: var(--badge-new-text); border: 1px solid var(--badge-new-border); }
+
+    .location-tag {
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .loc-kopkar { background: #EAF6EE; color: #0F5132; border: 1px solid #C6F6D5; }
+    .loc-marketplace { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
+    .loc-shared { background: #FEF9E7; color: #92400E; border: 1px solid #FDE68A; }
+    .loc-admin { background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1; }
+
+    .feature-title {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .feature-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .feature-meta {
+      background: #F8FAF9;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 12px;
+      border-left: 3px solid #CBD5E1;
+      margin-bottom: 14px;
+    }
+
+    .meta-row {
+      display: flex;
+      margin-bottom: 4px;
+    }
+
+    .meta-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .meta-label {
+      width: 110px;
+      font-weight: 600;
+      color: var(--text-light);
+      flex-shrink: 0;
+    }
+
+    .meta-value {
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .feature-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #F1F5F9;
+      padding-top: 12px;
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 1px dashed #CBD5E1;
+      margin-top: 24px;
+    }
+
+    .page-footer {
+      margin-top: 60px;
+      text-align: center;
+      padding: 24px;
+      font-size: 13px;
+      color: var(--text-light);
+      border-top: 1px solid var(--border-soft);
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 26px; }
+      .hero-banner { padding: 30px 20px; }
+      .controls-wrapper { flex-direction: column; align-items: stretch; }
+      .search-input-wrap { max-width: 100%; }
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Top Alert: Truth Source Update -->
+    <div class="truth-source-alert">
+      <div class="truth-source-left">
+        <span class="truth-badge-pill">⚡ Truth Source Terbaru</span>
+        <span>
+          Diperbarui berdasarkan <strong>Notulensi Rapat Manajer (7 November 2026)</strong> & seluruh matriks baseline resmi proyek.
+        </span>
+      </div>
+      <div class="demo-date-pill">
+        📅 Target Prototype Demo Frontend: <strong>5 Desember 2026</strong>
+      </div>
+    </div>
+
+    <!-- Hero Header -->
+    <header class="hero-banner">
+      <div class="hero-tagline">
+        <span>🏢 Ekosistem Digital KOPKAR SAI — Nuansa Sakura & Solusi Kesejahteraan</span>
+      </div>
+      <h1 class="hero-title">Peta Lengkap Fitur, Kode Unik & Tempat Akses</h1>
+      <p class="hero-subtitle">
+        Panduan komprehensif terpadu untuk menelusuri seluruh fitur ekosistem <strong>KOPKAR SAI</strong> & <strong>Ichiba SAI</strong>.
+        Setiap fitur kini dilengkapi dengan kode penanda resmi (kode baseline, proposal <em>out-of-scope</em> yang diterima, serta arahan tambahan manajer terbaru).
+      </p>
+
+      <!-- Filosofi Arahan Manajer -->
+      <div class="philosophy-strip">
+        <span class="philosophy-icon">🌸</span>
+        <div>
+          <strong>Filosofi Desain & Layanan (Arahan Manajer):</strong> 
+          Sistem dirancang dengan nuansa hangat & bersahabat khas Jepang (sentuhan sakura lembut & ombak santai), 
+          mengedepankan citra <em>mengayomi pekerja</em> yang melepas lelah setelah bekerja. Layanan finansial dikemas sebagai 
+          <strong>Solusi Kesejahteraan & Sahabat Acara Hidup</strong> (bantuan hajatan mantenan, khitanan, ulang tahun keluarga, dan dana darurat), 
+          bukan sekadar kesan utang simpan pinjam yang kaku.
+        </div>
+      </div>
+    </header>
+
+    <!-- CHECKLIST VERIFIKASI & REKONSILIASI LENGKAP -->
+    <section class="checklist-card">
+      <div class="checklist-header">
+        <h2 class="checklist-title">
+          <span>✅ Checklist Rekonsiliasi Fitur (Semua Konteks & Tambahan Rapat 7 Nov 2026)</span>
+        </h2>
+        <div class="checklist-stats-bar">
+          <span class="stat-pill stat-baseline">🟢 26 Fitur Baseline Proyek</span>
+          <span class="stat-pill stat-oos">🟣 3 Proposal OOS Diterima</span>
+          <span class="stat-pill stat-new">🌸 10 Fitur Tambahan Baru</span>
+          <span class="stat-pill" style="background:#0F5132; color:#FFF;">Total: 39 Modul Terdaftar</span>
+        </div>
+      </div>
+      <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px;">
+        Berikut adalah checklist lengkap seluruh fitur yang telah diverifikasi dan ditambahkan ke dalam dokumen ini:
+      </p>
+
+      <div class="checklist-table-wrapper">
+        <table class="checklist-table">
+          <thead>
+            <tr>
+              <th style="width: 14%;">Status Checklist</th>
+              <th style="width: 18%;">Kode Penanda</th>
+              <th style="width: 28%;">Nama Fitur / Layanan</th>
+              <th style="width: 20%;">Sumber Pengetahuan</th>
+              <th style="width: 20%;">Tempat Akses Utama</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Tambahan Rapat Manajer 7 Nov (OOS & NEW) -->
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-oos">[PROP-OOS-ACC-001]</span></td>
+              <td><strong>Integrasi Langsung Payment Gateway Bank Mandiri</strong></td>
+              <td>Proposal OOS Diterima (Rapat 7 Nov)</td>
+              <td>Marketplace &gt; Checkout Kasir</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-oos">[PROP-OOS-ACC-002]</span></td>
+              <td><strong>Nota Digital Struk Belanja & Verifikasi QR Code Scanner</strong></td>
+              <td>Proposal OOS Diterima (Rapat 7 Nov)</td>
+              <td>Marketplace &gt; Serah Terima Kasir</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-oos">[PROP-OOS-ACC-003]</span></td>
+              <td><strong>Subdomain Khusus Admin Manajemen Stok (admin.kopkarsai.com)</strong></td>
+              <td>Proposal OOS Diterima (Rapat 7 Nov)</td>
+              <td>Subdomain Admin Toko</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-001]</span></td>
+              <td><strong>Mesin Diskon Bertingkat (Anggota vs Non) & Jadwal Promo</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Marketplace &gt; Mesin Diskon</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-002]</span></td>
+              <td><strong>Paket Bundling Kombo Hemat & Batas Kuota Pembelian Per Orang</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Koperasi &gt; Pengaturan Produk</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-003]</span></td>
+              <td><strong>Mode Kiosk Tablet Toko (Pemesanan Cepat dengan NIK Karyawan)</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Tablet Khusus di Toko Fisik</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-004]</span></td>
+              <td><strong>Notifikasi Audio Bel Masuk Saat Pemesanan di Meja Kasir</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Dasbor Kasir & Toko</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-005]</span></td>
+              <td><strong>Status Siklus Produk (Live, Draft, & Arsip)</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Menu Supplier & Koperasi</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-006]</span></td>
+              <td><strong>Log Riwayat Perubahan Data & Pemantau Versi (PIC Update)</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Panel Khusus Administrator</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-007]</span></td>
+              <td><strong>Alur Bayar di Awal & Negosiasi/Substitusi Barang Stok Habis</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Marketplace &gt; Checkout & Kasir</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-008]</span></td>
+              <td><strong>Re-branding Solusi Kesejahteraan Anggota (Bantuan Hajatan/Ultah)</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Portal Koperasi &gt; Finansial</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-009]</span></td>
+              <td><strong>Otoritas Sentral Diskon Koperasi (Supplier Tanpa Diskon Liar)</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Panel Manajemen Koperasi</td>
+            </tr>
+            <tr style="background: #FFF5F7;">
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-new">[PROP-ADD-NEW-010]</span></td>
+              <td><strong>Otomasi Soft-Delete Mitra Supplier Pasif 1 Bulan</strong></td>
+              <td>Notulensi Baru (Rapat 7 Nov)</td>
+              <td>Panel Manajemen Supplier</td>
+            </tr>
+
+            <!-- Baseline Project Knowledge Context -->
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[SH-FTR-001]</span></td>
+              <td>Pintu Gerbang Masuk SSO & Login Satu Akun Terpadu</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Gerbang Masuk Utama Ekosistem</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[SH-FTR-002]</span></td>
+              <td>Pusat Notifikasi Langsung Dalam Aplikasi (In-App Center)</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Bilah Navigasi Atas (Lonceng)</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[SH-FTR-003]</span></td>
+              <td>Pencadangan Basis Data Mandiri (Save Current Snapshot)</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Panel Superadmin Koperasi</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-001]</span></td>
+              <td>Pendaftaran Anggota Mandiri & Foto KTP</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Registrasi</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-001-B]</span></td>
+              <td>Verifikasi Anggota Berjenjang (Dual-Approval)</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Dasbor Approval</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-001-C]</span></td>
+              <td>Kartu Anggota Elektronik & Dasbor Keanggotaan</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Dasbor Utama</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-004]</span></td>
+              <td>Kalkulator Finansial Kesejahteraan & Ekspor Excel (.xlsx)</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Tab Finansial</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-004-B]</span></td>
+              <td>Proyeksi Tabungan Anggota & Estimasi SHU</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Tab Finansial</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-002]</span></td>
+              <td>Pengajuan Produk UMKM Makanan/Minuman Baru</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Usaha Anggota</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-002-B]</span></td>
+              <td>Jadwal Penyerahan Sampel Fisik & Hasil Uji Organoleptik</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Kurasi Sampel</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-002-C]</span></td>
+              <td>Riwayat Catatan Evaluasi Produk & Log Revisi Berkas</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Riwayat Produk</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-006]</span></td>
+              <td>Dasbor Pesanan Katering H-1 & Konfirmasi Kesanggupan</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Pesanan Masuk</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-007]</span></td>
+              <td>Rekomendasi Pintar Jumlah Pasokan Harian Supplier</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Grafik Suplai</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-003]</span></td>
+              <td>Monitoring Keaktifan Supplier & Manajemen Sanksi Komplain</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Panel Pengurus</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-007-B]</span></td>
+              <td>Dasbor Analitik Suplai Global Seluruh Toko & Etalase</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Panel Pengurus</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[KK-FTR-005]</span></td>
+              <td>Manajemen Profil Kontak & Keamanan Akun</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Website Koperasi &gt; Profil Anggota</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-001]</span></td>
+              <td>Katalog Produk Terpadu & Pencarian Cepat</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Beranda Belanja</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-001-B]</span></td>
+              <td>Detail Produk & Pembeda Same-Day vs Pre-Order H-1</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Rincian Produk</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-002]</span></td>
+              <td>Keranjang Belanja Pintar & Pengalihan Otomatis H-1</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Keranjang Belanja</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-004]</span></td>
+              <td>Antrean Prioritas Divisi General Affairs (GA Priority)</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Checkout & Kasir</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-005]</span></td>
+              <td>Pembayaran Mandiri via Transfer / QRIS & Unggah Bukti</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Halaman Pembayaran</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-005-B]</span></td>
+              <td>Pelacak Status Pesanan Real-Time</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Riwayat Belanja</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-002-B]</span></td>
+              <td>Checklist Fisik Rak Toko oleh Kasir</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Dasbor Kasir</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-005-C]</span></td>
+              <td>Verifikasi Bayar, Serah Terima Belanjaan & Pencatatan Refund</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Meja Kasir Toko</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-001-C]</span></td>
+              <td>Manajemen Produk Toko & Impor Data Kasir POS</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Kelola Produk</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-008]</span></td>
+              <td>Pengaturan Toko & Kasir Dinamis (Rekening & Jam Buka)</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Pengaturan Toko</td>
+            </tr>
+            <tr>
+              <td><span class="status-check">✅ Ditambahkan</span></td>
+              <td><span class="code-badge code-baseline">[MP-FTR-006]</span></td>
+              <td>Laporan Penjualan & Ekspor Transaksi ke Excel (.xlsx)</td>
+              <td>Baseline Project Knowledge</td>
+              <td>Marketplace &gt; Laporan Penjualan</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Filter & Live Search Bar -->
+    <div class="controls-wrapper">
+      <div class="filter-tabs">
+        <button class="tab-btn active" data-filter="all">Semua Fitur (39)</button>
+        <button class="tab-btn" data-filter="kopkar">🌿 Layanan Koperasi</button>
+        <button class="tab-btn" data-filter="marketplace">🛒 Marketplace Belanja</button>
+        <button class="tab-btn" data-filter="shared">🔐 Gerbang & Akun</button>
+        <button class="tab-btn tab-oos" data-filter="oos">🟣 Proposal OOS Diterima (3)</button>
+        <button class="tab-btn tab-new" data-filter="new">🌸 Tambahan Rapat Manajer (10)</button>
+      </div>
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="featureSearch" class="search-input" placeholder="Ketik kode (mis: OOS, NEW, KK-FTR), nama fitur, atau tempat...">
+      </div>
+    </div>
+
+    <!-- Empty Search State -->
+    <div id="emptySearch" class="empty-state">
+      <div class="empty-icon">🔎</div>
+      <h3 style="font-weight: 700; font-size: 17px; margin-bottom: 6px;">Fitur tidak ditemukan</h3>
+      <p style="color: #64748B; font-size: 14px;">Silakan coba kata kunci lain seperti "Mandiri", "diskon", "tablet", "QR", atau "sakura".</p>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- BAGIAN 1: PROPOSAL OUT-OF-SCOPE DITERIMA   -->
+    <!-- ========================================== -->
+    <div class="category-block" data-category="oos">
+      <div class="section-title-wrap">
+        <h2 class="section-title">
+          <span>🟣 Fitur Proposal Out-of-Scope yang Resmi Diterima (Hasil Rapat 7 Nov 2026)</span>
+        </h2>
+        <span class="section-title-pill badge-oos">Proposal OOS Diterima</span>
+      </div>
+
+      <div class="features-grid">
+
+        <!-- OOS 1 -->
+        <article class="feature-card card-oos" data-category="marketplace oos">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-purple">🏦</div>
+            <div class="card-tags">
+              <span class="code-badge code-oos">[PROP-OOS-ACC-001]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Pembayaran Kasir</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Integrasi Langsung Payment Gateway Bank Mandiri</h3>
+          <p class="feature-desc">
+            Integrasi sistem pembayaran otomatis via payment gateway Bank Mandiri. Sebelumnya fitur integrasi otomatis berstatus di luar ruang lingkup (out-of-scope), namun kini disetujui untuk diintegrasikan karena pihak Koperasi memiliki koneksi khusus dengan representatif Bank Mandiri yang dapat hadir sewaktu-waktu. Seluruh penerimaan dana diatasnamakan KOPKAR.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Halaman Pembayaran Marketplace & Mesin EDC Mandiri</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Status Proposal:</span>
+              <span class="meta-value" style="color: #6B21A8; font-weight: 700;">Diterima Penuh dari Proposal Out-of-Scope</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">💳 Pembeli & Kasir Toko</span>
+            <span>Otomasi Mandiri</span>
+          </div>
+        </article>
+
+        <!-- OOS 2 -->
+        <article class="feature-card card-oos" data-category="marketplace oos">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-purple">📱</div>
+            <div class="card-tags">
+              <span class="code-badge code-oos">[PROP-OOS-ACC-002]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Serah Terima Kasir</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Nota Digital Struk Belanja & Verifikasi QR Code Scanner</h3>
+          <p class="feature-desc">
+            Sistem penerbitan struk/nota digital ber-QR Code untuk setiap pesanan yang telah dibayar. Saat mengambil barang belanjaan di toko fisik, karyawan cukup memperlihatkan QR Code nota di ponselnya atau tablet kasir untuk langsung discan oleh kasir tanpa perlu mencocokkan teks manual.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Layar Nota Belanja Pembeli & Scanner Meja Kasir</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Status Proposal:</span>
+              <span class="meta-value" style="color: #6B21A8; font-weight: 700;">Diterima Penuh dari Proposal Out-of-Scope</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛒 Pembeli & Kasir Toko</span>
+            <span>Scan Cepat QR</span>
+          </div>
+        </article>
+
+        <!-- OOS 3 -->
+        <article class="feature-card card-oos" data-category="marketplace oos">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-purple">🖥️</div>
+            <div class="card-tags">
+              <span class="code-badge code-oos">[PROP-OOS-ACC-003]</span>
+              <span class="location-tag loc-admin">admin.kopkarsai.com</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Subdomain Khusus Admin Manajemen Stok & Shift Jam Istirahat</h3>
+          <p class="feature-desc">
+            Panel manajemen terpisah pada subdomain khusus untuk staf pengelola persediaan barang. Panel ini memungkinkan pengaturan stok rak toko tetap aktif dan responsif melayani pesanan saat jam istirahat pabrik berlangsung melalui pembagian shift admin yang terpisah dari staf kasir meja fisik.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Subdomain Khusus Petugas Persediaan (admin.kopkarsai.com)</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Status Proposal:</span>
+              <span class="meta-value" style="color: #6B21A8; font-weight: 700;">Diterima Penuh dari Proposal Out-of-Scope</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👔 Petugas Khusus Stok & Pengurus</span>
+            <span>Shift Istirahat</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- BAGIAN 2: FITUR TAMBAHAN BARU RAPAT MANAJER-->
+    <!-- ========================================== -->
+    <div class="category-block" data-category="new">
+      <div class="section-title-wrap">
+        <h2 class="section-title">
+          <span>🌸 Fitur Tambahan Baru Sesuai Arahan Rapat Manajer (7 November 2026)</span>
+        </h2>
+        <span class="section-title-pill badge-new">Tambahan Baru Rapat Manajer</span>
+      </div>
+
+      <div class="features-grid">
+
+        <!-- NEW 1 -->
+        <article class="feature-card card-new" data-category="marketplace new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">🏷️</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-001]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Mesin Diskon & Promo</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Mesin Diskon Bertingkat (Anggota vs Non-Anggota) & Jadwal Promo</h3>
+          <p class="feature-desc">
+            Fitur pembeda harga promosi untuk menarik minat karyawan menjadi anggota koperasi resmi. Karyawan yang telah terdaftar sebagai anggota mendapatkan potongan harga khusus yang lebih besar (contoh: anggota diskon 13%, non-anggota 10%, atau promo hemat 2-3%). Dilengkapi kalender otomatis penjadwalan periode promo (*scheduling promo*).
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Layar Login & Banner Beranda Belanja Marketplace</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Memberikan keuntungan nyata bagi karyawan yang menjadi anggota</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Seluruh Karyawan PT SAI</span>
+            <span>Promo Terjadwal</span>
+          </div>
+        </article>
+
+        <!-- NEW 2 -->
+        <article class="feature-card card-new" data-category="marketplace new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">🍱</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-002]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Pengaturan Produk & Bundling</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Paket Bundling Kombo Hemat & Kuota Maksimal Pembelian</h3>
+          <p class="feature-desc">
+            Fasilitas bagi koperasi untuk membuat paket gabungan produk hemat (*bundling promo*, contoh: jajanan kue + minuman kemasan harga hemat) mirip fitur kombo Shopee. Dilengkapi pengaturan harga awal, harga promo, kuota stok promo, serta batas kuota pembelian maksimal per orang agar adil bagi semua karyawan.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Panel Pengurus Koperasi & Etalase Marketplace</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Produk awal difokuskan bundling agar stok toko fisik aman terkendali</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛒 Koperasi & Pembeli Karyawan</span>
+            <span>Kombo Hemat</span>
+          </div>
+        </article>
+
+        <!-- NEW 3 -->
+        <article class="feature-card card-new" data-category="marketplace new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">📟</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-003]</span>
+              <span class="location-tag loc-marketplace">Toko Fisik &gt; Tablet Kiosk</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Mode Kiosk Tablet Toko (Pemesanan Cepat dengan NIK)</h3>
+          <p class="feature-desc">
+            Antarmuka khusus yang dioptimalkan untuk perangkat tablet yang dipasang di toko koperasi. Karyawan yang sedang rehat kerja di pabrik dapat langsung memesan makanan/minuman dengan mengetikkan Nomor Induk Karyawan (NIK) tanpa harus membuka gawai pribadi.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Perangkat Tablet Khusus di Meja Toko Koperasi</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Akses cepat bagi karyawan saat jam istirahat pabrik</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Karyawan Pabrik & Kasir</span>
+            <span>Kiosk Mandiri</span>
+          </div>
+        </article>
+
+        <!-- NEW 4 -->
+        <article class="feature-card card-new" data-category="marketplace new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">🔔</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-004]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Dasbor Kasir</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Notifikasi Audio Bel Berdering Seketika Saat Pesanan Masuk</h3>
+          <p class="feature-desc">
+            Peringatan suara interaktif (*audio alert chime*) yang berbunyi secara otomatis di meja kasir setiap kali ada transaksi belanja baru masuk dari karyawan, sehingga staf toko dapat langsung menyiapkan barang tanpa terlambat meski suasana toko sedang ramai.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Speaker / Komputer Meja Kasir Toko</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Menjamin respon cepat kasir untuk pesanan take-away</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛒 Staf Kasir Toko</span>
+            <span>Audio Alert</span>
+          </div>
+        </article>
+
+        <!-- NEW 5 -->
+        <article class="feature-card card-new" data-category="kopkar new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">📦</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-005]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Usaha Anggota / Hub UMKM</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Status Siklus Hidup Produk (Live, Draft, & Arsip)</h3>
+          <p class="feature-desc">
+            Manajemen status penayangan barang mitra supplier dan toko fisik. Produk kini memiliki tiga status jelas: Produk Aktif Tayang (Live), Draf Pengajuan (Draft), dan Pengarsipan Sementara (Arsip) agar barang yang sedang kosong tidak mengotori katalog belanja.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Menu Usaha Anggota & Panel Kelola Produk Koperasi</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Hanya produk terpilih yang go live agar stok selalu terkendali</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👩‍🍳 Supplier & Admin Koperasi</span>
+            <span>Siklus Produk</span>
+          </div>
+        </article>
+
+        <!-- NEW 6 -->
+        <article class="feature-card card-new" data-category="shared new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">📜</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-006]</span>
+              <span class="location-tag loc-admin">Panel Administrator Sistem</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Log Riwayat Perubahan Data & Pemantau Versi (PIC Update)</h3>
+          <p class="feature-desc">
+            Audit trail sistem yang mencatat setiap aksi modifikasi data, perubahan harga, penyesuaian stok, serta penanggung jawab pembaruan (*Person In Charge / PIC Update*) dilengkapi pemantau versi sistem untuk pengawasan internal administrator.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Panel Khusus Administrator & Pengawas Koperasi</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Transparansi penuh siapa yang mengubah data produk & keuangan</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛡️ Administrator & Pengurus</span>
+            <span>Audit Trail</span>
+          </div>
+        </article>
+
+        <!-- NEW 7 -->
+        <article class="feature-card card-new" data-category="marketplace new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">🤝</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-007]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Checkout & Kasir</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Alur Bayar di Awal & Negosiasi/Substitusi Barang Stok Kosong</h3>
+          <p class="feature-desc">
+            Penyelarasan alur belanja sesuai instruksi langsung manajer: pembeli tetap membayar pesanan di awal agar komitmen transaksi terjamin. Jika terdapat barang etalase yang habis terbeli oleh pengunjung toko fisik, kasir memiliki fitur negosiasi ramah untuk menawarkan produk pengganti setara atau pengembalian dana seimbang.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Meja Kasir Serah Terima & Riwayat Pesanan Pembeli</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Kepastian pembayaran di depan dengan solusi ramah jika stok mendadak kosong</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛒 Kasir & Pembeli Karyawan</span>
+            <span>Alur Transaksi</span>
+          </div>
+        </article>
+
+        <!-- NEW 8 -->
+        <article class="feature-card card-new" data-category="kopkar new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">🎋</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-008]</span>
+              <span class="location-tag loc-kopkar">Website Koperasi &gt; Tab Finansial</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Re-branding: Solusi Kesejahteraan & Sahabat Acara Hidup</h3>
+          <p class="feature-desc">
+            Transformasi citra dan istilah layanan pembiayaan finansial: meniadakan kesan kaku "utang pinjaman (sinjam)" dan menggantinya dengan konsep <strong>Solusi Kesejahteraan Anggota</strong>. Menampilkan pendampingan dana untuk momen bahagia karyawan seperti biaya pernikahan (mantenan), khitanan anak, perayaan ulang tahun, dan kebutuhan pendidikan keluarga.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Tab Finansial Koperasi & Kartu Beranda Anggota</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Membangun citra mengayomi & mendukung kesejahteraan anggota</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Seluruh Anggota Koperasi</span>
+            <span>Kesejahteraan Hidup</span>
+          </div>
+        </article>
+
+        <!-- NEW 9 -->
+        <article class="feature-card card-new" data-category="kopkar new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">⚖️</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-009]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Manajemen Produk & Margin</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Otoritas Sentral Kebijakan Diskon oleh Koperasi</h3>
+          <p class="feature-desc">
+            Tata kelola harga terpusat di mana penetapan diskon hanya menjadi wewenang pengurus koperasi, sedangkan supplier mitra berfokus pada pasokan barang berkualitas. Sistem mengelola tiga komponen harga transparan: Harga Beli Koperasi (HPP), Harga Jual Resmi, dan Harga Promo Setelah Diskon.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Panel Manajemen Harga & Margin Pengurus Koperasi</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Mencegah perang diskon liar & menjaga margin kas koperasi</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👔 Pengurus Koperasi</span>
+            <span>Kendali Harga</span>
+          </div>
+        </article>
+
+        <!-- NEW 10 -->
+        <article class="feature-card card-new" data-category="kopkar new">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-sakura">🗑️</div>
+            <div class="card-tags">
+              <span class="code-badge code-new">[PROP-ADD-NEW-010]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Monitoring Supplier</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Otomasi Soft-Delete & Pengarsipan Supplier Pasif 1 Bulan</h3>
+          <p class="feature-desc">
+            Penghapusan lunak (*soft delete*) otomatis bagi supplier anggota yang tidak melakukan pasokan makanan selama 1 bulan berturut-turut. Akun dan produk supplier dialihkan ke status arsip tanpa menghapus riwayat audit pembukuan yang telah lalu.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Sistem Latar Belakang & Panel Kelola Mitra Koperasi</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Arahan Manajer:</span>
+              <span class="meta-value">Menjaga katalog hanya diisi oleh mitra supplier yang aktif dan berkomitmen</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👔 Pengurus Koperasi</span>
+            <span>Pembersihan Aman</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- BAGIAN 3: FITUR BASELINE KOPERASI (KOPKAR) -->
+    <!-- ========================================== -->
+    <div class="category-block" data-category="kopkar">
+      <div class="section-title-wrap">
+        <h2 class="section-title">
+          <span>🌿 Fitur Baseline Layanan Koperasi (KOPKAR)</span>
+        </h2>
+        <span class="section-title-pill badge-kopkar">Portal Koperasi</span>
+      </div>
+
+      <div class="features-grid">
+
+        <!-- KK Baseline 1 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">📝</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-001]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Menu Registrasi</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Pendaftaran Anggota Mandiri & Unggah Foto KTP</h3>
+          <p class="feature-desc">
+            Formulir pendaftaran digital bagi karyawan baru untuk bergabung menjadi anggota koperasi. Karyawan cukup mengisi Nomor Karyawan, data diri, unit kerja, nomor WhatsApp aktif, dan mengunggah foto kartu identitas (KTP).
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Halaman Registrasi Anggota Baru (Koperasi)</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Pendaftaran mandiri tanpa kertas yang rapi dan terorganisir</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👤 Karyawan Baru</span>
+            <span>Registrasi Awal</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 2 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">🛡️</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-001-B]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Dasbor Approval</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Verifikasi Anggota Berjenjang (Dual-Approval)</h3>
+          <p class="feature-desc">
+            Alur verifikasi bertahap pendaftaran anggota: diawali verifikasi data KTP oleh Staf Toko, lalu disahkan dengan persetujuan final Kepala Koperasi sebelum akun resmi aktif dan dapat berbelanja.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Panel Dasbor Persetujuan (Admin & Kepala Koperasi)</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Mencegah pendaftaran fiktif & melindungi integritas keanggotaan</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👔 Staf Toko & Kepala Koperasi</span>
+            <span>Validasi Keamanan</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 3 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">💳</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-001-C]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Dasbor Utama</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Kartu Anggota Elektronik & Dasbor Keanggotaan</h3>
+          <p class="feature-desc">
+            Layar beranda yang memuat Kartu Anggota Digital lengkap dengan nomor NIK, unit kerja pabrik, chip hologram virtual, rangkuman simpanan, serta akses pintas ke layanan utama.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Beranda Utama Portal Anggota (kopkarsai.com)</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Identitas resmi anggota selalu dapat diakses dari gawai anggota</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Seluruh Anggota Aktif</span>
+            <span>Beranda Anggota</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 4 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">📊</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-004]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Tab Finansial</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Kalkulator Finansial Kesejahteraan & Ekspor Excel (.xlsx)</h3>
+          <p class="feature-desc">
+            Kalkulator interaktif simulasi angsuran (metode bunga Flat atau Menurun) dengan opsi ekspor jadwal angsuran amortisasi lengkap langsung ke file Excel (.xlsx) untuk transparansi cicilan.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Tab Finansial & Kalkulator Solusi Finansial</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Simulasi angsuran transparan dan dapat diunduh ke Excel</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Anggota & Pengurus</span>
+            <span>Simulasi & Excel</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 5 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">💰</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-004-B]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Tab Finansial</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Proyeksi Tabungan Anggota & Estimasi SHU</h3>
+          <p class="feature-desc">
+            Informasi perkembangan saldo simpanan pokok, simpanan wajib, dan sukarela anggota disertai proyeksi perolehan pembagian Sisa Hasil Usaha (SHU) tahunan secara otomatis.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Tab Finansial &gt; Bagian Tabungan & Dividen SHU</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Memantau hak simpanan dan SHU dengan jelas</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Anggota Koperasi</span>
+            <span>Tabungan Anggota</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 6 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">🍲</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-002]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Usaha Anggota / Hub UMKM</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Pengajuan Produk UMKM Makanan/Minuman Baru</h3>
+          <p class="feature-desc">
+            Fasilitas bagi anggota untuk mengajukan produk jajanan basah atau minuman buatan sendiri/reseller ke toko koperasi, lengkap dengan unggah foto produk, asal barang, serta kalkulator usulan HPP dan harga jual.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Menu Usaha Anggota &gt; Formulir Pengajuan Produk</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Memberikan wadah pemasaran bagi usaha anggota karyawan</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👩‍🍳 Supplier Mitra Anggota</span>
+            <span>Pendaftaran Produk</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 7 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">📅</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-002-B]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Kurasi Sampel</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Jadwal Penyerahan Sampel Fisik & Hasil Uji Organoleptik</h3>
+          <p class="feature-desc">
+            Pemilihan jadwal penyerahan sampel makanan fisik (hari Selasa/Rabu pada shift pagi/siang di pabrik SAI B atau SAI T), serta pengumuman hasil uji kelayakan rasa, kebersihan, dan margin harga setiap hari Jumat.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Menu Usaha Anggota &gt; Pelacak Uji Sampel Fisik</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Jadwal drop sampel teratur dan terkoordinasi</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👩‍🍳 Supplier & Tim Penguji</span>
+            <span>Kurasi Rasa</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 8 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">📋</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-002-C]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Riwayat Produk</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Riwayat Catatan Evaluasi Produk & Log Revisi Berkas</h3>
+          <p class="feature-desc">
+            Lembar catatan evaluasi perbaikan untuk produk yang perlu disempurnakan (rasa, gramasi, atau kemasan). Supplier dapat meninjau histori saran tim kurator dan mengajukan revisi perbaikan tanpa batas kuota.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Detail Riwayat Pengajuan Produk Anggota</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Bimbingan jelas agar mutu jajanan mencapai standar toko</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👩‍🍳 Supplier Anggota</span>
+            <span>Panduan Mutu</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 9 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">📦</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-006]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Pesanan Masuk</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Dasbor Pesanan Katering H-1 & Konfirmasi Kesanggupan</h3>
+          <p class="feature-desc">
+            Antarmuka penerimaan pesanan pre-order katering esok hari yang dipesan karyawan via marketplace. Supplier dapat meninjau daftar pesanan, menekan tombol interaktif "Sanggup Penuhi" atau "Berhalangan", serta mengunduh slip rekap pesanan.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Menu Usaha Anggota &gt; Dasbor Pesanan Katering Masuk</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Kepastian produksi makanan tanpa risiko over-cooking</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👩‍🍳 Supplier Mitra Katering</span>
+            <span>Konfirmasi H-1</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 10 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">📈</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-007]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Grafik Suplai</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Rekomendasi Pintar Jumlah Pasokan Harian Supplier</h3>
+          <p class="feature-desc">
+            Grafik saran kuantitas suplai harian (*Suggested Daily Supply Qty*) berbasis rata-rata penjualan dan sisa stok toko, memandu supplier berapa porsi yang paling pas dibuat esok hari agar terhindar dari basi (*zero food waste*).
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Dasbor Usaha Anggota &gt; Grafik Analitik Pasokan</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Mencegah makanan basi dan memaksimalkan omzet penjualan</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👩‍🍳 Supplier Mitra</span>
+            <span>Panduan Pasokan</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 11 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">⚠️</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-003]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Panel Pengurus</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Monitoring Keaktifan Supplier & Manajemen Sanksi Komplain</h3>
+          <p class="feature-desc">
+            Sistem pengawasan keaktifan mitra suplai yang mencatat riwayat keluhan kualitas makanan/barang rusak serta memberikan peringatan bagi mitra yang kurang aktif.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Panel Pengurus Koperasi &gt; Kelola Mitra Usaha</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Menjaga standar kualitas makanan di lingkungan karyawan</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👔 Pengurus Koperasi</span>
+            <span>Standar Kualitas</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 12 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">🌐</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-007-B]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Panel Pengurus</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Dasbor Analitik Suplai Global Seluruh Toko & Etalase</h3>
+          <p class="feature-desc">
+            Tampilan analitik terpusat bagi pengurus untuk memantau kapasitas etalase toko dan prediksi kebutuhan pasokan seluruh produk toko fisik maupun titipan supplier.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Panel Pengurus Koperasi &gt; Analitik Suplai Global</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Pengawasan kapasitas toko menyeluruh dalam satu layar</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👔 Pengurus & Manajer Koperasi</span>
+            <span>Analisis Global</span>
+          </div>
+        </article>
+
+        <!-- KK Baseline 13 -->
+        <article class="feature-card" data-category="kopkar">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-green">⚙️</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[KK-FTR-005]</span>
+              <span class="location-tag loc-kopkar">Koperasi &gt; Profil Anggota</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Manajemen Profil Kontak & Keamanan Akun</h3>
+          <p class="feature-desc">
+            Pusat pengelolaan nomor kontak WhatsApp aktif, alamat email, dan pembaruan kata sandi akun karyawan untuk memudahkan konfirmasi pesanan dan keamanan akses.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Layar Profil & Pengaturan Akun Anggota</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Data kontak selalu mutakhir untuk koordinasi pesanan</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Seluruh Pengguna</span>
+            <span>Pengaturan Akun</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- BAGIAN 4: FITUR BASELINE MARKETPLACE       -->
+    <!-- ========================================== -->
+    <div class="category-block" data-category="marketplace">
+      <div class="section-title-wrap">
+        <h2 class="section-title">
+          <span>🛒 Fitur Baseline Marketplace Belanja (Ichiba SAI)</span>
+        </h2>
+        <span class="section-title-pill badge-marketplace">Portal Marketplace</span>
+      </div>
+
+      <div class="features-grid">
+
+        <!-- MP Baseline 1 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">🏪</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-001]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Beranda Belanja</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Katalog Produk Terpadu & Pencarian Cepat</h3>
+          <p class="feature-desc">
+            Etalase digital yang menyatukan produk toko fisik koperasi dan makanan basah siap saji mitra supplier. Dilengkapi fitur filter kategori dan pencarian instan nama produk.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Beranda Belanja Marketplace (ichibasai.com)</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Pencarian praktis barang kebutuhan kantor dan jajanan</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Seluruh Karyawan PT SAI</span>
+            <span>Katalog Belanja</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 2 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">🏷️</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-001-B]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Rincian Produk</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Detail Produk & Pembeda Same-Day vs Pre-Order H-1</h3>
+          <p class="feature-desc">
+            Rincian informasi barang, foto, stok rak toko, serta tanda pembeda yang jelas antara pesanan siap ambil hari itu juga (*Same-Day*) dan pesanan katering esok hari (*Pre-Order H-1*).
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Layar Rincian Produk Saat Diklik</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Pembeli paham kapan produk siap diserahkan</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Pembeli Karyawan</span>
+            <span>Detail Transaksi</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 3 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">🛒</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-002]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Keranjang Belanja</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Keranjang Belanja Pintar & Pengalihan Otomatis H-1</h3>
+          <p class="feature-desc">
+            Keranjang belanja yang otomatis memisahkan checkout barang stok toko hari ini dan pesanan katering besok, serta mengalihkan otomatis pembelian jumlah banyak ke jadwal H-1.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Menu Keranjang Belanja Marketplace</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Mencegah kehabisan stok fisik mendadak di toko</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Pembeli Karyawan</span>
+            <span>Pemisahan Pesanan</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 4 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">⚡</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-004]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Checkout Kasir</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Antrean Prioritas Divisi General Affairs (GA Priority)</h3>
+          <p class="feature-desc">
+            Penempatan prioritas otomatis teratas pada antrean pesanan bagi akun karyawan divisi General Affairs guna memfasilitasi kebutuhan snack rapat kerja dan tamu perusahaan.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Antrean Meja Kasir Toko Koperasi</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Konsumsi rapat kerja operasional kantor tersaji tepat waktu</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👔 Divisi GA & Kasir Toko</span>
+            <span>Prioritas Khusus</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 5 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">💳</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-005]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Halaman Pembayaran</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Pembayaran Mandiri via Transfer / QRIS & Unggah Bukti</h3>
+          <p class="feature-desc">
+            Instruksi pembayaran rekening bank toko dinamis atau kode QRIS resmi dengan formulir pengunggahan bukti transfer bank sebelum barang diambil di kasir.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Halaman Pembayaran Setelah Checkout Belanja</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Pembayaran non-tunai dengan rekaman bukti transfer rapi</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Pembeli Karyawan</span>
+            <span>Unggah Bukti</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 6 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">📍</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-005-B]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Riwayat Belanja</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Pelacak Status Pesanan Real-Time</h3>
+          <p class="feature-desc">
+            Pelacakan status transaksi tiket kasir mulai dari *Menunggu Cek Rak* &rarr; *Menunggu Pembayaran* &rarr; *Siap Diambil di Kasir* &rarr; *Selesai Diserahkan*.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Menu Riwayat Belanja Saya</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Karyawan datang ke kasir tepat saat paket belanja sudah siap</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Pembeli Karyawan</span>
+            <span>Pelacak Tiket</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 7 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">✅</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-002-B]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Dasbor Kasir</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Checklist Fisik Rak Toko oleh Kasir</h3>
+          <p class="feature-desc">
+            Antarmuka staf kasir untuk mencentang barang di rak toko guna memastikan ketersediaan barang fisik sebelum tagihan siap bayar diterbitkan ke pembeli.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Dasbor Kasir &gt; Antrean Pesanan Masuk</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Mencegah pembeli membayar barang yang fisiknya kosong</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛒 Staf Kasir Toko</span>
+            <span>Cek Fisik Rak</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 8 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">🤝</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-005-C]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Meja Kasir Toko</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Verifikasi Bayar, Serah Terima Belanjaan & Pencatatan Refund</h3>
+          <p class="feature-desc">
+            Modul validasi bukti transfer atau pembayaran tunai di kasir, serah terima belanjaan, dan pencatatan refund simetris jika ada selisih stok barang.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Meja Kasir Serah Terima Toko Koperasi</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Catatan pembukuan kasir dan uang fisik selalu seimbang</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛒 Staf Kasir Toko</span>
+            <span>Serah Terima</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 9 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">📦</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-001-C]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Kelola Produk</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Manajemen Produk Toko & Impor Data Kasir POS</h3>
+          <p class="feature-desc">
+            Pengelolaan etalase produk toko koperasi dan fasilitas parser impor master data inventaris langsung dari file ekspor mesin kasir POS eksisting.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Panel Admin Toko &gt; Kelola Inventaris</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Pembaruan ratusan produk toko dalam hitungan detik</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛒 Admin Toko</span>
+            <span>Impor Data POS</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 10 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">⚙️</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-008]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Pengaturan Toko</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Pengaturan Toko & Kasir Dinamis (Rekening & Jam Buka)</h3>
+          <p class="feature-desc">
+            Konfigurasi fleksibel nomor rekening bank tujuan transfer toko koperasi tanpa hardcode, batas kuantitas pesanan banyak, jam operasional kasir, dan kontak hotline.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Panel Pengaturan Toko (Store Settings)</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Rekening bank dan aturan toko dapat diubah sewaktu-waktu</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛒 Admin Toko & Pengurus</span>
+            <span>Konfigurasi Bebas</span>
+          </div>
+        </article>
+
+        <!-- MP Baseline 11 -->
+        <article class="feature-card" data-category="marketplace">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-blue">📑</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[MP-FTR-006]</span>
+              <span class="location-tag loc-marketplace">Marketplace &gt; Laporan Penjualan</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Laporan Penjualan & Ekspor Transaksi ke Excel (.xlsx)</h3>
+          <p class="feature-desc">
+            Rekapitulasi periodik omzet penjualan, produk terlaris, status refund, serta tombol ekspor seluruh data transaksi ke Excel (.xlsx) untuk rekonsiliasi kasir harian.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Dasbor Laporan Transaksi Kasir & Pengurus</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Rekonsiliasi pembukuan kasir cepat dan akurat</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛒 Kasir & Pengurus Koperasi</span>
+            <span>Laporan & Excel</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- BAGIAN 5: FITUR BASELINE SISTEM BERSAMA   -->
+    <!-- ========================================== -->
+    <div class="category-block" data-category="shared">
+      <div class="section-title-wrap">
+        <h2 class="section-title">
+          <span>🔐 Fitur Baseline Gerbang Masuk & Sistem Bersama</span>
+        </h2>
+        <span class="section-title-pill badge-shared">Sistem Terpadu</span>
+      </div>
+
+      <div class="features-grid">
+
+        <!-- SH Baseline 1 -->
+        <article class="feature-card" data-category="shared">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-gold">🚪</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[SH-FTR-001]</span>
+              <span class="location-tag loc-shared">Gerbang Masuk / SSO</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Pintu Gerbang Masuk SSO & Login Satu Akun Terpadu</h3>
+          <p class="feature-desc">
+            Pintu gerbang digital resmi ekosistem KOPKAR SAI. Pengguna hanya memerlukan satu Nomor Karyawan dan kata sandi tunggal untuk mengakses portal Koperasi maupun Marketplace belanja.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Layar Masuk Utama & SSO Bersama</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Satu login untuk seluruh urusan koperasi & belanja kantor</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Seluruh Pengguna</span>
+            <span>Single Sign-On</span>
+          </div>
+        </article>
+
+        <!-- SH Baseline 2 -->
+        <article class="feature-card" data-category="shared">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-gold">🔔</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[SH-FTR-002]</span>
+              <span class="location-tag loc-shared">Bilah Navigasi Atas</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Pusat Notifikasi Langsung Dalam Aplikasi (In-App Center)</h3>
+          <p class="feature-desc">
+            Pusat kabar interaktif dalam web yang mengabarkan status persetujuan akun, perbaikan sampel makanan, dan kesiapan pesanan belanja di kasir secara langsung.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Ikon Lonceng di Pojok Kanan Atas Navigasi</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Informasi pesanan dan berkas langsung terpantau tanpa terlewat</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">👥 Seluruh Pengguna</span>
+            <span>Notifikasi In-App</span>
+          </div>
+        </article>
+
+        <!-- SH Baseline 3 -->
+        <article class="feature-card" data-category="shared">
+          <div class="card-top">
+            <div class="feature-icon-badge icon-gold">💾</div>
+            <div class="card-tags">
+              <span class="code-badge code-baseline">[SH-FTR-003]</span>
+              <span class="location-tag loc-shared">Panel Superadmin</span>
+            </div>
+          </div>
+          <h3 class="feature-title">Pencadangan Basis Data Mandiri (Save Current Snapshot)</h3>
+          <p class="feature-desc">
+            Otomasi ekspor cadangan database terkompresi terenkripsi ke penyimpanan awan dan tombol mandiri "Simpan Data Sekarang" bagi pengurus koperasi untuk pencegahan kehilangan data audit.
+          </p>
+          <div class="feature-meta">
+            <div class="meta-row">
+              <span class="meta-label">Di Mana Tempatnya:</span>
+              <span class="meta-value">Panel Keamanan & Pemeliharaan Superadmin</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Manfaat Utama:</span>
+              <span class="meta-value">Data keuangan dan transaksi koperasi 100% aman terlindungi</span>
+            </div>
+          </div>
+          <div class="feature-footer">
+            <span class="user-pill">🛡️ Pengurus & Superadmin</span>
+            <span>Mitigasi Bencana</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Page Footer -->
+    <footer class="page-footer">
+      <p><strong>Ekosistem Digital Terpadu KOPKAR SAI (PT SAI)</strong> &bull; Panduan Fitur Resmi Berbasis Pengetahuan Proyek & Notulensi Rapat Manajer</p>
+      <p style="margin-top: 6px; color: #94A3B8;">Dokumen ini disusun lengkap dengan kode verifikasi pelacakan untuk mempermudah koordinasi pengembang, manajer, dan pengurus koperasi.</p>
+    </footer>
+
+  </div>
+
+  <!-- JavaScript Filter & Search -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('featureSearch');
+      const filterBtns = document.querySelectorAll('.tab-btn');
+      const featureCards = document.querySelectorAll('.feature-card');
+      const categoryBlocks = document.querySelectorAll('.category-block');
+      const emptyState = document.getElementById('emptySearch');
+
+      let currentFilter = 'all';
+      let currentQuery = '';
+
+      function applyFilterAndSearch() {
+        let visibleCount = 0;
+
+        featureCards.forEach(card => {
+          const cardCategories = (card.getAttribute('data-category') || '').split(' ');
+          const title = card.querySelector('.feature-title').textContent.toLowerCase();
+          const desc = card.querySelector('.feature-desc').textContent.toLowerCase();
+          const meta = card.querySelector('.feature-meta').textContent.toLowerCase();
+          const user = card.querySelector('.user-pill').textContent.toLowerCase();
+          const location = card.querySelector('.location-tag').textContent.toLowerCase();
+          const code = (card.querySelector('.code-badge') ? card.querySelector('.code-badge').textContent.toLowerCase() : '');
+
+          // Check category filter
+          let matchesFilter = false;
+          if (currentFilter === 'all') {
+            matchesFilter = true;
+          } else if (cardCategories.includes(currentFilter)) {
+            matchesFilter = true;
+          }
+
+          // Check search query (searches title, description, meta, location, user, AND feature code!)
+          const matchesQuery = currentQuery === '' || 
+                               title.includes(currentQuery) || 
+                               desc.includes(currentQuery) || 
+                               meta.includes(currentQuery) || 
+                               user.includes(currentQuery) || 
+                               location.includes(currentQuery) ||
+                               code.includes(currentQuery);
+
+          if (matchesFilter && matchesQuery) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Hide or show category wrapper blocks based on visible child cards
+        categoryBlocks.forEach(block => {
+          const blockCat = block.getAttribute('data-category');
+          let hasVisibleCards = false;
+
+          block.querySelectorAll('.feature-card').forEach(c => {
+            if (c.style.display !== 'none') {
+              hasVisibleCards = true;
+            }
+          });
+
+          if (hasVisibleCards) {
+            block.style.display = 'block';
+          } else {
+            block.style.display = 'none';
+          }
+        });
+
+        // Show empty message if nothing matches
+        if (visibleCount === 0) {
+          emptyState.style.display = 'block';
+        } else {
+          emptyState.style.display = 'none';
+        }
+      }
+
+      // Filter button click
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentFilter = this.getAttribute('data-filter');
+          applyFilterAndSearch();
+        });
+      });
+
+      // Search input typing
+      searchInput.addEventListener('input', function() {
+        currentQuery = this.value.trim().toLowerCase();
+        applyFilterAndSearch();
+      });
+
+      // Initialize
+      applyFilterAndSearch();
+    });
+  </script>
+</body>
+</html>

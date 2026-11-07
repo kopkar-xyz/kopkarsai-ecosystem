@@ -40,6 +40,14 @@ playwright-report/
 .browser-profiles/
 *.trace.zip
 
+# Agentic Workflow & Worktrees
+.agent/developer.local.json
+.agent/task-state.json
+.agent/worktrees/
+.agents/logs/events.jsonl
+scripts/agentic/__pycache__/
+tests/agentic/__pycache__/
+
 # OS & IDE
 .DS_Store
 Thumbs.db

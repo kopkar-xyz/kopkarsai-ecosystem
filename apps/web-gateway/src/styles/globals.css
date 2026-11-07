@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-green: #065C2B;
+    --brand-green-deep: #043D1D;
+    --brand-yellow: #F6CE2C;
+    --brand-yellow-light: #FFD967;
+    --surface-cream: #F7F9F4;
+    --text-light: #FFFFFF;
+    --text-muted: #BEDACC;
+  }
+
+  html {
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--brand-green);
+    color: var(--text-light);
+    color-scheme: dark;
+    scrollbar-gutter: stable;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    background-color: #065C2B;
+  }
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #043D1D;
+}
+::-webkit-scrollbar-thumb {
+  background: #094824;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0E6836;
+}
+
+/* FOUC Guard: Prevent cards, copy, wordmark, and petals flashing before intro begins */
+.intro-pending .gateway-card-item,
+.intro-pending #gateway-bottom-copy,
+.intro-pending #gateway-footer-meta,
+.intro-pending .wordmark-text,
+.intro-pending .logo-petal,
+.intro-pending .logo-fold-line {
+  opacity: 0;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
