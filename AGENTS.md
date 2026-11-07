@@ -50,6 +50,7 @@ Setiap deliverable, fitur, tabel, dan perubahan kode harus memiliki klasifikasi 
   - `08-qa-e2e-testing.md` (Model Decision)
   - `09-agentic-workflow-constraints.md` (Model Decision)
   - `10-github-coordination.md` (Model Decision)
+  - `11-native-gh-execution.md` (Model Decision)
   - `12-frontend-ownership.md` (Always On)
 - **Skills**: [.agents/skills/](.agents/skills/)
   - `backend-domain-scaffold`: Panduan pembuatan modul domain FastAPI baru.
