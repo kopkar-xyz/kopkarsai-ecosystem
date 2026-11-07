@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, useCallback } from 'react';
+import { useLayoutEffect, useRef, useState, useCallback, useEffect } from 'react';
 import gsap from 'gsap';
 
 interface UseGatewayIntroOptions {
@@ -6,17 +6,10 @@ interface UseGatewayIntroOptions {
   onComplete?: () => void;
 }
 
-// Synchronous check on initial mount to prevent FOUC
 const checkShouldSkipIntro = (): boolean => {
   try {
     if (typeof window === 'undefined') return false;
-    const isDebug =
-      new URLSearchParams(window.location.search).get('motionDebug') === '1';
-    if (isDebug) return false;
-    const prefersReduced =
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return true;
-    return sessionStorage.getItem('kopkarsai_gateway_intro_seen') === 'true';
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
     return false;
   }
@@ -28,58 +21,45 @@ export function useGatewayIntro({ scopeRef, onComplete }: UseGatewayIntroOptions
   const [isDebugMode, setIsDebugMode] = useState<boolean>(false);
   const masterTimelineRef = useRef<gsap.core.Timeline | null>(null);
 
-  // Check if reduced motion is requested
   const prefersReducedMotion =
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Check if user has already experienced intro in this browser session
-  const hasSeenIntroInSession = useCallback(() => {
-    try {
-      const isDebug =
-        typeof window !== 'undefined' &&
-        new URLSearchParams(window.location.search).get('motionDebug') === '1';
-      if (isDebug) return false;
-      return sessionStorage.getItem('kopkarsai_gateway_intro_seen') === 'true';
-    } catch {
-      return false;
-    }
-  }, []);
-
-  const markIntroSeen = useCallback(() => {
-    try {
-      sessionStorage.setItem('kopkarsai_gateway_intro_seen', 'true');
-    } catch {
-      // ignore storage errors
-    }
-  }, []);
-
-  // Jump immediately to final state
+  // Jump immediately to final state for current view
   const skipIntro = useCallback(() => {
     if (masterTimelineRef.current) {
       masterTimelineRef.current.progress(1);
     }
     setIsIntroComplete(true);
     setCanSkip(false);
-    markIntroSeen();
     onComplete?.();
-  }, [markIntroSeen, onComplete]);
+  }, [onComplete]);
 
   // Replay intro on demand
   const replayIntro = useCallback(() => {
-    if (!masterTimelineRef.current || !scopeRef.current) return;
+    if (!scopeRef.current) return;
     setIsIntroComplete(false);
     setCanSkip(true);
-    masterTimelineRef.current.restart();
+    if (masterTimelineRef.current) {
+      masterTimelineRef.current.restart();
+    }
   }, [scopeRef]);
 
-  // Seek to specific label for debugging
-  const seekToCheckpoint = useCallback((label: string) => {
-    if (masterTimelineRef.current) {
-      masterTimelineRef.current.pause();
-      masterTimelineRef.current.seek(label);
-    }
-  }, []);
+  // Handle keyboard shortcuts (Esc to skip, R to replay when debug)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !isIntroComplete) {
+        e.preventDefault();
+        skipIntro();
+      } else if (isDebugMode && (e.key === 'r' || e.key === 'R')) {
+        e.preventDefault();
+        replayIntro();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isIntroComplete, isDebugMode, skipIntro, replayIntro]);
 
   useLayoutEffect(() => {
     if (!scopeRef.current) return;
@@ -89,213 +69,257 @@ export function useGatewayIntro({ scopeRef, onComplete }: UseGatewayIntroOptions
       new URLSearchParams(window.location.search).get('motionDebug') === '1';
     setIsDebugMode(isDebug);
 
-    const shouldSkipAnimation = prefersReducedMotion || hasSeenIntroInSession();
+    // Clear any previous session storage key so intro runs on fresh page loads / refresh
+    try {
+      sessionStorage.removeItem('kopkarsai_gateway_intro_seen');
+    } catch {
+      // ignore
+    }
+
+    const shouldSkipAnimation = prefersReducedMotion;
 
     const ctx = gsap.context(() => {
       // Elements selection
-      const brandStage = scopeRef.current?.querySelector<HTMLElement>('#brand-stage');
-      const emblemWrapper = scopeRef.current?.querySelector<HTMLElement>('#emblem-wrapper');
-      const petals = scopeRef.current?.querySelectorAll<SVGElement>('.logo-petal');
-      const folds = scopeRef.current?.querySelectorAll<SVGElement>('.logo-fold-line');
-      const wordmarkText = scopeRef.current?.querySelector<HTMLElement>('.wordmark-text');
-      const cards = scopeRef.current?.querySelectorAll<HTMLElement>('.gateway-card-item');
-      const bottomCopy = scopeRef.current?.querySelector<HTMLElement>('#gateway-bottom-copy');
-      const footerMeta = scopeRef.current?.querySelector<HTMLElement>('#gateway-footer-meta');
+      const bgHalo = scopeRef.current?.querySelector<HTMLElement>('#bg-halo-circle');
+      const bgWaves = scopeRef.current?.querySelector<HTMLElement>('#bg-seigaiha-waves');
+      const petalsOverlay = scopeRef.current?.querySelector<HTMLElement>('#sakura-petals-overlay');
+      const branchTL = scopeRef.current?.querySelector<HTMLElement>('#branch-tl-entrance');
+      const branchBR = scopeRef.current?.querySelector<HTMLElement>('#branch-br-entrance');
+      const brandHeader = scopeRef.current?.querySelector<HTMLElement>('#gateway-brand-header');
+      const logoPetals = scopeRef.current?.querySelectorAll<SVGElement>('.logo-petal');
+      const logoFolds = scopeRef.current?.querySelectorAll<SVGElement>('.logo-fold-line');
+      const wordmark = scopeRef.current?.querySelector<HTMLElement>('#brand-header-wordmark');
+      const promoBanner = scopeRef.current?.querySelector<HTMLElement>('#gateway-promo-banner');
+      const dividerLeft = scopeRef.current?.querySelector<HTMLElement>('.divider-line-left');
+      const dividerRight = scopeRef.current?.querySelector<HTMLElement>('.divider-line-right');
+      const dividerLabel = scopeRef.current?.querySelector<HTMLElement>('.divider-label');
+      const featureCards = scopeRef.current?.querySelectorAll<HTMLElement>('.gateway-feature-card');
 
-      if (
-        !brandStage ||
-        !emblemWrapper ||
-        !petals ||
-        petals.length === 0 ||
-        !folds ||
-        folds.length === 0 ||
-        !wordmarkText ||
-        !cards ||
-        cards.length === 0 ||
-        !bottomCopy ||
-        !footerMeta
-      ) {
-        return;
-      }
-
-      // Fast path: if reduced motion or already seen in this session, render final state immediately
-      if (shouldSkipAnimation) {
-        gsap.set(brandStage, { y: 0, opacity: 1 });
-        gsap.set(emblemWrapper, { y: 0 });
-        gsap.set(petals, { opacity: 1, scale: 1, rotation: 0, transformOrigin: '100px 100px' });
-        gsap.set(folds, { opacity: 0.65 });
-        gsap.set(wordmarkText, { yPercent: 0, opacity: 1 });
-        gsap.set(cards, { opacity: 1, y: 0 });
-        gsap.set(bottomCopy, { opacity: 1, y: 0 });
-        gsap.set(footerMeta, { opacity: 1 });
+      // Helper function to set all elements to final state
+      const setFinalInstantState = () => {
+        if (bgHalo) gsap.set(bgHalo, { opacity: 1, scale: 1 });
+        if (bgWaves) gsap.set(bgWaves, { opacity: 1, x: 0 });
+        if (petalsOverlay) gsap.set(petalsOverlay, { opacity: 1 });
+        if (branchTL) gsap.set(branchTL, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, transformOrigin: 'top left' });
+        if (branchBR) gsap.set(branchBR, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, transformOrigin: '100% 60%' });
+        if (brandHeader) gsap.set(brandHeader, { opacity: 1, y: 0 });
+        if (logoPetals) gsap.set(logoPetals, { opacity: 1, scale: 1, rotation: 0, transformOrigin: '100px 100px' });
+        if (logoFolds) gsap.set(logoFolds, { opacity: 0.75 });
+        if (wordmark) gsap.set(wordmark, { opacity: 1, x: 0 });
+        if (promoBanner) gsap.set(promoBanner, { opacity: 1, y: 0, scale: 1 });
+        if (dividerLeft) gsap.set(dividerLeft, { scaleX: 1 });
+        if (dividerRight) gsap.set(dividerRight, { scaleX: 1 });
+        if (dividerLabel) gsap.set(dividerLabel, { opacity: 1, scale: 1 });
+        if (featureCards) gsap.set(featureCards, { opacity: 1, y: 0, scale: 1 });
         setIsIntroComplete(true);
         setCanSkip(false);
+      };
+
+      // Fast path: if reduced motion or already seen in this session
+      if (shouldSkipAnimation) {
+        setFinalInstantState();
         return;
       }
 
-      // Calculate vertical delta so emblem center is initially at optical viewport center
-      // Centerline X is strictly locked by parent CSS flex items-center (50vw).
-      const emblemRect = emblemWrapper.getBoundingClientRect();
-      const viewportCenterY = window.innerHeight / 2;
-      const emblemCenterY = emblemRect.top + emblemRect.height / 2;
-      const initialDeltaY = viewportCenterY - emblemCenterY;
-
       // --- INITIAL STATIC SETUP (Synchronous, Zero FOUC) ---
-      gsap.set(brandStage, { y: initialDeltaY, opacity: 1 });
-      gsap.set(emblemWrapper, { y: 0 });
-      gsap.set(wordmarkText, { yPercent: 120, opacity: 0 });
-      gsap.set(cards, { opacity: 0, y: 24 });
-      gsap.set(bottomCopy, { opacity: 0, y: 12 });
-      gsap.set(footerMeta, { opacity: 0 });
-      gsap.set(folds, { opacity: 0 });
-
-      // All petals start hidden at their exact coordinate location (no translation)
-      // Slight -8° rotation offset to produce subtle clockwise sweep when revealing
-      petals.forEach((petal) => {
-        gsap.set(petal, {
+      if (bgHalo) gsap.set(bgHalo, { opacity: 0, scale: 0.85 });
+      if (bgWaves) gsap.set(bgWaves, { opacity: 0, x: -35 });
+      if (petalsOverlay) gsap.set(petalsOverlay, { opacity: 0 });
+      // Branches start at their final placement, rotated ~32° with opacity 0 (no translation across screen)
+      if (branchTL) {
+        gsap.set(branchTL, {
           opacity: 0,
-          scale: 0.94,
-          rotation: -8,
-          transformOrigin: '100px 100px',
+          x: 0,
+          y: 0,
+          scale: 1,
+          rotation: -32,
+          transformOrigin: 'top left',
         });
-      });
+      }
+      if (branchBR) {
+        gsap.set(branchBR, {
+          opacity: 0,
+          x: 0,
+          y: 0,
+          scale: 1,
+          rotation: 32,
+          transformOrigin: '100% 60%',
+        });
+      }
+      if (brandHeader) gsap.set(brandHeader, { opacity: 0, y: -26 });
 
-      // Show skip button after threshold
-      gsap.delayedCall(0.35, () => {
+      if (logoPetals) {
+        logoPetals.forEach((petal) => {
+          gsap.set(petal, {
+            opacity: 0,
+            scale: 0.75,
+            rotation: -15,
+            transformOrigin: '100px 100px',
+          });
+        });
+      }
+      if (logoFolds) gsap.set(logoFolds, { opacity: 0 });
+      if (wordmark) gsap.set(wordmark, { opacity: 0, x: -10 });
+      if (promoBanner) gsap.set(promoBanner, { opacity: 0, y: 38, scale: 0.97 });
+      if (dividerLeft) gsap.set(dividerLeft, { scaleX: 0, transformOrigin: 'right center' });
+      if (dividerRight) gsap.set(dividerRight, { scaleX: 0, transformOrigin: 'left center' });
+      if (dividerLabel) gsap.set(dividerLabel, { opacity: 0, scale: 0.92 });
+      if (featureCards) gsap.set(featureCards, { opacity: 0, y: 44, scale: 0.96 });
+
+      // Show skip button after a short moment
+      gsap.delayedCall(0.3, () => {
         setCanSkip(true);
       });
 
-      // --- MASTER CHOREOGRAPHY TIMELINE ---
+      // --- MASTER "HARUKAZE" TIMELINE ---
       const tl = gsap.timeline({
-        paused: isDebug,
         defaults: { ease: 'power2.out' },
         onComplete: () => {
           setIsIntroComplete(true);
           setCanSkip(false);
-          markIntroSeen();
           onComplete?.();
         },
       });
 
       masterTimelineRef.current = tl;
 
-      // Label 1: Full Green Screen (0.00 - 0.15s)
-      // Screen is 100% full green, brand stage centered, no content visible
-      tl.addLabel('green-screen', 0);
-      tl.to({}, { duration: 0.15 });
+      // Phase 1: Ambient Spring Awakening (0.00 - 0.70s)
+      tl.addLabel('awakening', 0);
 
-      // Label 2: Clockwise Petal Reveal (0.15 - 1.18s)
-      // Emblem center is 100% stationary at viewport center.
-      // Petals reveal sequentially starting from Top (12 o'clock) clockwise!
-      tl.addLabel('clockwise-reveal', 0.15);
+      if (petalsOverlay) {
+        tl.to(petalsOverlay, { opacity: 1, duration: 0.7, ease: 'power2.inOut' }, 'awakening');
+      }
+      if (bgHalo) {
+        tl.to(bgHalo, { opacity: 1, scale: 1, duration: 1.1, ease: 'power2.out' }, 'awakening+=0.05');
+      }
+      if (bgWaves) {
+        tl.to(bgWaves, { opacity: 1, x: 0, duration: 0.9, ease: 'power2.out' }, 'awakening+=0.1');
+      }
 
-      petals.forEach((petal, index) => {
-        const petalTime = 0.15 + index * 0.115;
-        // Reveal petal
+      // Phase 2: Gentle Sakura Branches Fade In with In-Place Rotation (0.08 - 1.30s)
+      // Top-Left rotates clockwise (-32° -> 0°) from top-left anchor in place
+      if (branchTL) {
         tl.to(
-          petal,
+          branchTL,
           {
             opacity: 1,
-            scale: 1,
             rotation: 0,
-            duration: 0.22,
-            ease: 'power2.out',
+            duration: 1.25,
+            ease: 'power3.out',
           },
-          petalTime
+          'awakening+=0.08'
         );
+      }
+      // Bottom-Right rotates counter-clockwise (+32° -> 0°) from bottom-right wall anchor in place
+      if (branchBR) {
+        tl.to(
+          branchBR,
+          {
+            opacity: 1,
+            rotation: 0,
+            duration: 1.3,
+            ease: 'power3.out',
+          },
+          'awakening+=0.14'
+        );
+      }
 
-        // Corresponding fold crease line appears along with petal
-        if (folds[index]) {
+      // Phase 3: Brand Header & Origami Petal Bloom (0.28 - 0.85s)
+      tl.addLabel('brand-reveal', 0.28);
+
+      if (brandHeader) {
+        tl.to(brandHeader, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 'brand-reveal');
+      }
+
+      // 8 Clockwise Petals Bloom
+      if (logoPetals && logoPetals.length > 0) {
+        logoPetals.forEach((petal, index) => {
+          const petalTime = 0.32 + index * 0.045;
           tl.to(
-            folds[index],
+            petal,
             {
-              opacity: 0.65,
-              duration: 0.18,
-              ease: 'power2.out',
+              opacity: 1,
+              scale: 1,
+              rotation: 0,
+              duration: 0.24,
+              ease: 'back.out(1.5)',
             },
-            petalTime + 0.05
+            petalTime
           );
-        }
-      });
 
-      // Label 3: Logo Complete + Hold (1.18 - 1.33s)
-      // Emblem rests completely formed at screen center for visual appreciation
-      tl.addLabel('logo-complete-hold', 1.18);
-      tl.to({}, { duration: 0.15 });
+          if (logoFolds && logoFolds[index]) {
+            tl.to(
+              logoFolds[index],
+              {
+                opacity: 0.75,
+                duration: 0.18,
+                ease: 'power2.out',
+              },
+              petalTime + 0.04
+            );
+          }
+        });
+      }
 
-      // Label 4: Logo Vertical Lift (1.33 - 1.71s)
-      // ONLY moves straight vertically UP along Y axis (deltaX = 0).
-      tl.addLabel('vertical-lift', 1.33);
-      tl.to(
-        brandStage,
-        {
-          y: 0,
-          duration: 0.38,
-          ease: 'power2.inOut',
-        },
-        'vertical-lift'
-      );
+      if (wordmark) {
+        tl.to(wordmark, { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' }, 'brand-reveal+=0.2');
+      }
 
-      // Label 5: Wordmark Reveal (1.58 - 1.90s)
-      // KOPKARSAI reveals from under mask directly below emblem
-      tl.addLabel('wordmark-reveal', 1.58);
-      tl.to(
-        wordmarkText,
-        {
-          yPercent: 0,
-          opacity: 1,
-          duration: 0.32,
-          ease: 'power2.out',
-        },
-        'wordmark-reveal'
-      );
+      // Phase 4: Pavilion Promo Banner Unfolds (0.55 - 1.25s)
+      tl.addLabel('banner-reveal', 0.55);
 
-      // Label 6: Stable Cards Reveal (1.88 - 2.33s)
-      // Both cards reveal smoothly in their pre-allocated grid slots without pushing layout
-      tl.addLabel('cards-reveal', 1.88);
-      tl.to(
-        cards,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.45,
-          stagger: 0.08,
-          ease: 'power2.out',
-        },
-        'cards-reveal'
-      );
+      if (promoBanner) {
+        tl.to(
+          promoBanner,
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: 'power3.out',
+          },
+          'banner-reveal'
+        );
+      }
 
-      // Label 7: Bottom Descriptive Copy Reveal (2.18 - 2.56s)
-      // Exactly one copy block appears under both cards
-      tl.addLabel('bottom-copy-reveal', 2.18);
-      tl.to(
-        bottomCopy,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.38,
-          ease: 'power2.out',
-        },
-        'bottom-copy-reveal'
-      );
+      // Phase 5: Section Divider Expands (0.80 - 1.25s)
+      tl.addLabel('divider-reveal', 0.80);
 
-      tl.to(
-        footerMeta,
-        {
-          opacity: 1,
-          duration: 0.32,
-          ease: 'power2.out',
-        },
-        'bottom-copy-reveal+=0.1'
-      );
+      if (dividerLeft) {
+        tl.to(dividerLeft, { scaleX: 1, duration: 0.45, ease: 'power2.inOut' }, 'divider-reveal');
+      }
+      if (dividerRight) {
+        tl.to(dividerRight, { scaleX: 1, duration: 0.45, ease: 'power2.inOut' }, 'divider-reveal');
+      }
+      if (dividerLabel) {
+        tl.to(dividerLabel, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' }, 'divider-reveal+=0.1');
+      }
 
-      tl.addLabel('final-state', 2.65);
+      // Phase 6: Three Feature Cards Staggered Rise (0.95 - 1.65s)
+      tl.addLabel('cards-reveal', 0.95);
+
+      if (featureCards && featureCards.length > 0) {
+        tl.to(
+          featureCards,
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.65,
+            stagger: 0.12,
+            ease: 'power3.out',
+          },
+          'cards-reveal'
+        );
+      }
+
+      tl.addLabel('final-settled', 1.75);
     }, scopeRef);
 
     return () => {
       ctx.revert();
     };
-  }, [scopeRef, prefersReducedMotion, hasSeenIntroInSession, markIntroSeen, onComplete]);
+  }, [scopeRef, prefersReducedMotion, onComplete]);
 
   return {
     isIntroComplete,
@@ -303,6 +327,5 @@ export function useGatewayIntro({ scopeRef, onComplete }: UseGatewayIntroOptions
     isDebugMode,
     skipIntro,
     replayIntro,
-    seekToCheckpoint,
   };
 }
