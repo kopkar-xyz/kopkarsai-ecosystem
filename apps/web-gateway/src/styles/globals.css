@@ -2,22 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   Kyoto Heritage Typography: Local Self-Hosted Fonts
+   Zen Old Mincho (Heading & Kanji) + Zen Kaku Gothic New (Body & UI)
+   ========================================================================== */
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Bold.ttf') format('truetype');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Black.ttf') format('truetype');
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Kaku Gothic New';
+  src: url('/fonts/ZenKakuGothicNew-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Kaku Gothic New';
+  src: url('/fonts/ZenKakuGothicNew-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Kaku Gothic New';
+  src: url('/fonts/ZenKakuGothicNew-Bold.ttf') format('truetype');
+  font-weight: 600 700 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --brand-green: #065C2B;
-    --brand-green-deep: #043D1D;
-    --brand-yellow: #F6CE2C;
-    --brand-yellow-light: #FFD967;
-    --surface-cream: #F7F9F4;
-    --text-light: #FFFFFF;
-    --text-muted: #BEDACC;
+    --brand-green-deep: #0B4A25;
+    --brand-green-light: #0E7A3D;
+    --sakura-bg: #FFF9F9;
+    --sakura-border: #FCE4E9;
+    --sakura-accent: #BD3A53;
   }
 
   html {
-    font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--brand-green);
-    color: var(--text-light);
-    color-scheme: dark;
+    font-family: 'Zen Kaku Gothic New', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--sakura-bg);
+    color: #1F2D24;
+    color-scheme: light;
     scrollbar-gutter: stable;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -27,8 +78,31 @@
     min-height: 100vh;
     min-height: 100dvh;
     overflow-x: hidden;
-    background-color: #065C2B;
+    background-color: var(--sakura-bg);
+    font-family: 'Zen Kaku Gothic New', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
+}
+
+@layer utilities {
+  .tategaki {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-style: normal !important;
+    letter-spacing: 0.22em;
+    font-family: 'Zen Old Mincho', serif !important;
+    font-weight: 900 !important;
+  }
+}
+
+.font-kanji,
+[data-kanji="true"] {
+  font-family: 'Zen Old Mincho', serif !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+}
+
+.font-serif {
+  font-family: 'Zen Old Mincho', Georgia, serif;
 }
 
 /* Custom subtle scrollbar */
@@ -36,27 +110,247 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #043D1D;
+  background: #FFF0F2;
 }
 ::-webkit-scrollbar-thumb {
-  background: #094824;
+  background: #F9CBD5;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #0E6836;
+  background: #F5A3B5;
 }
 
-/* FOUC Guard: Prevent cards, copy, wordmark, and petals flashing before intro begins */
-.intro-pending .gateway-card-item,
-.intro-pending #gateway-bottom-copy,
-.intro-pending #gateway-footer-meta,
-.intro-pending .wordmark-text,
-.intro-pending .logo-petal,
-.intro-pending .logo-fold-line {
-  opacity: 0;
+/* ==========================================================================
+   Sakura Branch Wind Sway Animations
+   Gentle, natural organic breeze effect
+   ========================================================================== */
+@keyframes branch-sway-tl {
+  0% {
+    transform: rotate(0deg) translate3d(0, 0, 0) scale(1);
+  }
+  35% {
+    transform: rotate(1.2deg) translate3d(3px, 2px, 0) scale(1.008);
+  }
+  70% {
+    transform: rotate(-0.8deg) translate3d(-2px, -1px, 0) scale(0.998);
+  }
+  100% {
+    transform: rotate(0deg) translate3d(0, 0, 0) scale(1);
+  }
 }
 
-/* Reduced motion accessibility */
+@keyframes branch-sway-br {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  35% {
+    transform: rotate(-1.2deg) scale(1.004);
+  }
+  75% {
+    transform: rotate(0.8deg) scale(0.998);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.animate-branch-tl {
+  transform-origin: top left;
+  animation: branch-sway-tl 8.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-branch-br {
+  transform-origin: 100% 40%;
+  animation: branch-sway-br 9.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   Falling Sakura Petals GPU Animations (3D Drift, Tumbling & Naturally Fading)
+   Inspired by web-tools.repop.jp/js-sakura-animation/
+   ========================================================================== */
+@keyframes petal-fall {
+  0% {
+    top: -50px;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    top: 105vh;
+    opacity: 0;
+  }
+}
+
+@keyframes petal-sway-1 {
+  0% {
+    transform: translateX(0px) rotateZ(0deg);
+  }
+  25% {
+    transform: translateX(35px) rotateZ(25deg);
+  }
+  50% {
+    transform: translateX(-20px) rotateZ(-15deg);
+  }
+  75% {
+    transform: translateX(45px) rotateZ(35deg);
+  }
+  100% {
+    transform: translateX(5px) rotateZ(10deg);
+  }
+}
+
+@keyframes petal-sway-2 {
+  0% {
+    transform: translateX(0px) rotateZ(0deg);
+  }
+  30% {
+    transform: translateX(-40px) rotateZ(-30deg);
+  }
+  60% {
+    transform: translateX(25px) rotateZ(20deg);
+  }
+  85% {
+    transform: translateX(-25px) rotateZ(-15deg);
+  }
+  100% {
+    transform: translateX(-10px) rotateZ(-5deg);
+  }
+}
+
+/* 7 Distinct Aerodynamic Tumbling / 3D Rotation States (Acak & Asinkron) */
+/* State 1: Clockwise Diagonal Pitch-Roll */
+@keyframes petal-tumble-1 {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: rotateX(95deg) rotateY(45deg) rotateZ(20deg);
+  }
+  50% {
+    transform: rotateX(190deg) rotateY(90deg) rotateZ(-10deg);
+  }
+  75% {
+    transform: rotateX(285deg) rotateY(135deg) rotateZ(15deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(180deg) rotateZ(0deg);
+  }
+}
+
+/* State 2: Counter-Clockwise Spiral Flip */
+@keyframes petal-tumble-2 {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  33% {
+    transform: rotateX(-120deg) rotateY(-90deg) rotateZ(-30deg);
+  }
+  66% {
+    transform: rotateX(-240deg) rotateY(-180deg) rotateZ(15deg);
+  }
+  100% {
+    transform: rotateX(-360deg) rotateY(-360deg) rotateZ(0deg);
+  }
+}
+
+/* State 3: Fluttering Coin Spin (Yaw Dominant) */
+@keyframes petal-tumble-3 {
+  0% {
+    transform: rotateY(0deg) rotateX(15deg) rotateZ(0deg);
+  }
+  25% {
+    transform: rotateY(180deg) rotateX(-20deg) rotateZ(25deg);
+  }
+  50% {
+    transform: rotateY(360deg) rotateX(20deg) rotateZ(-15deg);
+  }
+  75% {
+    transform: rotateY(540deg) rotateX(-15deg) rotateZ(20deg);
+  }
+  100% {
+    transform: rotateY(720deg) rotateX(15deg) rotateZ(0deg);
+  }
+}
+
+/* State 4: Somersault Pitch (Cartwheel Roll) */
+@keyframes petal-tumble-4 {
+  0% {
+    transform: rotateX(0deg) rotateY(10deg) rotateZ(0deg);
+  }
+  30% {
+    transform: rotateX(140deg) rotateY(-20deg) rotateZ(40deg);
+  }
+  70% {
+    transform: rotateX(260deg) rotateY(25deg) rotateZ(-30deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(10deg) rotateZ(0deg);
+  }
+}
+
+/* State 5: Gentle Rocking Leaf Drift (Pendulum Wobble) */
+@keyframes petal-tumble-5 {
+  0% {
+    transform: rotateX(30deg) rotateY(-25deg) rotateZ(-20deg);
+  }
+  25% {
+    transform: rotateX(-35deg) rotateY(30deg) rotateZ(15deg);
+  }
+  50% {
+    transform: rotateX(40deg) rotateY(-35deg) rotateZ(-25deg);
+  }
+  75% {
+    transform: rotateX(-30deg) rotateY(25deg) rotateZ(20deg);
+  }
+  100% {
+    transform: rotateX(30deg) rotateY(-25deg) rotateZ(-20deg);
+  }
+}
+
+/* State 6: Diagonal Helix Swirl */
+@keyframes petal-tumble-6 {
+  0% {
+    transform: rotate3d(1, 1, 0, 0deg) rotateZ(0deg);
+  }
+  33% {
+    transform: rotate3d(1, 1, 0, 120deg) rotateZ(45deg);
+  }
+  66% {
+    transform: rotate3d(1, 1, 0, 240deg) rotateZ(-30deg);
+  }
+  100% {
+    transform: rotate3d(1, 1, 0, 360deg) rotateZ(0deg);
+  }
+}
+
+/* State 7: Erratic Flutter (Wind Gust Turbulence) */
+@keyframes petal-tumble-7 {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  20% {
+    transform: rotateX(75deg) rotateY(-110deg) rotateZ(35deg);
+  }
+  45% {
+    transform: rotateX(210deg) rotateY(-190deg) rotateZ(-40deg);
+  }
+  75% {
+    transform: rotateX(310deg) rotateY(-290deg) rotateZ(25deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(-360deg) rotateZ(0deg);
+  }
+}
+
+/* ==========================================================================
+   Reduced Motion Accessibility Override
+   ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -65,5 +359,12 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .animate-branch-tl,
+  .animate-branch-br,
+  .sakura-petal-item {
+    animation: none !important;
+    transform: none !important;
   }
 }

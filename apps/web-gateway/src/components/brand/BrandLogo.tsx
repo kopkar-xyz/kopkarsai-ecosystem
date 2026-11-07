@@ -98,19 +98,19 @@ export const CREASE_LINES = [
  */
 export const BrandLogo: React.FC<BrandLogoProps> = ({
   className = '',
-  size = 140,
+  size,
 }) => {
   return (
     <div
       className={`relative inline-flex items-center justify-center select-none ${className}`}
-      style={{ width: size, height: size }}
+      style={size !== undefined ? { width: size, height: size } : undefined}
       role="img"
       aria-label="Logo KOPKARSAI"
     >
       <svg
         id="kopkarsai-logo-svg"
         viewBox="0 0 200 200"
-        className="w-full h-full overflow-visible drop-shadow-[0_8px_20px_rgba(4,61,29,0.3)]"
+        className="w-full h-full overflow-visible"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
