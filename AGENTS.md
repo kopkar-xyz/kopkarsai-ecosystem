@@ -48,10 +48,10 @@ Setiap deliverable, fitur, tabel, dan perubahan kode harus memiliki klasifikasi 
   - `06-frontend-react-architecture.md` (Model Decision)
   - `07-ui-design-system.md` (Model Decision)
   - `08-qa-e2e-testing.md` (Model Decision)
-  - `09-agentic-workflow-constraints.md` (Model Decision)
-  - `10-github-coordination.md` (Model Decision)
-  - `11-native-gh-execution.md` (Model Decision)
-  - `12-frontend-ownership.md` (Always On)
+  - `agentic-workflow-constraints.md` (Model Decision)
+  - `github-coordination.md` (Model Decision)
+  - `native-gh-execution.md` (Model Decision)
+  - `frontend-ownership.md` (Always On)
 - **Skills**: [.agents/skills/](.agents/skills/)
   - `backend-domain-scaffold`: Panduan pembuatan modul domain FastAPI baru.
   - `frontend-feature-scaffold`: Panduan pembuatan layar/fitur baru React TypeScript.
@@ -60,9 +60,9 @@ Setiap deliverable, fitur, tabel, dan perubahan kode harus memiliki klasifikasi 
   - `ecosystem-monorepo-ops`: Panduan operasional dev server, seeder, dan build.
   - `playwright-e2e`: Panduan pengujian otomatis skenario bisnis kritis.
   - `developer-onboarding`: Konfigurasi identitas workstation dan diagnosa preflight.
-  - `task-startup` (dan `start-task`): Inisialisasi branch dan worktree `{type}/{issue}-{slug}`.
-  - `project-state-sync` (dan `sync-project-state`): Sinkronisasi status Project v2 berbasis bukti.
-  - `pr-preparation` (dan `prepare-pr`): Validasi PR, eksekusi test lokal, dan formatting PR.
+  - `start-task`: Inisialisasi branch dan worktree `{type}/{issue}-{slug}`.
+  - `sync-project-state`: Sinkronisasi status Project v2 berbasis bukti.
+  - `prepare-pr`: Validasi PR, eksekusi test lokal, dan formatting PR.
   - `inspect-project-tasks`: Inspeksi task aktif, worktree, dan review requests.
   - `manage-github-project`: Otomasi issue dan item Project v2 dengan review gate.
 
