@@ -1,22 +1,26 @@
 ---
 name: developer-onboarding
-description: Initialize and validate local developer identity, configure workstation label, and run preflight diagnostics for KopKar SAI.
+description: >-
+  Initialize and validate local developer identity (.agent/developer.local.json) and run preflight environment diagnostics for KopKar SAI. Use when onboarding a new workstation, fixing missing identity files, or checking local/GitHub CLI readiness.
 ---
 
 # Developer Onboarding & Preflight Runbook
 
-This skill initializes and verifies local developer identity (`.agent/developer.local.json`) and runs comprehensive environment checks.
+Skill ini menginisialisasi identitas pengembang lokal (`.agent/developer.local.json`, gitignored) dan memvalidasi kesiapan environment lokal maupun GitHub CLI (`gh`).
+
+*(Gunakan `python` di Windows atau `python3` di Linux/macOS.)*
 
 ---
 
-## 1. Quick Onboarding Setup
+## 1. Setup Identitas Lokal
 
 ### Non-Interactive Setup
 ```bash
-python3 scripts/agentic/bootstrap.py \
-  --display-name "Developer" \
-  --github-username "ekyaaa" \
-  --machine-label "dev-nobara" \
+python scripts/agentic/bootstrap.py \
+  --display-name "<Display Name>" \
+  --github-username "<github-username>" \
+  --email "<email@domain>" \
+  --machine-label "<machine-label>" \
   --project-number 1 \
   --project-owner "kopkar-xyz" \
   --project-title "kopkar-sai" \
@@ -25,7 +29,7 @@ python3 scripts/agentic/bootstrap.py \
 
 ### Interactive Setup
 ```bash
-python3 scripts/agentic/bootstrap.py
+python scripts/agentic/bootstrap.py
 ```
 
 ---
@@ -33,10 +37,20 @@ python3 scripts/agentic/bootstrap.py
 ## 2. Diagnostics & Preflight Healthcheck
 
 ```bash
-python3 scripts/agentic/doctor.py
+python scripts/agentic/doctor.py
 ```
 
-Options:
-- `--json`: Output full diagnostic results in machine-readable JSON format.
-- `--strict`: Treat warnings as fatal blockers.
-- `--quiet`: Only output issues requiring remediation.
+Opsi tambahan:
+- `--json`: Output terstruktur dalam format JSON.
+- `--strict`: Menganggap warning sebagai kegagalan (*blocker*).
+- `--quiet`: Hanya menampilkan item yang perlu perbaikan.
+
+---
+
+## ✅ Verification & Interpretasi Output
+
+Pastikan `doctor.py` menampilkan `Local Environment: ✅ LOCAL_READY` dan periksa arti tiap status:
+- `PASS`: Konfigurasi valid dan siap digunakan.
+- `PENDING_CONFIGURATION`: Item opsional/remote belum terikat (misal belum login `gh` atau belum terhubung ke Project `#1`).
+- `WARN`: Non-blocking, tetapi perlu perhatian (misal akun `gh` berbeda dengan `github_username` lokal).
+- `FAIL`: Blocker lokal (misal `.agent/developer.local.json` hilang/rusak atau tidak ter-gitignore) — ikuti instruksi `Fix:` yang dicetak oleh `doctor.py`.

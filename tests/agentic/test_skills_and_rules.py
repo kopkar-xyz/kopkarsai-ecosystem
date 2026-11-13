@@ -11,6 +11,9 @@ from pathlib import Path
 
 from scripts.agentic.common import get_repo_root
 
+VALID_RULE_TRIGGERS = {"always_on", "model_decision", "glob", "manual"}
+
+
 class TestSkillsAndRules(unittest.TestCase):
     def setUp(self):
         self.repo_root = get_repo_root()
@@ -28,18 +31,27 @@ class TestSkillsAndRules(unittest.TestCase):
         self.assertTrue(skills_dir.is_dir(), ".agents/skills must be a directory")
 
         for skill_name in required_skills:
-            skill_path = skills_dir / skill_name / "SKILL.md"
+            self.assertTrue(
+                (skills_dir / skill_name / "SKILL.md").is_file(),
+                f"SKILL.md missing for required skill {skill_name}",
+            )
+
+        # Validate every skill directory under .agents/skills/
+        skill_dirs = [p for p in skills_dir.iterdir() if p.is_dir()]
+        self.assertGreaterEqual(len(skill_dirs), len(required_skills))
+
+        for skill_dir in skill_dirs:
+            skill_name = skill_dir.name
+            skill_path = skill_dir / "SKILL.md"
             self.assertTrue(skill_path.is_file(), f"SKILL.md missing for {skill_name}")
 
             content = skill_path.read_text(encoding="utf-8")
             self.assertTrue(content.startswith("---"), f"{skill_name}/SKILL.md must start with YAML frontmatter")
 
-            # Check name field
             name_match = re.search(r"^name:\s*([\w\-]+)", content, re.MULTILINE)
             self.assertIsNotNone(name_match, f"{skill_name} missing 'name:' in frontmatter")
             self.assertEqual(name_match.group(1), skill_name)
 
-            # Check description field
             desc_match = re.search(r"^description:\s*(.+)", content, re.MULTILINE)
             self.assertIsNotNone(desc_match, f"{skill_name} missing 'description:' in frontmatter")
 
@@ -47,29 +59,56 @@ class TestSkillsAndRules(unittest.TestCase):
         rules_dir = self.repo_root / ".agents" / "rules"
         self.assertTrue(rules_dir.is_dir(), ".agents/rules must be a directory")
 
-        workflow_rule = rules_dir / "agentic-workflow-constraints.md"
-        self.assertTrue(workflow_rule.is_file(), "agentic-workflow-constraints.md must exist")
+        required_rules = [
+            "agentic-workflow-constraints.md",
+            "github-coordination.md",
+            "native-gh-execution.md",
+            "frontend-ownership.md",
+        ]
+        for rule_name in required_rules:
+            self.assertTrue((rules_dir / rule_name).is_file(), f"{rule_name} must exist")
 
-        github_coordination_rule = rules_dir / "github-coordination.md"
-        self.assertTrue(github_coordination_rule.is_file(), "github-coordination.md must exist")
+        rule_files = sorted(rules_dir.glob("*.md"))
+        self.assertGreater(len(rule_files), 0, "Expected rule markdown files in .agents/rules/")
 
-        native_gh_rule = rules_dir / "native-gh-execution.md"
-        self.assertTrue(native_gh_rule.is_file(), "native-gh-execution.md must exist")
+        for rule_file in rule_files:
+            self.assertFalse(rule_file.is_symlink(), f"{rule_file.name} must not be a symlink")
+            content = rule_file.read_text(encoding="utf-8")
+            self.assertGreaterEqual(
+                len(content.strip()),
+                60,
+                f"{rule_file.name} is suspiciously short (possible broken symlink pointer)",
+            )
+            self.assertTrue(
+                content.startswith("---"),
+                f"{rule_file.name} must start with YAML frontmatter",
+            )
 
-        content = workflow_rule.read_text(encoding="utf-8")
-        self.assertTrue(content.startswith("---"), "Rule must start with YAML frontmatter")
-        self.assertIn("trigger:", content)
-        self.assertIn("description:", content)
+            fm_end = content.find("\n---", 3)
+            self.assertNotEqual(fm_end, -1, f"{rule_file.name} missing closing frontmatter delimiter")
+            frontmatter = content[3:fm_end]
 
-        gh_content = github_coordination_rule.read_text(encoding="utf-8")
-        self.assertTrue(gh_content.startswith("---"), "github-coordination.md must start with YAML frontmatter")
-        self.assertIn("trigger:", gh_content)
-        self.assertIn("description:", gh_content)
+            trigger_match = re.search(r"^trigger:\s*(\S+)", frontmatter, re.MULTILINE)
+            self.assertIsNotNone(trigger_match, f"{rule_file.name} missing 'trigger:' in frontmatter")
+            trigger = trigger_match.group(1).strip("'\"")
+            self.assertIn(
+                trigger,
+                VALID_RULE_TRIGGERS,
+                f"{rule_file.name} has invalid trigger '{trigger}'",
+            )
 
-        native_content = native_gh_rule.read_text(encoding="utf-8")
-        self.assertTrue(native_content.startswith("---"), "native-gh-execution.md must start with YAML frontmatter")
-        self.assertIn("trigger:", native_content)
-        self.assertIn("description:", native_content)
+            if trigger == "model_decision":
+                self.assertRegex(
+                    frontmatter,
+                    r"(?m)^description:\s*.+",
+                    f"{rule_file.name} with trigger=model_decision must declare 'description:'",
+                )
+            elif trigger == "glob":
+                self.assertRegex(
+                    frontmatter,
+                    r"(?m)^globs:\s*.+",
+                    f"{rule_file.name} with trigger=glob must declare 'globs:'",
+                )
 
     def test_hooks_json_validity(self):
         hooks_file = self.repo_root / ".agents" / "hooks.json"
@@ -110,6 +149,7 @@ class TestSkillsAndRules(unittest.TestCase):
         self.assertEqual(example.get("schema_version"), 1)
         self.assertIn("developer", example)
         self.assertIn("workspace", example)
+
 
 if __name__ == "__main__":
     unittest.main()

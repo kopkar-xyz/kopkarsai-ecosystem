@@ -1,12 +1,15 @@
 ---
 name: db-migration-sync
 description: >-
-  Execute PostgreSQL schema changes, generate Alembic migrations, verify schema namespace isolation, and enforce non-negotiable financial precision invariants.
+  Execute PostgreSQL schema changes, generate Alembic migrations, verify schema namespace isolation, and enforce Numeric(15,2) financial invariants. Use when modifying database models or running Alembic migrations in apps/backend.
 ---
 
 # Database Migration & Schema Invariants Runbook
 
-Skill ini memandu proses modifikasi tabel, pembuatan revisi Alembic, dan verifikasi kepatuhan isolasi namespace basis data (`shared_auth`, `schema_kopkar`, `schema_marketplace`) di `apps/backend/`.
+Skill ini memandu modifikasi tabel, pembuatan revisi Alembic, dan verifikasi isolasi namespace (`shared_auth`, `schema_kopkar`, `schema_marketplace`) di `apps/backend/`.
+
+> [!NOTE]
+> **Prasyarat Codebase**: `apps/backend/` dan `alembic/` saat ini belum di-scaffold di repo (baru tersedia `apps/backend/README.md`). Jalankan langkah di bawah setelah struktur Alembic diinisialisasi.
 
 ---
 

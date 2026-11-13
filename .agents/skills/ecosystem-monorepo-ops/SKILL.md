@@ -1,82 +1,78 @@
 ---
 name: ecosystem-monorepo-ops
 description: >-
-  Execute monorepo developer workflows: local dev servers, database seeders for multi-role test users, linting, and build verification.
+  Execute monorepo developer workflows for dev servers, builds, and environment setup. Use when starting local services, checking port allocations, or running verification builds across KopKar, Gateway, Marketplace, and Backend.
 ---
 
 # KopKar SAI Monorepo Operations Runbook
 
-Skill ini memandu pengelolaan alur kerja operasional pengembang lokal, menjalankan server pengembangan (`backend`, `web-kopkar`, `web-marketplace`), pengisian data awal (*database seeders*), dan verifikasi kompilasi kode.
+Skill ini memandu pengelolaan server pengembangan lokal dan verifikasi build pada monorepo `kopkarsai-ecosystem`.
 
 ---
 
-## ⚡ Alokasi Port Lokal & Service Mapping
+## ⚡ Alokasi Port & Status Layanan Saat Ini
 
-```text
-┌─────────────────────────┬───────────────┬───────────────────────────────┐
-│ Service                 │ Port Lokal    │ Keterangan                    │
-├─────────────────────────┼───────────────┼───────────────────────────────┤
-│ Backend API (FastAPI)   │ http://:8000  │ Swagger UI di /docs           │
-│ Web KopKar (React)      │ http://:5173  │ Portal Koperasi Karyawan      │
-│ Web Marketplace (React) │ http://:5174  │ Marketplace Belanja Karyawan  │
-│ PostgreSQL Database     │ localhost:5432│ DB kopkar_ecosystem           │
-└─────────────────────────┴───────────────┴───────────────────────────────┘
+| Service | Port Lokal | Status Codebase | Package Manager / Runtime |
+| :--- | :--- | :--- | :--- |
+| Web KopKar (`apps/web-kopkar`) | `http://localhost:5173` | **Current (Prototype UI)** | `pnpm` |
+| Web Marketplace (`apps/web-marketplace`) | `http://localhost:5174` | **Target (Baru `README.md`)** | `pnpm` (planned) |
+| Web Gateway (`apps/web-gateway`) | `http://localhost:5175` | **Current (Implemented)** | `pnpm` / `npm` |
+| Backend API (`apps/backend`) | `http://localhost:8000` | **Target (Baru `README.md`)** | Python 3.12+ (planned) |
+| PostgreSQL Database | `localhost:5432` | Infrastruktur Target | PostgreSQL 16 |
+
+Lihat [references/cheatsheet.md](references/cheatsheet.md) untuk daftar kredensial seeder target dan variabel lingkungan `.env` backend.
+
+---
+
+## 🚀 Menjalankan Layanan yang Sudah Tersedia (Current)
+
+### 1. Frontend Web KopKar (`apps/web-kopkar`)
+```bash
+pnpm --dir apps/web-kopkar install
+pnpm --dir apps/web-kopkar dev --port 5173
 ```
 
-Lihat [references/cheatsheet.md](references/cheatsheet.md) untuk kredensial default seeder dan variabel lingkungan.
+### 2. Frontend Web Gateway (`apps/web-gateway`)
+```bash
+pnpm --dir apps/web-gateway install
+pnpm --dir apps/web-gateway dev
+```
+*(Port default Vite sudah diset ke `5175` di `apps/web-gateway/package.json`.)*
 
 ---
 
-## 🚀 Menjalankan Server Pengembangan
+## 🧱 Layanan Target (Setelah Di-Scaffold)
 
 ### 1. Backend FastAPI (`apps/backend`)
-```bash
+*(Berlaku setelah `apps/backend/app/main.py` dan `.venv` di-scaffold.)*
+```powershell
+# Windows PowerShell
 cd apps/backend
-# Menggunakan virtualenv Python
+.venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload --port 8000
+```
+```bash
+# POSIX (Linux/macOS)
+cd apps/backend
 source .venv/bin/activate
 uvicorn app.main:app --reload --port 8000
 ```
+Seeder & lint backend target (setelah modul tersedia): `python -m app.scripts.seed_users`, `ruff check .`, `mypy app/`.
 
-### 2. Frontend Web KopKar (`apps/web-kopkar`)
+### 2. Frontend Web Marketplace (`apps/web-marketplace`)
+*(Berlaku setelah `apps/web-marketplace/package.json` dan `src/` di-scaffold.)*
 ```bash
-cd apps/web-kopkar
-npm run dev -- --port 5173
-```
-
-### 3. Frontend Web Marketplace (`apps/web-marketplace`)
-```bash
-cd apps/web-marketplace
-npm run dev -- --port 5174
+pnpm --dir apps/web-marketplace dev --port 5174
 ```
 
 ---
 
-## 👥 Menjalankan Seeder Data Pengguna & Peran
+## ✅ Verification (Build & Checks)
 
-Untuk memverifikasi alur multi-role secara cepat tanpa registrasi manual berulang:
-
+Jalankan perintah berikut untuk memverifikasi build frontend dan tooling agentic yang aktif saat ini:
 ```bash
-cd apps/backend
-python3 -m app.scripts.seed_users
+pnpm --dir apps/web-kopkar build
+pnpm --dir apps/web-gateway build
+python -m unittest discover -s tests/agentic -p "test_*.py" -v
 ```
-
-Seeder akan membuat akun uji untuk masing-masing peran:
-- `superadmin`: Akses penuh kontrol sistem.
-- `kepala_koperasi`: Otoritas approval final.
-- `admin_toko`: Otoritas verifikasi tahap 1 & kasir checklist.
-- `anggota_biasa`: Akun karyawan aktif berbelanja.
-- `supplier_mitra`: Anggota dengan produk katering terverifikasi.
-- `ga_officer`: Akun prioritas antrean pesanan General Affairs.
-
----
-
-## 🧪 Linting & Quality Checks
-
-```bash
-# Backend Type Check & Lint
-cd apps/backend && ruff check . && mypy app/
-
-# Frontend Type Check & Lint
-cd apps/web-kopkar && npm run lint
-cd apps/web-marketplace && npm run lint
-```
+*(Catatan: `apps/web-kopkar` dan `apps/web-gateway` saat ini memiliki script `dev`, `build`, dan `preview`; belum ada script `lint` di `package.json`.)*
