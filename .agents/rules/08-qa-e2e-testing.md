@@ -14,6 +14,9 @@ description: "Use for testing tasks, writing Playwright E2E tests, API integrati
 
 ## 1. Multi-Tier Testing Strategy
 
+> [!NOTE]
+> **Status Codebase Saat Ini**: Saat ini hanya `tests/agentic/` (unit test Python untuk workflow agentic) yang sudah ada di repositori. Direktori `tests/e2e/`, `tests/pom/`, `playwright.config.*`, dan backend `pytest` belum di-scaffold dan merupakan **Target Architecture**.
+
 ```text
 ┌────────────────────────────────────────────────────────┐
 │ 1. E2E Browser Testing (Playwright + TypeScript)        │
@@ -62,12 +65,9 @@ Setiap perubahan signifikan pada alur aplikasi wajib memverifikasi 5 skenario kr
 
 ---
 
-## 3. Best Practice Penulisan Tes Playwright
+## 3. Standar Penulisan Tes Playwright
 
-1. **Page Object Model (POM)**:
-   - Enkapsulasi selector dan aksi ke dalam Page Object (misal: `LoginPage.ts`, `CashierChecklistPage.ts`, `LoanCalculatorPage.ts`).
-2. **Stable Test Selectors**:
-   - Gunakan atribut `data-testid` atau `id` yang deskriptif (misal: `data-testid="input-employee-id"`, `data-testid="btn-approve-member"`).
-   - Hindari selector berbasis class styling CSS yang rapuh terhadap perubahan visual.
-3. **Mocking External I/O**:
-   - Mocking pengiriman email dan penyimpanan S3 pada unit/integration test lokal agar tes dapat berjalan mandiri secara cepat.
+1. **Stable Test Selectors**:
+   - Gunakan atribut `data-testid` atau `id` yang deskriptif (misal: `data-testid="input-employee-id"`, `data-testid="btn-approve-member"`). Hindari selector berbasis class CSS yang rapuh.
+2. **Mocking External I/O**:
+   - Mock pengiriman email dan upload S3 pada unit/integration test lokal agar tes dapat berjalan deterministik.

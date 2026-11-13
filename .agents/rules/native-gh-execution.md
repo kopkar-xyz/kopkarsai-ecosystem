@@ -9,12 +9,12 @@ This rule defines how Antigravity natively executes GitHub CLI (`gh`) operations
 
 ---
 
-## 1. Workstation Binary & Environment Paths
+## 1. Cross-OS Binary & Authentication Setup
 
-On this machine:
-- **`gh` Binary Path**: `/home/mashupsoat/.local/bin/gh`
-- **User Config Directory**: `/home/mashupsoat/.config/gh`
-- **Execution Mode**: `gh` commands interacting with remote GitHub APIs (issues, projects, auth) require network access. Run them with `BypassSandbox: true`.
+- **`gh` Binary Resolution**: Resolved dynamically via `PATH` (`shutil.which("gh")` in `scripts/agentic/common.py`).
+- **Config Directory**: Uses the OS default GitHub CLI config (`%APPDATA%\GitHub CLI` on Windows, `~/.config/gh` on Linux/macOS), overridable via `GH_CONFIG_DIR`.
+- **Required Auth Scopes**: Authenticate with `gh auth login -s project,read:project,read:org,repo` (or `gh auth refresh -s project,read:project,read:org,repo`) so Project v2 GraphQL commands succeed.
+- **Python Invocation**: Run `scripts/agentic/*.py` with `python` on Windows or `python3` on Linux/macOS.
 
 ---
 
@@ -24,7 +24,7 @@ Always use these targets unless explicitly overridden by the user:
 - **Repository**: `kopkar-xyz/kopkarsai-ecosystem`
 - **Organization**: `kopkar-xyz`
 - **Project v2**: `https://github.com/orgs/kopkar-xyz/projects/1` (Project `#1` `kopkar-sai`)
-- **Default Assignee**: `ekyaaa`
+- **Default Assignee**: Active developer's `github_username` from `.agent/developer.local.json` (fallback: explicit `--assignee` flag)
 
 ---
 
@@ -39,26 +39,26 @@ When the user asks to create an issue, start a feature/bugfix, or add/edit/delet
    - `## Definition of Done`
 3. **MANDATORY REVIEW GATE**: Before executing actual creation, editing, closing, or deletion on GitHub:
    - Present the structured proposal / diff / impact to the developer.
-   - Run `--dry-run` to preview the command payload:
+   - Run `--dry-run` to preview the command payload (note: on PowerShell, pass multiline `--body` safely via a single-quoted here-string `@' ... '@` without backtick escapes):
      ```bash
-     python3 scripts/agentic/gh_project.py create-issue \
+     python scripts/agentic/gh_project.py create-issue \
        --title "<Title>" \
        --body "<Structured Body>" \
        --type <feat|fix|refactor|docs|test|chore> \
        --status <Backlog|Ready|In Progress> \
        --priority <Urgent|High|Medium|Low> \
-       --assignee ekyaaa \
+       --assignee <github-username> \
        --dry-run
      ```
    - **Ask the developer for explicit review and confirmation.**
 4. **Execute Only After Explicit Developer Approval**:
    - Run the script without `--dry-run` once the developer approves.
 5. If starting work immediately on that approved issue:
-   - Create the task branch using `start-task.py`:
+   - Create the task branch using `start_task.py`:
      ```bash
-     python3 scripts/agentic/start-task.py --type <type> --issue <number> --slug <slug>
+     python scripts/agentic/start_task.py --type <type> --issue <number> --slug <slug>
      ```
-   - Update project status to `In Progress` using `sync-state.py`.
+   - Update project status to `In Progress` using `sync_state.py`.
 
 ---
 

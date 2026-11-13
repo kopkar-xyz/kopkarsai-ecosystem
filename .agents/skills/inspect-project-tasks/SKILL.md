@@ -1,32 +1,30 @@
 ---
 name: inspect-project-tasks
-description: Inspect assigned developer tasks, recommendations, blockers, and Pull Request review requests with graceful offline degradation.
+description: >-
+  Inspect assigned developer tasks, local task branches, active worktrees, and PR review requests with offline fallback. Use at the start of a session, before choosing an issue, or to reconcile local and GitHub state.
 ---
 
 # Inspect Project Tasks Runbook
 
-This skill allows the developer or AI coding agent to inspect open tasks, active task branches, worktrees, and issues assigned to the active developer account (`@ekyaaa`).
+Skill ini memeriksa task aktif, branch lokal, git worktree, dan issue/PR yang ditugaskan ke akun GitHub pengembang aktif (terdaftar di `.agent/developer.local.json`).
 
-## When to Use
-
-- At the beginning of a working session to reconcile local and remote context.
-- Before choosing a new issue to work on.
-- When checking if you have outstanding PR review requests from team members.
-- When operating offline or without GitHub CLI to view local active branches and worktrees.
+---
 
 ## Execution
 
-### 1. View Formatted Task Summary
 ```bash
-python3 scripts/agentic/tasks.py
+# Ringkasan terformat
+python scripts/agentic/tasks.py
+
+# Output JSON
+python scripts/agentic/tasks.py --json
 ```
+*(Gunakan `python3` di Linux/macOS jika perlu.)*
 
-### 2. View Machine-Readable JSON Output
-```bash
-python3 scripts/agentic/tasks.py --json
-```
+---
 
-## Behavior
+## Behavior & Verification
 
-- **Offline / No GitHub CLI**: Displays active local Git branches matching `{type}/{issue}-{slug}`, existing worktrees under `.agent/worktrees/`, and cached task states from `.agent/task-state.json`.
-- **Online with Authenticated `gh`**: Queries GitHub API for open issues assigned to the developer's registered username (`@ekyaaa`) and active review requests.
+- **Offline / Tanpa `gh`**: Menampilkan branch lokal berpola `{type}/{issue}-{slug}`, worktree di `.agent/worktrees/`, dan status cache `.agent/task-state.json`.
+- **Online dengan `gh` terautentikasi**: Mengambil daftar GitHub Issue terbuka milik akun terdaftar di `.agent/developer.local.json` serta permintaan review PR.
+- **Verifikasi**: Pastikan `Active Branch` dan daftar `Assigned GitHub Issues` sesuai dengan task yang akan dikerjakan sebelum memodifikasi kode.

@@ -1,18 +1,21 @@
 ---
-trigger: model_decision
-description: "Use for backend engineering tasks in apps/backend: FastAPI structure, routers, schemas, services, repositories, models, auth, and business logic."
+trigger: glob
+globs: "apps/backend/**"
+description: "FastAPI modular monolith structure, unidirectional layers, Pydantic v2 schemas, and async DB patterns for apps/backend."
 ---
 
 # KopKar SAI — FastAPI Backend Architecture Rule
 
 ## Rule Identity
-- **Activation**: **Model Decision**
-- **Description**: *"Use for backend engineering tasks in apps/backend: FastAPI structure, routers, schemas, services, repositories, models, auth, and business logic."*
+- **Activation**: **Glob (`apps/backend/**`)**
 - **Scope**: All code inside `apps/backend/`.
 
 ---
 
-## 1. Modular Monolith Canonical Layout
+## 1. Target Modular Monolith Layout
+
+> [!NOTE]
+> **Status Codebase Saat Ini**: `apps/backend/` saat ini baru berisi `README.md` (belum di-scaffold). Struktur di bawah ini adalah **Target Architecture** yang wajib diikuti saat menginisialisasi layanan backend.
 
 Backend dikembangkan sebagai modular monolith berbasis **FastAPI** dengan batas tanggung jawab antarlapisan yang tegas:
 

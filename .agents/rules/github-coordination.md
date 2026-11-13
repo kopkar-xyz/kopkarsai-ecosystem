@@ -44,7 +44,7 @@ Backlog  ───>  Ready  ───>  In Progress  ───>  In Review  ─�
 - **Dual Status Support for Project #1**:
   - Project #1 (`kopkar-sai`) natively supports `Todo`, `In progress`, `Done`.
   - The automation scripts support both: if the board contains specific columns (`Backlog`, `Ready`, `In Review`, `Blocked`), it sets them directly; otherwise it maps `Backlog`/`Ready` ➔ `Todo`, `In Progress`/`In Review`/`Blocked` ➔ `In progress`, and `Done` ➔ `Done`.
-- **Human-Owned Tasks**: Every task has a single human developer owner (`@ekyaaa`). AI agents code only on the task selected by the developer and must never auto-claim or auto-assign tasks.
+- **Human-Owned Tasks**: Every task has an explicit human developer owner (`@ekyaaa` for Koperasi/Backend lead, `@revani` for Marketplace, or joint ownership for Shared). AI agents code only on the task selected by the developer and must never auto-claim or auto-assign tasks.
 - **Developer Review Gate for Issue Lifecycle**: Adding, editing, closing, or deleting GitHub issues requires prior review and explicit confirmation by the human developer. The AI agent must present the draft/dry-run and await approval before modifying GitHub state.
 - **Evidence-Based Progress Updates**: Task transitions require concrete evidence:
   - `Ready ➔ In Progress`: Active task branch matching `{type}/{issue}-{slug}`.

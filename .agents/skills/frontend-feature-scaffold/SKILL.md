@@ -1,69 +1,52 @@
 ---
 name: frontend-feature-scaffold
 description: >-
-  Scaffold a new frontend feature module in apps/web-kopkar or apps/web-marketplace following feature-driven modularity, custom reusable UI components, and the 200-line page budget.
+  Scaffold a frontend feature module in apps/web-kopkar or apps/web-marketplace following feature-driven modularity, reusable UI primitives, and the 200-line view budget. Use when adding or refactoring a frontend feature or screen.
 ---
 
 # Frontend Domain Feature Scaffolding Runbook
 
-Skill ini memandu proses pembuatan modul fitur antarmuka baru di `apps/web-kopkar/src/features/<domain>/` atau `apps/web-marketplace/src/features/<domain>/` sesuai dengan katalog **25 Layar Antarmuka Resmi** (`KK-SCR-xxx` / `MP-SCR-xxx`).
+Skill ini memandu pembuatan modul fitur baru di `apps/web-kopkar` (domain `@ekyaaa`) atau `apps/web-marketplace` (domain `@revani`) dalam batas **25 Layar Antarmuka Resmi** (`KK-SCR-xxx` / `MP-SCR-xxx`).
+
+> [!NOTE]
+> **Status Codebase Saat Ini**:
+> - `apps/web-kopkar`: aktif sebagai prototype UI (`src/features/<domain>/<Domain>View.tsx` + tab state di `src/App.tsx`).
+> - `apps/web-marketplace`: saat ini baru berisi `README.md` (belum di-scaffold).
+> - Sebelum menyentuh folder milik pengembang lain, ikuti protokol `[HANDOFF]` di `.agents/rules/frontend-ownership.md`.
 
 ---
 
-## 🏗️ Struktur Modul Fitur Frontend
-
-Setiap modul fitur wajib dienkapsulasi dalam satu folder domain:
+## 🏗️ Struktur Modul Fitur (Target Modularity)
 
 ```text
 src/features/<domain>/
-├── api/                        # Pemanggilan endpoint API domain
-│   └── <domain>-api.ts
+├── api/                        # Pemanggilan endpoint API domain (saat terhubung backend)
 ├── components/                 # Komponen UI spesifik fitur (Modal, Form, Checklist)
-│   ├── <Domain>Form.tsx
-│   └── <Domain>Table.tsx
-├── hooks/                      # Custom hooks untuk orkestrasi state & async data
-│   └── use<Domain>.ts
-├── types.ts                    # Tipe data TypeScript & DTOs
-└── index.ts                    # Public export modul fitur
-```
-
-Halaman rute kemudian dibuat tipis di:
-```text
-src/pages/<Domain>View.tsx      # Komposisi antarmuka (< 200 baris kode)
+├── hooks/                      # Custom hooks orkestrasi state & async data
+├── types.ts                    # TypeScript interfaces & DTOs
+└── <Domain>View.tsx            # Komposisi view tipis (< 200 LOC; atau di src/pages/ saat memakai router)
 ```
 
 Lihat [references/templates.md](references/templates.md) untuk template kode acuan.
 
 ---
 
-## ⚡ Langkah Eksekusi (Step-by-Step)
+## ⚡ Langkah Eksekusi
 
-### Langkah 1: Tentukan Identitas Layar Resmi
-Periksa nomor ID layar resmi pada `02-business-knowledge-sync.md`:
-- KOPKAR: `KK-SCR-001` s/d `KK-SCR-014`
-- MARKETPLACE: `MP-SCR-001` s/d `MP-SCR-011`
+1. **Verifikasi Layar & Ownership**: Cocokkan ID layar pada `.agents/skills/project-knowledge-sync/references/screen-catalog.md` dan cek kepemilikan folder (`@ekyaaa` vs `@revani`).
+2. **Definisikan Kontrak Data (`types.ts`)**: Selaraskan DTO dengan schema Pydantic target atau kontrak di `docs/project-knowledge/`.
+3. **Pisahkan Logic ke Hooks (`hooks/use<Domain>.ts`) & API (`api/`)**: Jaga agar view tidak menampung logika bisnis atau fetch langsung.
+4. **Gunakan Komponen UI & Token Resmi**: Pakai komponen di `src/components/ui/` serta token warna dari `docs/COLOR_PALETTE.md` dan `.agents/rules/07-ui-design-system.md` (tanpa CDN eksternal).
+5. **Jaga Budget < 200 LOC**: Pastikan file komposisi view/page (`*View.tsx`, `App.tsx`) tetap di bawah 200 baris kode.
 
-### Langkah 2: Definisikan Kontrak Data (`types.ts`)
-1. Buat interface data domain, filter state, dan payload request/response.
-2. Selaraskan dengan schema Pydantic pada backend (`apps/backend`).
+---
 
-### Langkah 3: Tulis API Client (`api/<domain>-api.ts`)
-1. Gunakan instance `apiClient` dari `src/lib/api-client.ts`.
-2. Kembalikan data bertipe pasti (`Promise<EntityResponse>`).
+## ✅ Verification
 
-### Langkah 4: Buat Custom Hook (`hooks/use<Domain>.ts`)
-1. Kelola state data server: `data`, `isLoading`, `error`, serta fungsi mutasi (`submit`, `refresh`).
-2. Tampilkan feedback visual (toast notification) pada skenario sukses/gagal.
-3. Jaga agar logika bisnis tidak bocor ke dalam komponen tampilan.
-
-### Langkah 5: Bangun Komponen Fitur Menggunakan Reusable UI Primitives
-1. Gunakan komponen UI dasar dari `src/components/ui/` (`Button`, `Input`, `StatusBadge`, `Modal`, `Card`).
-2. Hindari membuat inline styling kustom yang menyimpang dari token desain pada `07-ui-design-system.md`.
-
-### Langkah 6: Susun Halaman Tipis (`src/pages/<Domain>View.tsx`)
-1. Pastikan panjang berkas **di bawah 200 baris kode**.
-2. Komposisikan header halaman, breadcrumbs, pemanggilan hook, dan peletakan komponen fitur.
-
-### Langkah 7: Daftarkan Rute pada `src/app/router.tsx`
-1. Pasang proteksi route guard berdasarkan role pengguna (`RequireAuth`, `RequireRole`).
-2. Pastikan rute terdaftar dengan path URL yang bersih dan teratur.
+Verifikasi kompilasi TypeScript (`tsc -b`) dan bundle produksi Vite pada aplikasi target:
+```bash
+pnpm --dir apps/web-kopkar build
+# atau untuk apps/web-marketplace setelah di-scaffold:
+pnpm --dir apps/web-marketplace build
+```
+Pastikan build selesai dengan exit code 0 tanpa error TypeScript.

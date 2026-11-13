@@ -1,13 +1,14 @@
 ---
-trigger: always_on
-description: "Non-negotiable frontend ownership boundaries, multi-agent coordination protocol, and task traceability rules for KOPKARSAI Ecosystem."
+trigger: glob
+globs: "apps/web-kopkar/**, apps/web-marketplace/**, apps/web-gateway/**"
+description: "Frontend ownership boundaries (@ekyaaa vs @revani), coordination protocol, and task traceability rules."
 ---
 
 # KopKar SAI — Frontend Ownership & Multi-Agent Coordination Rules
 
 ## Rule Identity
-- **Activation**: **Always On**
-- **Scope**: Entire repository, specifically `apps/web-kopkar/`, `apps/web-marketplace/`, and `apps/web-gateway/`.
+- **Activation**: **Glob (`apps/web-kopkar/**`, `apps/web-marketplace/**`, `apps/web-gateway/**`)**
+- **Scope**: `apps/web-kopkar/`, `apps/web-marketplace/`, dan `apps/web-gateway/`.
 - **Precedence**: Strict architectural isolation. Agent safety and ownership boundaries take precedence over feature convenience.
 
 ---
@@ -24,8 +25,8 @@ Sistem pengembangan frontend KOPKARSAI memisahkan tanggung jawab secara tegas an
 │                         │                   │ financial, profile, supplier-hub, auth}/     │
 │ Koperasi Admin          │ @ekyaaa           │ apps/web-kopkar/src/features/admin/          │
 │ Marketplace             │ @revani           │ apps/web-marketplace/src/features/           │
-│ Shared Ecosystem        │ @ekyaaa & @revani │ apps/web-gateway/, packages/ui/,             │
-│                         │                   │ shared design tokens & root configs          │
+│ Shared Ecosystem        │ @ekyaaa & @revani │ apps/web-gateway/, shared design tokens,     │
+│                         │                   │ root configs, & planned packages/ui/         │
 └─────────────────────────┴───────────────────┴──────────────────────────────────────────────┘
 ```
 
@@ -92,50 +93,14 @@ Papan koordinasi terpusat dikelola melalui satu GitHub Issue khusus:
 
 ### Format Pesan Terstruktur (Tagging Protocol)
 
-Setiap koordinasi antar agen / pemilik wajib menggunakan salah satu tag standar berikut:
+Gunakan tag standar `[HANDOFF]`, `[ACK]`, `[BLOCKED]`, atau `[READY_FOR_REVIEW]` pada komentar issue board:
 
-#### `[HANDOFF]` (Delegasi Antar Domain)
 ```markdown
-**[HANDOFF]**
-From: @ekyaaa
-To: @revani
-Domain: Shared Frontend / Marketplace Handoff
-Feature: MP-FTR-002 / KK-FTR-006
-Issue: #IssueNumber
-Request: Koordinasi payload mock data pesanan katering H-1 dari keranjang ke dasbor supplier
-Reason: Perubahan struktur ringkasan item katering mempengaruhi tampilan supplier hub
-Affected Files: apps/web-kopkar/src/types/index.ts, apps/web-marketplace/src/types/cart.ts
-Status: Pending Acknowledgment
-```
-
-#### `[ACK]` (Konfirmasi Penerimaan Tugas)
-```markdown
-**[ACK]**
-From: @revani
-To: @ekyaaa
-Issue: #IssueNumber
-Status: Acknowledged & Under Implementation
-ETA / Target: Sprint 4 / Demo 5 Des 2026
-```
-
-#### `[BLOCKED]` (Eskalasi Hambatan)
-```markdown
-**[BLOCKED]**
-From: @revani
-Owner: @revani
-Feature: PROP-OOS-ACC-001
-Reason: Menunggu konfirmasi format data response mock payment gateway Mandiri
-Required Action: Konfirmasi representatif bank / mock specification
-Status: FE: Blocked
-```
-
-#### `[READY_FOR_REVIEW]` (Siap Peninjauan)
-```markdown
-**[READY_FOR_REVIEW]**
-From: @ekyaaa
-To: @revani
-Feature: SH-FTR-001
-Branch: feat/12-gateway-sso-panels
-PR: #PullRequestNumber
-Verification: Tested responsive mobile & desktop, animation 60fps
+**[HANDOFF | ACK | BLOCKED | READY_FOR_REVIEW]**
+From: @sender | To: @recipient
+Domain: [Koperasi / Marketplace / Shared]
+Feature: [FEATURE_ID] | Issue: #IssueNumber | Branch/PR: [jika ada]
+Summary / Request: [Detail serah-terima, konfirmasi, atau alasan blocker]
+Affected Files: [Path berkas terkait]
+Status: [Pending Acknowledgment / Under Implementation / FE: Blocked / Ready for Review]
 ```
