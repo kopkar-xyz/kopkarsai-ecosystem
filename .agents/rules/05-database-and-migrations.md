@@ -1,13 +1,13 @@
 ---
-trigger: model_decision
-description: "Use for database schema changes, PostgreSQL models, migrations, Alembic, schema isolation, and financial calculation invariants."
+trigger: glob
+globs: "apps/backend/**"
+description: "Database schema isolation (shared_auth, schema_kopkar, schema_marketplace), Numeric(15,2) financial invariants, and Alembic rules."
 ---
 
 # KopKar SAI — Database Schema, Schema Isolation & Migrations Rule
 
 ## Rule Identity
-- **Activation**: **Model Decision**
-- **Description**: *"Use for database schema changes, PostgreSQL models, migrations, Alembic, schema isolation, and financial calculation invariants."*
+- **Activation**: **Glob (`apps/backend/**`)**
 - **Scope**: Database entities, migrations, and SQL workflows across PostgreSQL.
 
 ---
@@ -82,10 +82,4 @@ class BaseAuditModel:
 
 ## 4. Siklus Migrasi Basis Data (Alembic)
 
-1. **Satu Perubahan — Satu Revisi**: Setiap perubahan pada model SQLAlchemy wajib disertai file migrasi Alembic yang dihasilkan di `apps/backend/alembic/versions/`.
-2. **Reversibilitas Migrasi**: Setiap file migrasi wajib mendefinisikan fungsi `upgrade()` dan `downgrade()` secara simetris.
-3. **Pemberian Nama Deskriptif**: Berikan pesan migrasi yang jelas:
-   ```bash
-   alembic revision --autogenerate -m "create_member_verification_and_supplier_tables"
-   ```
-4. **Verifikasi Constraint & Enum**: Pastikan constraint foreign key dan nilai enum terdaftar eksplisit sebelum menjalankan `alembic upgrade head`.
+Setiap perubahan model wajib disertai revisi Alembic simetris (`upgrade()` & `downgrade()`) dengan constraint/enum eksplisit di `apps/backend/alembic/versions/`. Untuk prosedur lengkap langkah demi langkah, gunakan skill `db-migration-sync`.

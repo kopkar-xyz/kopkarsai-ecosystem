@@ -1,13 +1,13 @@
 ---
-trigger: model_decision
-description: "Use for backend engineering tasks in apps/backend: FastAPI structure, routers, schemas, services, repositories, models, auth, and business logic."
+trigger: glob
+globs: "apps/backend/**"
+description: "FastAPI modular monolith structure, unidirectional layers, Pydantic v2 schemas, and async DB patterns for apps/backend."
 ---
 
 # KopKar SAI — FastAPI Backend Architecture Rule
 
 ## Rule Identity
-- **Activation**: **Model Decision**
-- **Description**: *"Use for backend engineering tasks in apps/backend: FastAPI structure, routers, schemas, services, repositories, models, auth, and business logic."*
+- **Activation**: **Glob (`apps/backend/**`)**
 - **Scope**: All code inside `apps/backend/`.
 
 ---

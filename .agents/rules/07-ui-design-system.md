@@ -1,14 +1,14 @@
 ---
-trigger: model_decision
-description: "Use for UI/UX styling, design tokens, color palettes, responsive layouts, typography, and status badge styling in KopKar and Marketplace."
+trigger: glob
+globs: "apps/web-kopkar/**, apps/web-marketplace/**, apps/web-gateway/**"
+description: "UI/UX styling, design tokens, color palettes, typography, and status badge styling across KopKar, Marketplace, and Gateway."
 ---
 
 # KopKar SAI — UI Design System & Token Specifications
 
 ## Rule Identity
-- **Activation**: **Model Decision**
-- **Description**: *"Use for UI/UX styling, design tokens, color palettes, responsive layouts, typography, and status badge styling in KopKar and Marketplace."*
-- **Scope**: All styling, themes, and UI presentation components across `apps/web-kopkar` and `apps/web-marketplace`.
+- **Activation**: **Glob (`apps/web-kopkar/**`, `apps/web-marketplace/**`, `apps/web-gateway/**`)**
+- **Scope**: All styling, themes, and UI presentation components across `apps/web-kopkar`, `apps/web-marketplace`, and `apps/web-gateway`.
 
 ---
 
@@ -58,15 +58,5 @@ KopKar SAI memadukan citra **koperasi karyawan modern yang terpercaya, transpara
 
 ## 4. Typography Standards
 
-- Gunakan font sans-serif modern yang terbaca jelas: `Inter`, `Plus Jakarta Sans`, atau sistem fallback sans-serif.
-- Format nominal Rupiah wajib menggunakan separator ribuan baku:
-  - Format yang benar: `Rp 15.000,-` atau `Rp 1.250.000` (menggunakan helper `formatCurrencyIDR`).
-  - Dilarang menampilkan format mentah seperti `15000` atau `Rp15000.0`.
-
----
-
-## 5. Micro-Animations & Interactivity
-
-- Setiap tombol interaktif memiliki visual state: `hover:bg-opacity-90`, `active:scale-[0.98]`, `transition-all duration-150`.
-- Tampilkan skeleton loading atau spinner yang konsisten saat menunggu server request.
-- Tampilkan feedback toast notifikasi (`success`, `error`, `info`) di pojok antarmuka setelah aksi pengguna selesai.
+- Gunakan font sans-serif modern sesuai token aplikasi (`Plus Jakarta Sans` pada KopKar/Marketplace, `Zen Old Mincho` & `Zen Kaku Gothic New` pada Gateway).
+- Format nominal Rupiah wajib menggunakan separator ribuan baku via `formatCurrencyIDR` (contoh: `Rp 1.250.000`). Dilarang menampilkan angka mentah seperti `15000` atau `Rp15000.0`.

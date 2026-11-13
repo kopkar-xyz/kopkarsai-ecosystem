@@ -1,14 +1,14 @@
 ---
-trigger: model_decision
-description: "Use for React frontend engineering tasks in apps/web-kopkar or apps/web-marketplace: component hierarchy, feature modularity, routing, custom hooks, and API integration."
+trigger: glob
+globs: "apps/web-kopkar/**, apps/web-marketplace/**, apps/web-gateway/**"
+description: "React frontend component hierarchy, feature modularity, 200-line view budget, and API integration patterns."
 ---
 
 # KopKar SAI — React Frontend Architecture & Modularity Rule
 
 ## Rule Identity
-- **Activation**: **Model Decision**
-- **Description**: *"Use for React frontend engineering tasks in apps/web-kopkar or apps/web-marketplace: component hierarchy, feature modularity, routing, custom hooks, and API integration."*
-- **Scope**: Frontend code in `apps/web-kopkar/` and `apps/web-marketplace/`.
+- **Activation**: **Glob (`apps/web-kopkar/**`, `apps/web-marketplace/**`, `apps/web-gateway/**`)**
+- **Scope**: Frontend code in `apps/web-kopkar/`, `apps/web-marketplace/`, and `apps/web-gateway/`.
 
 ---
 
