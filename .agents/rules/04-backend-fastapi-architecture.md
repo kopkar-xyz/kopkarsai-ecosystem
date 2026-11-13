@@ -12,7 +12,10 @@ description: "FastAPI modular monolith structure, unidirectional layers, Pydanti
 
 ---
 
-## 1. Modular Monolith Canonical Layout
+## 1. Target Modular Monolith Layout
+
+> [!NOTE]
+> **Status Codebase Saat Ini**: `apps/backend/` saat ini baru berisi `README.md` (belum di-scaffold). Struktur di bawah ini adalah **Target Architecture** yang wajib diikuti saat menginisialisasi layanan backend.
 
 Backend dikembangkan sebagai modular monolith berbasis **FastAPI** dengan batas tanggung jawab antarlapisan yang tegas:
 

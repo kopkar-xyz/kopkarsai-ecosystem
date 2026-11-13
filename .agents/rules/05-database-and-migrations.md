@@ -12,7 +12,10 @@ description: "Database schema isolation (shared_auth, schema_kopkar, schema_mark
 
 ---
 
-## 1. Schema Isolation Architecture
+## 1. Target Schema Isolation Architecture
+
+> [!NOTE]
+> **Status Codebase Saat Ini**: `apps/backend/` dan direktori migrasi `alembic/versions/` belum di-scaffold di repo (saat ini baru tersedia `apps/backend/README.md`). Aturan di bawah ini menjadi kontrak target saat menginisialisasi model & migrasi.
 
 Sesuai rancangan topologi pada `docs/project-knowledge/docs/architecture/system-topology.md`, database PostgreSQL tunggal dibagi ke dalam 3 namespace/schema logis:
 

@@ -23,11 +23,13 @@ trigger: always_on
 kopkarsai-ecosystem/
 ├── .agents/                    # Rules & skills Antigravity
 ├── apps/
-│   ├── backend/                # FastAPI modular monolith
-│   ├── web-kopkar/             # React + TypeScript (Koperasi)
-│   └── web-marketplace/        # React + TypeScript (Marketplace)
+│   ├── backend/                # [Target] FastAPI modular monolith (saat ini baru README.md)
+│   ├── web-gateway/            # [Current] Single-page gateway Kyoto Heritage (React + GSAP)
+│   ├── web-kopkar/             # [Current] Prototype UI Koperasi (React + Tailwind, mock data)
+│   └── web-marketplace/        # [Target] Marketplace belanja karyawan (saat ini baru README.md)
 ├── docs/project-knowledge/     # [Submodule] YAML SoT, specs, LaTeX kontrak
-└── scripts/agentic/            # Orkestrasi workflow & GitHub Project
+├── scripts/agentic/            # [Current] Orkestrasi workflow & GitHub Project
+└── tests/agentic/              # [Current] Unit tests tooling agentic
 ```
 
 - **VPS Budget (`4 vCPU / 8 GB RAM` + `4 GB` NVMe swap)**: Detail alokasi ada di [system-topology.md](docs/project-knowledge/docs/architecture/system-topology.md).

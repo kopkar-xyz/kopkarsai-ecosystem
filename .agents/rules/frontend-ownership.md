@@ -25,8 +25,8 @@ Sistem pengembangan frontend KOPKARSAI memisahkan tanggung jawab secara tegas an
 │                         │                   │ financial, profile, supplier-hub, auth}/     │
 │ Koperasi Admin          │ @ekyaaa           │ apps/web-kopkar/src/features/admin/          │
 │ Marketplace             │ @revani           │ apps/web-marketplace/src/features/           │
-│ Shared Ecosystem        │ @ekyaaa & @revani │ apps/web-gateway/, packages/ui/,             │
-│                         │                   │ shared design tokens & root configs          │
+│ Shared Ecosystem        │ @ekyaaa & @revani │ apps/web-gateway/, shared design tokens,     │
+│                         │                   │ root configs, & planned packages/ui/         │
 └─────────────────────────┴───────────────────┴──────────────────────────────────────────────┘
 ```
 

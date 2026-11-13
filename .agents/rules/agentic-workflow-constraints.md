@@ -11,11 +11,11 @@ This document establishes non-negotiable architectural boundaries and safety con
 
 ## 1. Operating Model: Supervised Autonomous Coordination
 
-- **Human Accountability**: Every task has a single human developer owner (`@ekyaaa`). The AI agent acts as a supervised pair programmer, not an unconstrained autonomous actor.
+- **Human Accountability**: Every task has an explicit human developer owner by domain (`@ekyaaa` for Koperasi/Backend lead, `@revani` for Marketplace, joint coordination for Shared — see `frontend-ownership.md`). The AI agent acts as a supervised pair programmer, not an unconstrained autonomous actor.
 - **No Unsolicited Work**: The agent must never initiate unassigned tasks, switch tasks, or create speculative branches without explicit human developer instruction.
 - **Issue Mutation Review Gate**: The agent must never autonomously create, edit, close, or delete GitHub Issues without presenting the proposal (draft/dry-run) to the developer and obtaining explicit review and approval first.
 - **Crash Invariant**: If the agent process terminates or crashes, **no automated state transition or recovery occurs**. The task remains in its last verified state until the developer resumes the session.
-- **No Autonomous Handoff (Phase 1)**: Cross-developer delegation, auto-claim bots, and autonomous cross-agent orchestrators are strictly out of scope.
+- **Supervised Handoff Boundary**: Cross-developer handoffs must go through explicit `[HANDOFF]` proposals on the coordination board (`frontend-ownership.md`); auto-claim bots and autonomous cross-agent orchestrators are strictly out of scope.
 
 ---
 

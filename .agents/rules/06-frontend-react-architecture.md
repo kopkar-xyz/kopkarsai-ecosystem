@@ -12,9 +12,13 @@ description: "React frontend component hierarchy, feature modularity, 200-line v
 
 ---
 
-## 1. Modular Feature-Driven Directory Layout
+## 1. Current vs Target Directory Layout
 
-Kedua frontend web (`web-kopkar` dan `web-marketplace`) mengadopsi arsitektur berbasis fitur domain (*feature-driven architecture*) untuk menjaga modularitas dan keterbacaan:
+- **Current Structure (`apps/web-kopkar` & `apps/web-gateway`)**:
+  - `apps/web-kopkar` saat ini menggunakan komposisi berbasis tab di `src/App.tsx` (228 LOC, mock data lokal) dengan view di `src/features/<domain>/<Domain>View.tsx`, komponen bersama di `src/components/{layout,ui}/`, dan tipe global di `src/types/index.ts`.
+  - `apps/web-gateway` sudah aktif sebagai single-page landing gateway (`src/pages/GatewayPage.tsx`, `src/hooks/useGatewayIntro.ts`, `src/config/services.ts`).
+  - `apps/web-marketplace` saat ini baru berisi `README.md` (belum di-scaffold).
+- **Target Architecture (Saat Integrasi API & Build `web-marketplace` / Refactor `web-kopkar`)**:
 
 ```text
 apps/<web-app>/src/
@@ -36,7 +40,7 @@ apps/<web-app>/src/
 │   └── <PageName>View.tsx
 │
 ├── lib/
-│   ├── api-client.ts               # Axios / Fetch client instance with auth interceptors
+│   ├── api-client.ts               # Fetch/Axios client instance with auth interceptors
 │   └── utils.ts                    # Formatting helpers (currency IDR, dates, badges)
 │
 └── main.tsx                        # React application bootstrap
@@ -44,14 +48,14 @@ apps/<web-app>/src/
 
 ---
 
-## 2. The 200-Line Page Budget Invariant
+## 2. The 200-Line View/Page Budget Invariant
 
 > [!CRITICAL]
-> **Strict Page Budget (< 200 LOC)**:
-> Halaman pada direktori `src/pages/` **tidak boleh melebihi 200 baris kode**. 
+> **Strict View/Page Budget (< 200 LOC)**:
+> File komposisi view/halaman (`src/pages/*View.tsx`, `src/features/*/*View.tsx`, maupun `src/App.tsx`) **tidak boleh melebihi 200 baris kode** pada kode baru/hasil refactor. *(Catatan: `apps/web-kopkar/src/App.tsx` saat ini 228 LOC dan perlu diringkas saat migrasi ke router/API).*
 > - Halaman hanya bertindak sebagai **lem perakit (*glue layer*)** antara layout, custom hooks, dan komponen fitur.
-> - Seluruh logika pengambilan data, mutasi, dan state management wajib diekstraksi ke dalam **custom hook** di `features/<domain>/hooks/`.
-> - Bagian UI kompleks (tabel besar, form pendaftaran bertahap, modal approval) wajib dipecah ke dalam komponen di `features/<domain>/components/`.
+> - Logika pengambilan data, mutasi, dan state management diekstraksi ke **custom hook** di `features/<domain>/hooks/`.
+> - Bagian UI kompleks dipecah ke komponen di `features/<domain>/components/`.
 
 ---
 
