@@ -44,6 +44,7 @@ playwright-report/
 .agent/developer.local.json
 .agent/task-state.json
 .agent/worktrees/
+.agent/bin/
 .agents/logs/events.jsonl
 scripts/agentic/__pycache__/
 tests/agentic/__pycache__/
