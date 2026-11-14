@@ -19,15 +19,15 @@ Seluruh antarmuka ekosistem KOPKARSAI disatukan dalam **satu bahasa desain terpa
 - **Canvas & Surface**: Kertas tradisional Washi ivory (`#FAF6F0` / `#F7F9F4`) dengan kartu bento putih berbatas halus (*soft halo borders*).
 - **Aksen Tradisional**: Emas Kyoto (*Kohaku* `#E5A812` / `#F6CE2C`), Hijau Alami (*Matcha* `#2E6B4F`), dan Biru Gelombang (*Seigaiha Indigo* `#1E3A5F`).
 - **Tipografi Resmi**:
-  - Judul / Display / Kanji: **`Zen Old Mincho`** (Serif tradisional Jepang).
-  - Teks Body / Data / Formulir: **`Zen Kaku Gothic New`** (Modern Japanese Sans-Serif).
+  - Judul / Display / Kanji / Section: **`Okashi`** (Weight `400` Regular; aset lokal: `assets/fonts/Okashi-otf/Okashi^-Regular.ttf`).
+  - Teks Body / Data / Formulir / Accent / Navigation / Label: **`M PLUS Rounded 1c`** (Weight `100`–`900`; aset lokal: `assets/fonts/M-PLUS-Rounded-1c/`).
 - **Motif Komponen Khas**:
   - *Circular Halo Frames*: Foto profil & foto makanan melingkar dengan ring halo bercahaya lembut (`ring-4 ring-sakura-200/50`).
   - *Bilingual Pill Badges*: Label dwibahasa Kanji + Inggris (contoh: `限定料理 Special`, `和食`, `Popular`).
   - *Deep Wine Curved Drawer*: Panel bottom sheet/dock berwarna merah anggur pekat (`from-sakura-900 to-sakura-950`).
 
 > [!IMPORTANT]
-> **Kebijakan Aset Lokal**: Dilarang menambahkan dependensi font/CSS/icon dari CDN eksternal pada perubahan baru. Simpan aset statis dan font secara lokal.
+> **Kebijakan Aset Lokal**: Dilarang menambahkan dependensi font/CSS/icon dari CDN eksternal pada perubahan baru. Simpan aset statis dan font secara lokal pada `assets/fonts/`.
 
 ---
 
@@ -36,7 +36,7 @@ Seluruh antarmuka ekosistem KOPKARSAI disatukan dalam **satu bahasa desain terpa
 > [!CRITICAL]
 > **Ketentuan Warna Logo vs Palet Antarmuka UI**:
 > 1. **Tidak Wajib Mengikuti Palet Asal Logo**: Desain antarmuka (UI/UX) **TIDAK DIWAJIBKAN** menjaga atau mengadopsi palet warna turunan dari logo asal (misalnya warna hijau/emerald lama tidak lagi menjadi keharusan tema UI). Dilarang memaksakan UI menjadi bernuansa hijau hanya demi menyamakan warna asal logo.
-> 2. **Prioritas Utama adalah Japanese Style**: Arah estetika antarmuka sepenuhnya memprioritaskan gaya Jepang modern (*Japanese Style / Kyoto Heritage*) dengan warna kertas Washi, Deep Crimson Wine (*Enji*), Sakura blossom, dan tipografi Mincho/Gothic.
+> 2. **Prioritas Utama adalah Japanese Style**: Arah estetika antarmuka sepenuhnya memprioritaskan gaya Jepang modern (*Japanese Style / Kyoto Heritage*) dengan warna kertas Washi, Deep Crimson Wine (*Enji*), Sakura blossom, dan tipografi **`Okashi`** / **`M PLUS Rounded 1c`**.
 > 3. **Logo Utama Wajib Tetap Kuning/Emas**: Lambang/emblem utama KOPKARSAI (elemen kelopak bunga origami) **wajib tetap berwarna kuning / emas (*Kyoto Golden Yellow*, `#F6CE2C` / `#FFD967` / `#EEB310`)** sebagai pusat identitas (*focal point*) yang kontras dan megah di atas latar belakang bertema Japanese style.
 
 ---
