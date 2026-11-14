@@ -41,15 +41,13 @@ export const GatewayPage: React.FC = () => {
       {/* Layer 2: Swaying Sakura Branches (Top-Left & Bottom-Right PNGs, pointer-events: none) */}
       <SakuraBranches />
 
-      {/* Fixed Top Brand Header: Logo dan Judul Tetap */}
-      <header className="fixed top-0 left-0 right-0 z-20 w-full flex items-center justify-center pt-4 sm:pt-6 pb-2 pointer-events-none">
-        <div className="pointer-events-auto bg-[#FFF9F9]/85 sm:bg-transparent backdrop-blur-xs sm:backdrop-blur-none px-4 py-1.5 rounded-full transition-all">
+      {/* Layer 10: Interactive Landing Page Content — Terpusat secara Vertikal */}
+      <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[100dvh] flex flex-col items-center justify-center py-6 sm:py-8">
+        {/* Concept C: Horizontal Japanese Seal Header langsung menyatu di atas banner */}
+        <header className="w-full max-w-5xl mx-auto mb-2 sm:mb-3 px-2 sm:px-4">
           <GatewayBrandHeader />
-        </div>
-      </header>
+        </header>
 
-      {/* Layer 10: Interactive Landing Page Content — Banner hingga Card Center secara Vertikal */}
-      <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[100dvh] flex flex-col items-center justify-center py-20 sm:py-24">
         {/* Horizontal Promo Banner Carousel Slider */}
         <PromoBannerSlider />
 

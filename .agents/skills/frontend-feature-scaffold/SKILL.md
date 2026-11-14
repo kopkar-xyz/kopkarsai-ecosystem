@@ -36,7 +36,7 @@ Lihat [references/templates.md](references/templates.md) untuk template kode acu
 1. **Verifikasi Layar & Ownership**: Cocokkan ID layar pada `.agents/skills/project-knowledge-sync/references/screen-catalog.md` dan cek kepemilikan folder (`@ekyaaa` vs `@revani`).
 2. **Definisikan Kontrak Data (`types.ts`)**: Selaraskan DTO dengan schema Pydantic target atau kontrak di `docs/project-knowledge/`.
 3. **Pisahkan Logic ke Hooks (`hooks/use<Domain>.ts`) & API (`api/`)**: Jaga agar view tidak menampung logika bisnis atau fetch langsung.
-4. **Gunakan Komponen UI & Token Resmi**: Pakai komponen di `src/components/ui/` serta token warna dari `docs/COLOR_PALETTE.md` dan `.agents/rules/07-ui-design-system.md` (tanpa CDN eksternal).
+4. **Gunakan Komponen UI & Token Resmi**: Pakai komponen di `src/components/ui/` serta token warna dari `apps/<webapp>/docs/COLOR_PALETTE.md` dan `.agents/rules/07-ui-design-system.md` (tanpa CDN eksternal).
 5. **Jaga Budget < 200 LOC**: Pastikan file komposisi view/page (`*View.tsx`, `App.tsx`) tetap di bawah 200 baris kode.
 
 ---
