@@ -151,6 +151,10 @@ def validate_identity(data: Dict[str, Any]) -> Tuple[bool, List[str]]:
 
 def find_gh_binary() -> Optional[str]:
     """Find native GitHub CLI binary."""
+    workspace_gh = get_repo_root() / ".agent/bin/gh"
+    if workspace_gh.is_file() and os.access(workspace_gh, os.X_OK):
+        return str(workspace_gh)
+
     user_local = Path("/home/mashupsoat/.local/bin/gh")
     if user_local.is_file() and os.access(user_local, os.X_OK):
         return str(user_local)

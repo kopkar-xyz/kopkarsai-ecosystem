@@ -1,102 +1,112 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
-
-export type BadgeStatusType =
-  | 'PENDING'
-  | 'ACCEPTED'
-  | 'REJECTED'
-  | 'IN_REVIEW'
-  | 'ACC'
-  | 'REVISION'
-  | 'ACTIVE'
-  | 'PRIORITY_GA';
+import type { OperationalStatus } from '../../types';
 
 interface StatusBadgeProps {
-  status: BadgeStatusType | string;
+  status: OperationalStatus;
   label?: string;
   size?: 'sm' | 'md';
   className?: string;
+  showDot?: boolean;
 }
+
+const STATUS_CONFIG: Record<
+  OperationalStatus,
+  { bg: string; border: string; text: string; dot: string; label: string; kanji: string }
+> = {
+  PENDING: {
+    bg: 'bg-[#FEF6DC]',
+    border: 'border-[#FDE68A]',
+    text: 'text-[#78350F]',
+    dot: 'bg-[#E5A812]',
+    label: 'Menunggu',
+    kanji: '保留',
+  },
+  ACCEPTED: {
+    bg: 'bg-[#EAF4EE]',
+    border: 'border-[#A9C3A2]',
+    text: 'text-[#1F5B45]',
+    dot: 'bg-[#2F6F56]',
+    label: 'Diterima',
+    kanji: '承認',
+  },
+  ACTIVE: {
+    bg: 'bg-[#EAF4EE]',
+    border: 'border-[#A9C3A2]',
+    text: 'text-[#1F5B45]',
+    dot: 'bg-[#2F6F56]',
+    label: 'Aktif',
+    kanji: '有効',
+  },
+  IN_REVIEW: {
+    bg: 'bg-[#EEF2F6]',
+    border: 'border-[#BFDBFE]',
+    text: 'text-[#1E3A5F]',
+    dot: 'bg-[#3B82F6]',
+    label: 'Diproses',
+    kanji: '審査中',
+  },
+  REJECTED: {
+    bg: 'bg-[#FDF0F3]',
+    border: 'border-[#FECDD3]',
+    text: 'text-[#9F1239]',
+    dot: 'bg-[#DC4C70]',
+    label: 'Ditolak',
+    kanji: '却下',
+  },
+  REVISION: {
+    bg: 'bg-[#FFF3E6]',
+    border: 'border-[#FED7AA]',
+    text: 'text-[#9A3412]',
+    dot: 'bg-[#F97316]',
+    label: 'Revisi',
+    kanji: '修正',
+  },
+  PRIORITY_GA: {
+    bg: 'bg-[#FEF9C3]',
+    border: 'border-[#FDE047]',
+    text: 'text-[#854D0E]',
+    dot: 'bg-[#E5A812]',
+    label: 'Prioritas GA',
+    kanji: '優先',
+  },
+};
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({
   status,
   label,
   size = 'md',
   className = '',
+  showDot = true,
 }) => {
-  const normalized = status.toUpperCase();
-
-  const configs: Record<string, { bg: string; text: string; dot: string; defaultLabel: string }> = {
-    PENDING: {
-      bg: 'bg-amber-100 text-amber-900 border-amber-200/80',
-      text: 'text-amber-900',
-      dot: 'bg-amber-500',
-      defaultLabel: 'Menunggu',
-    },
-    ACCEPTED: {
-      bg: 'bg-emerald-100 text-emerald-900 border-emerald-200/80',
-      text: 'text-emerald-900',
-      dot: 'bg-emerald-500',
-      defaultLabel: 'Sanggup',
-    },
-    ACC: {
-      bg: 'bg-emerald-100 text-emerald-900 border-emerald-200/80',
-      text: 'text-emerald-900',
-      dot: 'bg-emerald-500',
-      defaultLabel: 'Disetujui (ACC)',
-    },
-    ACTIVE: {
-      bg: 'bg-emerald-100 text-emerald-900 border-emerald-200/80',
-      text: 'text-emerald-900',
-      dot: 'bg-emerald-500',
-      defaultLabel: 'Aktif',
-    },
-    REJECTED: {
-      bg: 'bg-rose-100 text-rose-900 border-rose-200/80',
-      text: 'text-rose-900',
-      dot: 'bg-rose-500',
-      defaultLabel: 'Berhalangan',
-    },
-    IN_REVIEW: {
-      bg: 'bg-blue-100 text-blue-900 border-blue-200/80',
-      text: 'text-blue-900',
-      dot: 'bg-blue-500',
-      defaultLabel: 'Sedang Diuji',
-    },
-    REVISION: {
-      bg: 'bg-orange-100 text-orange-900 border-orange-200/80',
-      text: 'text-orange-900',
-      dot: 'bg-orange-500',
-      defaultLabel: 'Revisi',
-    },
-    PRIORITY_GA: {
-      bg: 'bg-kopkar-gold-light text-kopkar-dark border-kopkar-gold/40',
-      text: 'text-kopkar-dark',
-      dot: 'bg-kopkar-gold',
-      defaultLabel: 'Prioritas GA',
-    },
-  };
-
-  const current = configs[normalized] || {
-    bg: 'bg-slate-100 text-slate-700 border-slate-200',
-    text: 'text-slate-700',
-    dot: 'bg-slate-400',
-    defaultLabel: status,
-  };
-
-  const sizeClasses = size === 'sm' ? 'text-[10px] px-2 py-0.5' : 'text-xs px-2.5 py-1';
+  const config = STATUS_CONFIG[status] || STATUS_CONFIG.PENDING;
+  const displayLabel = label || config.label;
 
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 font-semibold rounded-full border shadow-2xs select-none',
-        current.bg,
-        sizeClasses,
+        'inline-flex items-center gap-1.5 font-accent font-semibold rounded-full border transition-colors select-none',
+        config.bg,
+        config.border,
+        config.text,
+        size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-2.5 py-1 text-xs sm:text-sm',
         className
       )}
     >
-      <span className={cn('w-1.5 h-1.5 rounded-full animate-pulse', current.dot)} />
-      {label || current.defaultLabel}
+      {showDot && (
+        <span
+          className={cn(
+            'rounded-full animate-pulse flex-shrink-0',
+            config.dot,
+            size === 'sm' ? 'w-1.5 h-1.5' : 'w-2 h-2'
+          )}
+          aria-hidden="true"
+        />
+      )}
+      <span>{displayLabel}</span>
+      <span className="text-[10px] opacity-75 font-kanji hidden sm:inline">
+        {config.kanji}
+      </span>
     </span>
   );
 };

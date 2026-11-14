@@ -1,45 +1,38 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'white' | 'emerald' | 'cream' | 'mint' | 'gold' | 'dark';
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: 'default' | 'forest' | 'sage' | 'ivory';
   padding?: 'none' | 'sm' | 'md' | 'lg';
-  interactive?: boolean;
 }
 
 export const Card: React.FC<CardProps> = ({
   children,
-  variant = 'white',
+  className = '',
+  variant = 'default',
   padding = 'md',
-  interactive = false,
-  className,
   ...props
 }) => {
-  const baseStyles = 'rounded-3xl relative overflow-hidden transition-all duration-200';
-
-  const variants = {
-    white: 'bg-white border border-slate-100 shadow-bento text-slate-800',
-    emerald: 'bg-kopkar-primary text-white shadow-lg',
-    cream: 'bg-kopkar-cream border border-amber-100 shadow-bento text-kopkar-dark',
-    mint: 'bg-kopkar-mint border border-emerald-100/70 shadow-bento text-kopkar-dark',
-    gold: 'bg-kopkar-gold text-kopkar-dock shadow-card-gold',
-    dark: 'bg-kopkar-dock text-white shadow-xl',
+  const variantStyles = {
+    default: 'bg-white border border-[#DED5C3] shadow-bento',
+    forest: 'bg-[#1F5B45] text-white border border-[#2F6F56] shadow-bento',
+    sage: 'bg-[#EAF4EE] border border-[#A9C3A2]/70 shadow-bento',
+    ivory: 'bg-[#F8F4EC] border border-[#DED5C3] shadow-bento',
   };
 
-  const paddings = {
+  const paddingStyles = {
     none: 'p-0',
-    sm: 'p-4',
-    md: 'p-5 sm:p-6',
+    sm: 'p-3 sm:p-4',
+    md: 'p-4 sm:p-6',
     lg: 'p-6 sm:p-8',
   };
 
   return (
     <div
       className={cn(
-        baseStyles,
-        variants[variant],
-        paddings[padding],
-        interactive && 'cursor-pointer hover:shadow-bento-hover hover:-translate-y-0.5 active:translate-y-0',
+        'rounded-2.5xl sm:rounded-3xl transition-all duration-200 overflow-hidden font-body',
+        variantStyles[variant],
+        paddingStyles[padding],
         className
       )}
       {...props}

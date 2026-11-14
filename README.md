@@ -67,7 +67,7 @@ kopkarsai-ecosystem/
 │   ├── web-kopkar/                        # React + TypeScript frontend Koperasi (Mobile-First)
 │   └── web-marketplace/                   # React + TypeScript frontend Marketplace
 ├── docs/
-│   ├── COLOR_PALETTE.md                   # Dokumentasi resmi design tokens Soft Emerald × Golden Bento
+│   ├── COLOR_PALETTE.md                   # Dokumentasi induk sistem desain terpadu Japanese Style (Kyoto Heritage)
 │   └── project-knowledge/                 # [Git Submodule] Single Source of Truth:
 │       ├── data/                          # Requirements (KK-REQ, MP-REQ), Decisions, Business Rules
 │       ├── docs/                          # Technical specs, architecture decisions
