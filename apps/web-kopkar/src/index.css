@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   Kyoto Heritage Typography: Local Self-Hosted Fonts
+   Zen Old Mincho (Heading & Kanji)
+   ========================================================================== */
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Bold.ttf') format('truetype');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Black.ttf') format('truetype');
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -19,6 +47,16 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 700;
+  }
+}
+
+@layer utilities {
+  .tategaki {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-style: normal !important;
+    letter-spacing: 0.22em;
+    font-family: 'Zen Old Mincho', serif !important;
   }
 }
 

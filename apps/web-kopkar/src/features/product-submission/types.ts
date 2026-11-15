@@ -1,51 +1,134 @@
-export type ProductCategory =
-  | 'Katering H-1'
-  | 'Toko Same-Day'
-  | 'Minuman Kantin'
-  | 'Snack & Kue Basah';
+export type ProductKind =
+  | 'Gorengan'
+  | 'Jajanan Basah'
+  | 'Jajanan Kering'
+  | 'Keripik / Kerupuk'
+  | 'Jajanan Buah'
+  | 'Minuman (Es)'
+  | 'Minuman (Non Es)'
+  | 'Lain-lain';
 
-export type ItemOrigin = 'PRODUKSI_SENDIRI' | 'RESELLER';
+export type SupplyLocation = 'SAI-T' | 'SAI-B';
 
-export type StorageRecommendation = 'SUHU_RUANG' | 'CHILLER' | 'WARMER';
+export type SupplyScheduleTime =
+  | 'Shift A'
+  | 'Shift B'
+  | 'Setiap Pagi'
+  | 'Setiap Malam'
+  | 'Tunggu Barang Habis';
+
+export type ShelfLifeDuration =
+  | 'Setiap Akhir Shift'
+  | 'Setiap 2 Shift'
+  | 'Jangka Waktu Tertentu';
+
+export type ItemOrigin = 'BUAT_SENDIRI' | 'SUPPLY_ORANG';
 
 export type DropDay = 'SELASA' | 'RABU';
 
-export type WorkShift = 'SHIFT_A' | 'SHIFT_B';
+export type DropShift = 'SHIFT_A' | 'SHIFT_B';
 
-export type DropLocation = 'SAI_B' | 'SAI_T';
+export type SubmissionStatus =
+  | 'MENUNGGU_PENGUJIAN'
+  | 'PERLU_REVISI'
+  | 'DITOLAK'
+  | 'DISETUJUI'
+  | 'DRAFT';
 
-export interface ProductSubmissionFormData {
+export interface ProductFormData {
+  id?: string;
   name: string;
-  category: ProductCategory;
+  productType: ProductKind;
   origin: ItemOrigin;
-  description: string;
-  ingredients: string;
-  shelfLife: string;
-  storage: StorageRecommendation;
-  costPrice: number; // HPP (Harga Beli Koperasi)
-  sellingPrice: number; // Usulan Harga Jual Konsumen
-  dailyCapacity: number; // Estimasi Kapasitas Pasokan/Hari
+  supplyLocation: SupplyLocation;
+  supplySchedule: SupplyScheduleTime;
+  shelfLife: ShelfLifeDuration;
+  customShelfLifeDays?: number;
+  costPrice: number; // Harga beli koperasi (HPP)
+  sellingPrice: number; // Harga jual koperasi
+  qtyKirim: number; // Qty kirim
+  weightGrams?: string; // Berat (diisi pengurus koperasi - inactive)
+  productionDuration: string; // Lama pembuatan (cth: "2 Jam")
+  deliveryTimeWindow: string; // Rentang waktu pengiriman (cth: "06:00 - 06:45 WIB")
+  productionTime: string; // Jam pembuatan (cth: "04:30 WIB")
+  ingredients: string[]; // List komposisi barang
+  additionalNotes: string; // Keterangan tambahan
   imageFile: File | null;
   imagePreviewUrl: string;
-  dropDay: DropDay;
-  dropShift: WorkShift;
-  dropLocation: DropLocation;
-  samplePortions: number;
-  notes: string;
-  agreedToTerms: boolean;
 }
 
-export type SubmissionFormErrors = Partial<Record<keyof ProductSubmissionFormData, string>>;
+export interface SubmissionScheduleFormData {
+  dropDay: DropDay; // Selasa / Rabu
+  dropShift: DropShift; // Shift A / Shift B
+  dropLocation: SupplyLocation; // SAI-T / SAI-B
+}
 
-export interface SubmissionSummary {
-  submissionId: string;
+export interface CompleteSubmissionFormData extends ProductFormData, SubmissionScheduleFormData {
+  editingSubmissionId?: string; // Jika dalam mode revisi pengajuan
+}
+
+export type SubmissionFormErrors = Partial<Record<keyof CompleteSubmissionFormData | 'ingredientsInput', string>>;
+
+export interface SubmissionTransaction {
+  id: string; // cth: SUB-2024-001
+  productId: string;
   productName: string;
-  category: ProductCategory;
+  productType: ProductKind;
+  origin: ItemOrigin;
+  supplyLocation: SupplyLocation;
+  dropDay: DropDay;
+  dropShift: DropShift;
+  dropLocation: SupplyLocation;
+  qtyKirim: number;
   costPrice: number;
   sellingPrice: number;
-  marginAmount: number;
-  marginPercent: number;
-  dropScheduleText: string;
-  status: 'MENUNGGU_PENGUJIAN' | 'DRAFT';
-  submittedAt: string;
+  status: SubmissionStatus;
+  submissionDate: string;
+  revisionNotes?: string;
+  formDataSnapshot: CompleteSubmissionFormData;
+}
+
+export interface DetailedProduct {
+  id: string;
+  name: string;
+  productType: ProductKind;
+  origin: ItemOrigin;
+  supplyLocation: SupplyLocation;
+  supplySchedule: SupplyScheduleTime;
+  shelfLife: ShelfLifeDuration;
+  customShelfLifeDays?: number;
+  costPrice: number;
+  sellingPrice: number;
+  qtyKirim: number;
+  weightGrams?: string;
+  productionDuration: string;
+  deliveryTimeWindow: string;
+  productionTime: string;
+  ingredients: string[];
+  additionalNotes: string;
+  imagePreviewUrl: string;
+  submissionStatus: SubmissionStatus;
+  isActive: boolean; // Aktif / Nonaktif oleh supplier jika sudah disetujui pengurus
+  stock: number;
+  transactions: SubmissionTransaction[];
+}
+
+export interface RegisteredProduct {
+  id: string;
+  name: string;
+  productType: ProductKind;
+  origin: ItemOrigin;
+  supplyLocation: SupplyLocation;
+  supplySchedule: SupplyScheduleTime;
+  shelfLife: ShelfLifeDuration;
+  costPrice: number;
+  sellingPrice: number;
+  qtyKirim: number;
+  ingredients: string[];
+  productionDuration: string;
+  deliveryTimeWindow: string;
+  productionTime: string;
+  imagePreviewUrl: string;
+  submissionCount: number;
+  activeStatus: 'ACTIVE' | 'INACTIVE';
 }

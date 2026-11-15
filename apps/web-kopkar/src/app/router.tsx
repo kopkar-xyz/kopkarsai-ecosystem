@@ -1,6 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type RoutePath = '/' | '/orders' | '/products' | '/products/new' | '/financial' | '/profile';
+export type RoutePath =
+  | '/'
+  | '/orders'
+  | '/products'
+  | '/products/new'
+  | '/products/detail'
+  | '/financial'
+  | '/profile';
 
 interface RouterContextType {
   currentPath: RoutePath;
@@ -18,7 +25,15 @@ interface RouterProviderProps {
   children: React.ReactNode;
 }
 
-const VALID_PATHS: RoutePath[] = ['/', '/orders', '/products', '/products/new', '/financial', '/profile'];
+const VALID_PATHS: RoutePath[] = [
+  '/',
+  '/orders' as RoutePath,
+  '/products' as RoutePath,
+  '/products/new' as RoutePath,
+  '/products/detail' as RoutePath,
+  '/financial' as RoutePath,
+  '/profile' as RoutePath,
+];
 
 export const RouterProvider: React.FC<RouterProviderProps> = ({ children }) => {
   const [currentPath, setCurrentPath] = useState<RoutePath>(() => {

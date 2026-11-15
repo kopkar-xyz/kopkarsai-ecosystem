@@ -20,10 +20,10 @@ export const TopProductsAnalysis: React.FC<TopProductsAnalysisProps> = ({ produc
           </div>
           <div>
             <h2 className="text-base sm:text-lg font-heading font-extrabold text-[#1A2421]">
-              Produk Terlaris & Perputaran Stok
+              Produk Terlaris
             </h2>
             <p className="text-xs font-body text-[#5C6F67]">
-              Peringkat menu & barang toko dengan kontribusi penjualan tertinggi
+              Peringkat produk dengan kontribusi jualan tertinggi
             </p>
           </div>
         </div>
@@ -38,26 +38,26 @@ export const TopProductsAnalysis: React.FC<TopProductsAnalysisProps> = ({ produc
               key={item.id}
               className="p-3 rounded-2xl bg-[#F8F4EC] hover:bg-[#EAF4EE]/60 border border-[#DED5C3] transition-colors"
             >
-              <div className="flex items-center justify-between gap-2 mb-1.5">
-                <div className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-[#1F5B45] text-white text-[10px] font-heading font-extrabold flex items-center justify-center flex-shrink-0">
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <div className="flex items-start gap-2.5 min-w-0">
+                  <span className="w-6 h-6 rounded-full bg-[#1F5B45] text-white text-[11px] sm:text-xs font-heading font-extrabold flex items-center justify-center flex-shrink-0 mt-0.5">
                     {idx + 1}
                   </span>
-                  <div>
-                    <span className="text-xs sm:text-sm font-heading font-bold text-[#1A2421]">
+                  <div className="flex flex-col items-start gap-1 min-w-0">
+                    <span className="text-sm sm:text-base font-heading font-extrabold text-[#1A2421] leading-tight">
                       {item.name}
                     </span>
-                    <span className="text-[10px] font-accent text-[#5C6F67] ml-2 bg-white px-2 py-0.5 rounded-md border border-[#DED5C3]">
+                    <span className="text-[10px] font-accent font-bold px-2 py-0.5 rounded-md bg-[#EAF4EE] text-[#1F5B45] border border-[#A9C3A2]/60 leading-none">
                       {item.category}
                     </span>
                   </div>
                 </div>
 
                 <div className="text-right flex-shrink-0">
-                  <span className="text-xs sm:text-sm font-heading font-extrabold text-[#1F5B45]">
+                  <span className="text-sm sm:text-base font-heading font-extrabold text-[#1F5B45]">
                     {formatCurrencyIDR(item.totalRevenue)}
                   </span>
-                  <div className="flex items-center justify-end gap-1 text-[10px] font-accent font-bold text-[#2F6F56]">
+                  <div className="flex items-center justify-end gap-1 text-[10px] font-accent font-bold text-[#2F6F56] mt-0.5">
                     <TrendingUp size={11} />
                     <span>+{item.growthPercentage}%</span>
                   </div>

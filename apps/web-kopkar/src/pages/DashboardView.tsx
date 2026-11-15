@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAnalyticsData } from '../features/analytics/hooks/useAnalyticsData';
+import { DashboardHeader } from '../features/dashboard/components/DashboardHeader';
 import { PromoDiscountBanner } from '../features/dashboard/components/PromoDiscountBanner';
 import { AnalyticsHeader } from '../features/analytics/components/AnalyticsHeader';
 import { AnalyticsMetricCards } from '../features/analytics/components/AnalyticsMetricCards';
@@ -16,22 +17,25 @@ export const DashboardView: React.FC = () => {
 
   return (
     <div className="space-y-5 sm:space-y-6">
-      {/* 1. Iklan Diskon & Promo Carousel (Mirip Bagian Atas Gateway) */}
+      {/* 1. Header Halaman Beranda (Logo KopKar, Judul, Notifikasi & Profil) */}
+      <DashboardHeader />
+
+      {/* 2. Iklan Diskon & Promo Carousel (Mirip Bagian Atas Gateway) */}
       <PromoDiscountBanner />
 
-      {/* 2. Header with Timeframe Filter (7D, 30D, Quarter) */}
+      {/* 3. Overview Section Header & Filter Waktu (Di atas chart nilai) */}
       <AnalyticsHeader
         timeframe={timeframe}
         onTimeframeChange={setTimeframe}
       />
 
-      {/* 3. Top Metric Cards (GMV, Volume Transaksi, Tingkat Pemenuhan, Partisipasi) */}
+      {/* 4. Top Metric Cards (GMV, Volume Transaksi, Tingkat Pemenuhan, Partisipasi) */}
       <AnalyticsMetricCards kpi={data.kpi} />
 
-      {/* 4. Primary Chart: Tren Omset & Volume Penjualan Mingguan */}
+      {/* 5. Primary Chart: Tren Omset & Volume Penjualan Mingguan */}
       <RevenueTrendChart data={data.dailyTrends} />
 
-      {/* 5. Produk Terlaris & Perputaran Stok */}
+      {/* 6. Produk Terlaris & Perputaran Stok */}
       <TopProductsAnalysis products={data.topProducts} />
     </div>
   );

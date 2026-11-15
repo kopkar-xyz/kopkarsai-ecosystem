@@ -2,6 +2,7 @@ export type OperationalStatus =
   | 'PENDING'
   | 'ACCEPTED'
   | 'ACTIVE'
+  | 'INACTIVE'
   | 'IN_REVIEW'
   | 'REJECTED'
   | 'REVISION'

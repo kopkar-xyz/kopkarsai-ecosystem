@@ -1,32 +1,40 @@
 import React from 'react';
-import { CheckCircle2, Calendar, DollarSign, Package, ArrowRight, Plus, X } from 'lucide-react';
+import { CheckCircle2, Calendar, DollarSign, Package, Plus, X, History, ArrowRight } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { formatCurrencyIDR } from '../../../lib/utils';
-import type { SubmissionSummary } from '../types';
+import type { CompleteSubmissionFormData } from '../types';
 
 interface SubmissionSuccessModalProps {
   isOpen: boolean;
-  summary: SubmissionSummary | null;
+  submissionId: string | null;
+  formData: CompleteSubmissionFormData;
+  marginAmount: number;
+  marginPercent: number;
   onClose: () => void;
   onNewSubmission: () => void;
+  onViewTransactions: () => void;
   onViewCatalog: () => void;
 }
 
 export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
   isOpen,
-  summary,
+  submissionId,
+  formData,
+  marginAmount,
+  marginPercent,
   onClose,
   onNewSubmission,
+  onViewTransactions,
   onViewCatalog,
 }) => {
-  if (!isOpen || !summary) return null;
+  if (!isOpen) return null;
 
-  const isDraft = summary.status === 'DRAFT';
+  const isRevision = Boolean(formData.editingSubmissionId);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
       <div className="relative w-full max-w-lg bg-white rounded-3xl border border-[#DED5C3] shadow-2xl p-6 sm:p-7 space-y-5 overflow-hidden">
-        {/* Decorative Top Accent Bar */}
+        {/* Accent Bar */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#1F5B45] via-[#4F8A67] to-[#F6CE2C]" />
 
         {/* Close button */}
@@ -45,27 +53,25 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
             <CheckCircle2 size={30} />
           </div>
           <span className="text-[11px] font-accent font-bold px-2.5 py-1 rounded-full bg-[#EAF4EE] text-[#1F5B45] border border-[#A9C3A2]/60">
-            Tiket: {summary.submissionId}
+            Tiket: {submissionId || 'SUB-2024'}
           </span>
           <h2 className="text-xl sm:text-2xl font-heading font-extrabold text-[#1A2421] mt-2">
-            {isDraft ? 'Draf Berhasil Disimpan!' : 'Pengajuan Produk Terkirim!'}
+            {isRevision ? 'Revisi Pengajuan Berhasil Dikirim!' : 'Pengajuan Produk Berhasil Terkirim!'}
           </h2>
           <p className="text-xs sm:text-sm font-body text-[#5C6F67] mt-1">
-            {isDraft
-              ? 'Draf produk Anda tersimpan dan dapat disunting kembali kapan saja.'
-              : 'Produk telah didaftarkan ke sistem dan masuk ke siklus kurasi mutu mingguan.'}
+            Data transaksi tersimpan dan otomatis masuk ke antrean kurasi pengurus koperasi.
           </p>
         </div>
 
         {/* Summary Bento Details */}
-        <div className="p-4 rounded-2xl bg-[#F8F4EC] border border-[#DED5C3] space-y-3 text-xs">
+        <div className="p-4 rounded-2xl bg-[#F8F4EC] border border-[#DED5C3] space-y-2.5 text-xs">
           <div className="flex items-center justify-between pb-2 border-b border-[#DED5C3]/70">
             <span className="text-[#5C6F67] font-body flex items-center gap-1.5">
               <Package size={14} className="text-[#1F5B45]" />
               Nama Produk
             </span>
             <span className="font-heading font-bold text-[#1A2421] text-right truncate max-w-[200px]">
-              {summary.productName}
+              {formData.name}
             </span>
           </div>
 
@@ -75,7 +81,8 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
               Struktur Harga
             </span>
             <span className="font-heading font-bold text-[#1F5B45]">
-              HPP {formatCurrencyIDR(summary.costPrice)} • Jual {formatCurrencyIDR(summary.sellingPrice)} (Margin {summary.marginPercent}%)
+              Beli {formatCurrencyIDR(formData.costPrice)} • Jual{' '}
+              {formatCurrencyIDR(formData.sellingPrice)} (Margin {formatCurrencyIDR(marginAmount)} / {marginPercent}%)
             </span>
           </div>
 
@@ -85,42 +92,57 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
               Jadwal Drop Sampel
             </span>
             <span className="font-heading font-bold text-[#1A2421] text-right max-w-[220px]">
-              {summary.dropScheduleText}
+              {formData.dropDay === 'SELASA' ? 'Selasa' : 'Rabu'},{' '}
+              {formData.dropShift === 'SHIFT_A' ? 'Shift A' : 'Shift B'} @ Pabrik{' '}
+              {formData.dropLocation}
             </span>
           </div>
         </div>
 
-        {/* Instructions Reminder (KK-BR-004) */}
-        {!isDraft && (
-          <div className="p-3 bg-[#EAF4EE] rounded-xl border border-[#A9C3A2]/60 text-xs font-body text-[#1F5B45]">
-            <p className="font-heading font-bold">Langkah Selanjutnya:</p>
-            <p className="text-[11px] text-[#2F6F56] mt-0.5">
-              Serahkan <strong>2 porsi sampel fisik</strong> ke meja kasir toko sesuai jadwal di atas. Tim penilai akan menguji kelayakan pada hari <strong>Kamis</strong> dan status kelulusan akan diumumkan resmi pada hari <strong>Jumat</strong>.
-            </p>
-          </div>
-        )}
+        {/* Friendly Instructions */}
+        <div className="p-3 bg-[#EAF4EE] rounded-xl border border-[#A9C3A2]/60 text-xs font-body text-[#1F5B45]">
+          <p className="font-heading font-bold">Langkah Selanjutnya:</p>
+          <p className="text-[11px] text-[#2F6F56] mt-0.5">
+            Serahkan <strong>2 porsi sampel fisik</strong> ke meja kasir toko koperasi sesuai
+            jadwal di atas. Tim penilai akan menguji kelayakan rasa dan kemasan pada hari{' '}
+            <strong>Kamis</strong> dan status kelulusan diumumkan setiap hari <strong>Jumat</strong>.
+          </p>
+        </div>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center gap-2.5 pt-2">
           <Button
+            type="button"
             variant="outline"
             size="md"
-            onClick={onNewSubmission}
-            icon={<Plus size={16} />}
-            className="w-full sm:w-1/2"
+            onClick={onViewTransactions}
+            className="w-full sm:w-1/2 flex items-center justify-center gap-1.5"
           >
-            Ajukan Produk Lain
+            <History size={15} />
+            <span>Riwayat Transaksi</span>
           </Button>
 
           <Button
+            type="button"
             variant="primary"
             size="md"
-            onClick={onViewCatalog}
-            icon={<ArrowRight size={16} />}
-            className="w-full sm:w-1/2"
+            onClick={onNewSubmission}
+            className="w-full sm:w-1/2 flex items-center justify-center gap-1.5"
           >
-            Lihat Katalog Produk
+            <Plus size={15} />
+            <span>Ajukan Produk Lain</span>
           </Button>
+        </div>
+
+        <div className="text-center pt-1">
+          <button
+            type="button"
+            onClick={onViewCatalog}
+            className="text-xs font-accent font-bold text-[#5C6F67] hover:text-[#1F5B45] inline-flex items-center gap-1 cursor-pointer transition-colors"
+          >
+            <span>Kembali ke Katalog Produk Utama</span>
+            <ArrowRight size={13} />
+          </button>
         </div>
       </div>
     </div>

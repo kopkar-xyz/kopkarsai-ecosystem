@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronRight } from 'lucide-react';
 import { useRouter, type RoutePath } from '../../../app/router';
 
 interface SpecialOfferSlide {
@@ -32,7 +31,7 @@ const OFFERS: SpecialOfferSlide[] = [
     title: 'Paket Hemat Makan Siang',
     discountPrefix: 'Mulai',
     discountValue: '15rb',
-    terms: 'Menu Fresh PO H-1 Mitra UMKM | Kuota Terbatas',
+    terms: 'Menu Makanan Basah & Segar Mitra UMKM | Kuota Terbatas',
     ctaText: 'Pesan',
     ctaPath: '/orders',
     illustration: '🍲',
@@ -72,21 +71,7 @@ export const PromoDiscountBanner: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
       className="w-full space-y-2 select-none"
     >
-      {/* 1. Header with #SpecialForYou and See All */}
-      <div className="flex items-center justify-between px-1">
-        <h2 className="text-base sm:text-lg font-heading font-extrabold text-[#1A2421] tracking-tight">
-          #SpecialForYou
-        </h2>
-        <button
-          onClick={() => navigate('/orders')}
-          className="text-xs font-accent font-semibold text-[#5C6F67] hover:text-[#1F5B45] flex items-center gap-0.5 transition-colors cursor-pointer"
-        >
-          <span>See All</span>
-          <ChevronRight size={14} />
-        </button>
-      </div>
-
-      {/* 2. Main Banner Card (Mirip Gaya Referensi Gambar) */}
+      {/* 1. Main Banner Card (Mirip Gaya Referensi Gambar) */}
       <div className="relative w-full rounded-3xl bg-gradient-to-r from-[#173F30] via-[#1F5B45] to-[#2B6A53] text-white p-5 sm:p-6 shadow-bento overflow-hidden min-h-[160px] sm:min-h-[180px] flex items-center justify-between">
         {/* Soft background glow and pattern */}
         <div className="absolute inset-0 bg-radial-at-tr from-white/10 to-transparent pointer-events-none" />
@@ -139,7 +124,7 @@ export const PromoDiscountBanner: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Dots Carousel Indicators (Persis di gambar) */}
+      {/* 2. Dots Carousel Indicators (Persis di gambar) */}
       <div className="flex items-center justify-center gap-1.5 pt-1">
         {OFFERS.map((_, idx) => (
           <button

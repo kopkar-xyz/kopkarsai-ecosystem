@@ -3,16 +3,42 @@ import { BarChart3, ShoppingBag, Package, Wallet, Bell } from 'lucide-react';
 import { BrandLogo } from '../../components/brand/BrandLogo';
 import { useRouter, type RoutePath } from '../router';
 import { formatDateID } from '../../lib/utils';
+import {
+  ActiveBarChartIcon,
+  ActiveShoppingBagIcon,
+  ActivePackageIcon,
+  ActiveWalletIcon,
+} from './NavActiveIcons';
 
 export const DesktopNavbar: React.FC = () => {
   const { currentPath, navigate } = useRouter();
   const dateInfo = formatDateID();
 
-  const navItems: { path: RoutePath; label: string; icon: typeof BarChart3 }[] = [
-    { path: '/', label: 'Beranda (Analisis)', icon: BarChart3 },
-    { path: '/orders', label: 'Pesanan', icon: ShoppingBag },
-    { path: '/products', label: 'Produk', icon: Package },
-    { path: '/financial', label: 'SinJam', icon: Wallet },
+  const navItems = [
+    {
+      path: '/' as RoutePath,
+      label: 'Beranda (Analisis)',
+      icon: BarChart3,
+      activeIcon: ActiveBarChartIcon,
+    },
+    {
+      path: '/orders' as RoutePath,
+      label: 'Pesanan',
+      icon: ShoppingBag,
+      activeIcon: ActiveShoppingBagIcon,
+    },
+    {
+      path: '/products' as RoutePath,
+      label: 'Produk',
+      icon: Package,
+      activeIcon: ActivePackageIcon,
+    },
+    {
+      path: '/financial' as RoutePath,
+      label: 'SinJam',
+      icon: Wallet,
+      activeIcon: ActiveWalletIcon,
+    },
   ];
 
   return (
@@ -44,7 +70,8 @@ export const DesktopNavbar: React.FC = () => {
         {/* Center: Desktop Navigation Tabs */}
         <nav className="flex items-center gap-1.5 bg-[#F3ECDD] p-1.5 rounded-2xl border border-[#DED5C3]">
           {navItems.map((item) => {
-            const Icon = item.icon;
+            const InactiveIcon = item.icon;
+            const ActiveIcon = item.activeIcon;
             const isActive = currentPath === item.path || (item.path === '/products' && currentPath.startsWith('/products'));
             return (
               <button
@@ -56,12 +83,16 @@ export const DesktopNavbar: React.FC = () => {
                     : 'text-[#5C6F67] hover:text-[#1F5B45] hover:bg-white/60 font-body font-medium'
                 }`}
               >
-                <Icon
-                  size={17}
-                  fill={isActive ? 'currentColor' : 'none'}
-                  strokeWidth={isActive ? 2.2 : 1.8}
-                  className={isActive ? 'text-white' : 'text-[#4F8A67]'}
-                />
+                {isActive ? (
+                  <ActiveIcon size={17} className="text-white" />
+                ) : (
+                  <InactiveIcon
+                    size={17}
+                    fill="none"
+                    strokeWidth={1.8}
+                    className="text-[#4F8A67]"
+                  />
+                )}
                 <span>{item.label}</span>
               </button>
             );
