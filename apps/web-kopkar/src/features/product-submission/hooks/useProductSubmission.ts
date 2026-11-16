@@ -1,39 +1,60 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import type {
-  ProductSubmissionFormData,
+  CompleteSubmissionFormData,
   SubmissionFormErrors,
-  SubmissionSummary,
+  SubmissionTransaction,
 } from '../types';
+import { useProductStore } from '../context/ProductStoreContext';
 
-const INITIAL_FORM_DATA: ProductSubmissionFormData = {
+export const INITIAL_FORM_DATA: CompleteSubmissionFormData = {
   name: '',
-  category: 'Katering H-1',
-  origin: 'PRODUKSI_SENDIRI',
-  description: '',
-  ingredients: '',
-  shelfLife: '24 Jam',
-  storage: 'SUHU_RUANG',
+  productType: 'Jajanan Basah',
+  origin: 'BUAT_SENDIRI',
+  supplyLocation: 'SAI-B',
+  supplySchedule: 'Shift A',
+  shelfLife: 'Setiap Akhir Shift',
+  customShelfLifeDays: 1,
   costPrice: 0,
   sellingPrice: 0,
-  dailyCapacity: 30,
+  qtyKirim: 20,
+  weightGrams: '', // Inactive, diisi pengurus koperasi
+  productionDuration: '1.5 Jam',
+  deliveryTimeWindow: '06:00 - 06:45 WIB',
+  productionTime: '04:30',
+  ingredients: ['Tepung Terigu', 'Gula Pasir', 'Telur Ayam'],
+  additionalNotes: '',
   imageFile: null,
   imagePreviewUrl: '',
   dropDay: 'SELASA',
   dropShift: 'SHIFT_A',
-  dropLocation: 'SAI_B',
-  samplePortions: 2,
-  notes: '',
-  agreedToTerms: false,
+  dropLocation: 'SAI-B',
 };
 
 export function useProductSubmission() {
-  const [formData, setFormData] = useState<ProductSubmissionFormData>(INITIAL_FORM_DATA);
+  const {
+    submitProductForm,
+    selectedRevisionData,
+    setSelectedRevisionData,
+  } = useProductStore();
+
+  const [formData, setFormData] = useState<CompleteSubmissionFormData>(() => {
+    return selectedRevisionData || INITIAL_FORM_DATA;
+  });
+
   const [errors, setErrors] = useState<SubmissionFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionResult, setSubmissionResult] = useState<SubmissionSummary | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [lastSubmittedId, setLastSubmittedId] = useState<string | null>(null);
 
-  // Financial margin calculations (KK-BR-003)
+  // Sync if selectedRevisionData changes from external trigger (e.g. from detail modal)
+  useEffect(() => {
+    if (selectedRevisionData) {
+      setFormData(selectedRevisionData);
+      setErrors({});
+    }
+  }, [selectedRevisionData]);
+
+  // Financial calculations
   const marginAmount = useMemo(() => {
     return Math.max(0, formData.sellingPrice - formData.costPrice);
   }, [formData.costPrice, formData.sellingPrice]);
@@ -43,8 +64,9 @@ export function useProductSubmission() {
     return Math.round(((formData.sellingPrice - formData.costPrice) / formData.sellingPrice) * 100);
   }, [formData.costPrice, formData.sellingPrice]);
 
+  // Update specific field
   const updateField = useCallback(
-    <K extends keyof ProductSubmissionFormData>(field: K, value: ProductSubmissionFormData[K]) => {
+    <K extends keyof CompleteSubmissionFormData>(field: K, value: CompleteSubmissionFormData[K]) => {
       setFormData((prev) => ({ ...prev, [field]: value }));
       setErrors((prev) => {
         if (prev[field]) {
@@ -58,13 +80,41 @@ export function useProductSubmission() {
     []
   );
 
-  // Image upload with 3 MB limit & MIME validation (SH-NFR-001)
+  // Ingredient list operations
+  const addIngredient = useCallback((ingredient: string) => {
+    const trimmed = ingredient.trim();
+    if (!trimmed) return false;
+    setFormData((prev) => {
+      if (prev.ingredients.some((item) => item.toLowerCase() === trimmed.toLowerCase())) {
+        return prev;
+      }
+      return {
+        ...prev,
+        ingredients: [...prev.ingredients, trimmed],
+      };
+    });
+    setErrors((prev) => {
+      const next = { ...prev };
+      delete next.ingredientsInput;
+      return next;
+    });
+    return true;
+  }, []);
+
+  const removeIngredient = useCallback((indexToRemove: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      ingredients: prev.ingredients.filter((_, idx) => idx !== indexToRemove),
+    }));
+  }, []);
+
+  // Image select & remove
   const handleImageSelect = useCallback((file: File) => {
     const validMimes = ['image/jpeg', 'image/png', 'image/webp'];
     if (!validMimes.includes(file.type)) {
       setErrors((prev) => ({
         ...prev,
-        imageFile: 'Format file tidak didukung. Gunakan format JPG, PNG, atau WEBP.',
+        imageFile: 'Format file tidak didukung. Harap gunakan format JPG, PNG, atau WEBP.',
       }));
       return false;
     }
@@ -73,7 +123,7 @@ export function useProductSubmission() {
     if (file.size > maxSizeBytes) {
       setErrors((prev) => ({
         ...prev,
-        imageFile: `Ukuran foto melebihi 3 MB (${(file.size / (1024 * 1024)).toFixed(1)} MB). Sesuai aturan SH-NFR-001, maksimal 3.0 MB.`,
+        imageFile: `Ukuran foto melebihi 3 MB (${(file.size / (1024 * 1024)).toFixed(1)} MB).`,
       }));
       return false;
     }
@@ -103,6 +153,24 @@ export function useProductSubmission() {
     }));
   }, [formData.imagePreviewUrl]);
 
+  // Load revision
+  const loadSubmissionForRevision = useCallback((trx: SubmissionTransaction) => {
+    setFormData({
+      ...trx.formDataSnapshot,
+      editingSubmissionId: trx.id,
+    });
+    setErrors({});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  // Cancel edit mode
+  const cancelRevisionMode = useCallback(() => {
+    setSelectedRevisionData(null);
+    setFormData(INITIAL_FORM_DATA);
+    setErrors({});
+  }, [setSelectedRevisionData]);
+
+  // Validation
   const validate = useCallback(
     (isDraft = false): boolean => {
       const newErrors: SubmissionFormErrors = {};
@@ -113,19 +181,26 @@ export function useProductSubmission() {
 
       if (!isDraft) {
         if (formData.costPrice <= 0) {
-          newErrors.costPrice = 'Harga Beli Koperasi (HPP) harus lebih dari Rp 0.';
+          newErrors.costPrice = 'Harga beli koperasi (HPP) harus lebih dari Rp 0.';
         }
         if (formData.sellingPrice <= 0) {
-          newErrors.sellingPrice = 'Usulan Harga Jual Konsumen harus lebih dari Rp 0.';
+          newErrors.sellingPrice = 'Harga jual koperasi harus lebih dari Rp 0.';
         }
         if (formData.sellingPrice < formData.costPrice) {
-          newErrors.sellingPrice = 'Harga Jual tidak boleh lebih rendah dari HPP (margin minus).';
+          newErrors.sellingPrice = 'Harga jual tidak boleh lebih rendah dari harga beli (margin minus).';
         }
-        if (formData.dailyCapacity <= 0) {
-          newErrors.dailyCapacity = 'Estimasi kapasitas pasokan harian minimal 1 porsi.';
+        if (formData.qtyKirim <= 0) {
+          newErrors.qtyKirim = 'Jumlah kirim minimal 1 unit / porsi.';
         }
-        if (!formData.agreedToTerms) {
-          newErrors.agreedToTerms = 'Anda wajib menyetujui komitmen mutu dan ketentuan drop sampel.';
+        if (!formData.productionTime) {
+          newErrors.productionTime = 'Jam pembuatan produk wajib diisi.';
+        }
+        if (formData.ingredients.length === 0) {
+          newErrors.ingredientsInput = 'Tambahkan minimal 1 bahan komposisi produk.';
+        }
+        const isFood = !formData.productType.startsWith('Minuman');
+        if (formData.shelfLife === 'Jangka Waktu Tertentu' && isFood && (formData.customShelfLifeDays || 0) > 3) {
+          newErrors.shelfLife = 'Sesuai standar mutu, produk makanan maksimal berumur 3 hari.';
         }
       }
 
@@ -135,64 +210,53 @@ export function useProductSubmission() {
     [formData]
   );
 
+  // Submit form
   const submit = useCallback(
     async (isDraft = false): Promise<boolean> => {
       if (!validate(isDraft)) return false;
 
       setIsSubmitting(true);
       try {
-        // Simulate network API request
-        await new Promise((resolve) => setTimeout(resolve, 800));
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
-        const submissionId = `SUB-${Date.now().toString().slice(-6)}`;
-        const scheduleText = `${formData.dropDay === 'SELASA' ? 'Selasa' : 'Rabu'}, ${
-          formData.dropShift === 'SHIFT_A' ? 'Shift A (Pagi/Siang)' : 'Shift B (Sore/Malam)'
-        } @ Pabrik ${formData.dropLocation === 'SAI_B' ? 'SAI B' : 'SAI T'}`;
-
-        const summary: SubmissionSummary = {
-          submissionId,
-          productName: formData.name,
-          category: formData.category,
-          costPrice: formData.costPrice,
-          sellingPrice: formData.sellingPrice,
-          marginAmount,
-          marginPercent,
-          dropScheduleText: scheduleText,
-          status: isDraft ? 'DRAFT' : 'MENUNGGU_PENGUJIAN',
-          submittedAt: new Date().toISOString(),
-        };
-
-        setSubmissionResult(summary);
+        const submissionId = submitProductForm(formData, isDraft);
+        setLastSubmittedId(submissionId);
         setShowSuccessModal(true);
+        setSelectedRevisionData(null);
         return true;
       } finally {
         setIsSubmitting(false);
       }
     },
-    [formData, marginAmount, marginPercent, validate]
+    [formData, submitProductForm, validate, setSelectedRevisionData]
   );
 
   const resetForm = useCallback(() => {
     if (formData.imagePreviewUrl) {
       URL.revokeObjectURL(formData.imagePreviewUrl);
     }
+    setSelectedRevisionData(null);
     setFormData(INITIAL_FORM_DATA);
     setErrors({});
-    setSubmissionResult(null);
     setShowSuccessModal(false);
-  }, [formData.imagePreviewUrl]);
+    setLastSubmittedId(null);
+  }, [formData.imagePreviewUrl, setSelectedRevisionData]);
 
   return {
     formData,
     errors,
     isSubmitting,
-    submissionResult,
     showSuccessModal,
+    lastSubmittedId,
     marginAmount,
     marginPercent,
     updateField,
+    addIngredient,
+    removeIngredient,
     handleImageSelect,
     removeImage,
+    loadSubmissionForRevision,
+    cancelRevisionMode,
     submit,
     resetForm,
     setShowSuccessModal,

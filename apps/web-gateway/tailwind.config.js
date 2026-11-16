@@ -44,9 +44,12 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"Zen Kaku Gothic New"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        serif: ['"Zen Old Mincho"', 'Georgia', 'serif'],
+        heading: ['"Okashi"', 'sans-serif'],
+        display: ['"Okashi"', 'sans-serif'],
+        sans: ['"M PLUS Rounded 1c"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        body: ['"M PLUS Rounded 1c"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
         kanji: ['"Zen Old Mincho"', 'serif'],
+        serif: ['"Zen Old Mincho"', 'Georgia', 'serif'],
       },
       boxShadow: {
         'gateway-card': '0 20px 40px -15px rgba(3, 40, 19, 0.4), 0 0 1px 1px rgba(255, 255, 255, 0.05)',

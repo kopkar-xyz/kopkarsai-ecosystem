@@ -5,6 +5,7 @@ import { DashboardView } from './pages/DashboardView';
 import { OrdersView } from './pages/OrdersView';
 import { ProductsView } from './pages/ProductsView';
 import { ProductSubmissionView } from './pages/ProductSubmissionView';
+import { ProductDetailView } from './pages/ProductDetailView';
 import { FinancialView } from './pages/FinancialView';
 import { Card } from './components/ui/Card';
 import { Button } from './components/ui/Button';
@@ -22,6 +23,8 @@ export const App: React.FC = () => {
         return <ProductsView />;
       case '/products/new':
         return <ProductSubmissionView />;
+      case '/products/detail':
+        return <ProductDetailView />;
       case '/financial':
         return <FinancialView />;
       case '/profile':

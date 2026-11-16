@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import clsx from 'clsx';
 import { ChevronLeft, ChevronRight, Tag, ShoppingCart, Gift, Truck } from 'lucide-react';
 import bannerPavilion from '../../assets/illustrations/banner-pavilion.jpg';
 
@@ -334,25 +335,25 @@ export const PromoBannerSlider: React.FC = () => {
         <div className="w-full relative flex items-center justify-center overflow-hidden py-2 px-1 sm:px-3">
           {/* Main Active Banner Container */}
           <div className="w-full rounded-2xl sm:rounded-3xl bg-white border border-pink-100/90 shadow-[0_12px_36px_-10px_rgba(244,114,182,0.18)] overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-12 items-center min-h-[220px] sm:min-h-[240px]">
-              {/* Left Content Area (Columns 1-7) */}
+            <div className="grid grid-cols-12 items-center min-h-[170px] sm:min-h-[210px] md:min-h-[240px] relative">
+              {/* Left Content Area (Columns 1-8 on mobile to gently overlap image, 1-7 on desktop) */}
               <div
                 ref={textColumnRef}
-                className="md:col-span-7 p-5 sm:p-7 md:p-8 flex flex-col justify-center text-left will-change-transform"
+                className="col-start-1 col-end-9 sm:col-end-8 md:col-start-1 md:col-end-8 row-start-1 p-3.5 sm:p-6 md:p-8 flex flex-col justify-center text-left will-change-transform z-10"
               >
                 {/* Pill Tag Badge */}
                 <div
                   ref={badgeRef}
-                  className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#0B4A25] text-white text-xs font-semibold w-fit shadow-sm will-change-transform"
+                  className="inline-flex items-center space-x-1 sm:space-x-1.5 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#0B4A25] text-white text-[10px] sm:text-xs font-semibold w-fit shadow-sm will-change-transform"
                 >
-                  <Tag className="w-3.5 h-3.5" />
+                  <Tag className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   <span>{activeSlide.badge}</span>
                 </div>
 
                 {/* Main Headline */}
                 <h2
                   ref={titleRef}
-                  className="mt-3 font-serif text-2xl sm:text-3xl md:text-4xl text-[#0B4A25] font-bold leading-tight will-change-transform"
+                  className="mt-1.5 sm:mt-2.5 md:mt-3 font-heading text-base sm:text-2xl md:text-4xl text-[#0B4A25] font-bold leading-tight will-change-transform"
                 >
                   <span>{activeSlide.titlePrefix}</span>
                   <span className="text-[#C93B57] relative inline-block">
@@ -360,7 +361,7 @@ export const PromoBannerSlider: React.FC = () => {
                     {/* Decorative Star Sparks Accent */}
                     <span
                       ref={sparkleRef}
-                      className="absolute -top-1 -right-4 text-[#C93B57] text-xs font-sans inline-block will-change-transform"
+                      className="absolute -top-1 -right-3 sm:-right-4 text-[#C93B57] text-[10px] sm:text-xs font-sans inline-block will-change-transform"
                     >
                       ✦
                     </span>
@@ -370,7 +371,7 @@ export const PromoBannerSlider: React.FC = () => {
                 {/* Subtitle */}
                 <p
                   ref={subtitleRef}
-                  className="mt-1.5 text-xs sm:text-sm text-[#4A5D52] font-medium will-change-transform"
+                  className="mt-1 sm:mt-1.5 text-[11px] sm:text-xs md:text-sm text-[#4A5D52] font-medium line-clamp-2 will-change-transform"
                 >
                   <span className="italic text-[#BD3A53] font-semibold">
                     {activeSlide.subtitleAccent}
@@ -378,37 +379,37 @@ export const PromoBannerSlider: React.FC = () => {
                   {activeSlide.subtitleText}
                 </p>
 
-                {/* Benefit Pills Row */}
+                {/* Benefit Pills Row (Strictly 1 single line without wrapping, gently floating over gradient) */}
                 <div
                   ref={tagsContainerRef}
-                  className="mt-4 sm:mt-5 flex flex-wrap items-center gap-2"
+                  className="mt-2.5 sm:mt-4 md:mt-5 flex flex-nowrap items-center gap-1.5 sm:gap-2 overflow-hidden max-w-full"
                 >
                   {activeSlide.tags.map((tag, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center space-x-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#FFF5F7] border border-pink-100 text-[#BD3A53] text-[11px] sm:text-xs font-medium shadow-2xs hover:bg-[#FEE9EE] transition-colors will-change-transform"
+                      className="shrink-0 inline-flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#FFF5F7] border border-pink-100 text-[#BD3A53] text-[10px] sm:text-xs font-medium shadow-2xs hover:bg-[#FEE9EE] transition-colors will-change-transform whitespace-nowrap"
                     >
-                      {tag.icon === 'cart' && <ShoppingCart className="w-3 h-3 text-[#C93B57]" />}
-                      {tag.icon === 'gift' && <Gift className="w-3 h-3 text-[#C93B57]" />}
-                      {tag.icon === 'truck' && <Truck className="w-3 h-3 text-[#C93B57]" />}
-                      <span>{tag.label}</span>
+                      {tag.icon === 'cart' && <ShoppingCart className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#C93B57]" />}
+                      {tag.icon === 'gift' && <Gift className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#C93B57]" />}
+                      {tag.icon === 'truck' && <Truck className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#C93B57]" />}
+                      <span className="whitespace-nowrap">{tag.label}</span>
                     </span>
                   ))}
                 </div>
               </div>
 
-              {/* Right Illustration Area (Columns 8-12) */}
-              <div className="hidden md:flex md:col-span-5 h-full items-center justify-end relative overflow-hidden pr-2">
-                <div className="relative w-full h-[220px] flex items-center justify-center overflow-hidden rounded-r-2xl">
+              {/* Right Illustration Area (Starts from col 7 on mobile to allow gentle overlap, col 8 on desktop) */}
+              <div className="col-start-7 sm:col-start-7 md:col-start-8 col-end-13 row-start-1 h-full flex items-center justify-end relative overflow-hidden pr-0 sm:pr-2">
+                <div className="relative w-full h-[160px] sm:h-[190px] md:h-[220px] flex items-center justify-center overflow-hidden rounded-r-2xl sm:rounded-r-3xl">
                   <img
                     ref={imageRef}
                     src={activeSlide.image}
                     alt="Pavilion Sakura KOPKARSAI"
-                    className="w-full h-full object-cover object-center rounded-r-2xl will-change-transform"
+                    className="w-full h-full object-cover object-center rounded-r-2xl sm:rounded-r-3xl will-change-transform"
                     loading="eager"
                   />
-                  {/* Subtle left-side blend gradient into white card */}
-                  <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white via-white/70 to-transparent pointer-events-none" />
+                  {/* Subtle left-side blend gradient into white card so overlapping text is beautifully legible */}
+                  <div className="absolute inset-y-0 left-0 w-12 sm:w-20 md:w-16 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-[1]" />
                 </div>
               </div>
             </div>

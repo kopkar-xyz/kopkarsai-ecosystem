@@ -21,17 +21,20 @@ Dokumentasi resmi token desain, palet warna, dan tipografi antarmuka aplikasi **
 
 ## 2. Tipografi Resmi (Font Style Direction)
 
-Sesuai panduan visual terlampir:
+Mengacu pada aturan kanonikal ekosistem dan standardisasi aset lokal:
 
-1. **Heading (Judul & Display)**:
-   - **Keluarga Font**: `Nunito Sans` (Bold, 700 / 800)
-   - **Karakter**: Ramah, tebal, proporsional, dan tegas untuk judul kartu, nama aplikasi, dan angka nominal.
-2. **Body (Teks Utama & Data)**:
-   - **Keluarga Font**: `Inter` (Regular 400 / Medium 500)
-   - **Karakter**: Sangat bersih, keterbacaan tinggi (*high readability*) untuk tabel pesanan, paragraf, dan formulir operasional.
-3. **Accent (Aksen & Slogan)**:
-   - **Keluarga Font**: `Quicksand` (SemiBold 600)
-   - **Karakter**: Modern, bersahabat (*friendly*), dan lembut untuk badge status, chip, sub-judul dwibahasa, dan tombol aksi.
+1. **Heading (Judul Latin & Display)**:
+   - **Keluarga Font**: `Okashi` (Regular 400)
+   - **Karakter**: Artistik, khas display kaligrafi modern Jepang yang ramah, proporsional, dan menonjol untuk judul kartu, nama section, dan headline antarmuka.
+2. **Body (Teks Utama, Formulir & Data)**:
+   - **Keluarga Font**: `M PLUS Rounded 1c` (Weights 100–900: Thin, Light, Regular, Medium, Bold, ExtraBold, Black)
+   - **Karakter**: Geometric rounded sans-serif dengan keterbacaan tinggi (*high readability*) untuk tabel pesanan, paragraf, input form, dan data numerik keuangan.
+3. **Accent (Aksen, Badge, Filter & Interaktif)**:
+   - **Keluarga Font**: `Yatra One` (Regular 400)
+   - **Karakter**: Bold, dinamis, berkarakter tegas dan khas untuk status badge dwibahasa, chip filter, label diskon, dan tombol interaktif aksen.
+4. **Kanji & Tategaki (Aksen Tradisional & Stempel)**:
+   - **Keluarga Font**: `Zen Old Mincho` (Weights 400, 700, 900)
+   - **Karakter**: Anggun, bernuansa heritage Kyoto untuk watermark teks vertikal (`.tategaki`), tanggal era kalender, dan ornamen kanji.
 
 ---
 

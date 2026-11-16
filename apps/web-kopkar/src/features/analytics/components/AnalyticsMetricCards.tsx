@@ -1,5 +1,5 @@
 import React from 'react';
-import { DollarSign, ShoppingCart, CheckCircle, Users, TrendingUp } from 'lucide-react';
+import { DollarSign, ShoppingCart, TrendingUp } from 'lucide-react';
 import { Card } from '../../../components/ui/Card';
 import { formatCurrencyIDR } from '../../../lib/utils';
 import type { AnalyticsSummaryKPI } from '../types';
@@ -28,28 +28,10 @@ export const AnalyticsMetricCards: React.FC<AnalyticsMetricCardsProps> = ({ kpi 
       bg: 'bg-[#EAF4EE]',
       border: 'border-[#A9C3A2]/60',
     },
-    {
-      label: 'Tingkat Pemenuhan PO',
-      value: `${kpi.fulfillmentRate}%`,
-      growth: 'Kurasi & Kirim Tepat',
-      icon: CheckCircle,
-      color: 'text-[#1F5B45]',
-      bg: 'bg-[#EAF4EE]',
-      border: 'border-[#A9C3A2]/60',
-    },
-    {
-      label: 'Partisipasi Anggota',
-      value: `${kpi.activeMemberRate}%`,
-      growth: 'Anggota Aktif Belanja',
-      icon: Users,
-      color: 'text-[#2F6F56]',
-      bg: 'bg-[#EAF4EE]',
-      border: 'border-[#A9C3A2]/60',
-    },
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+    <div className="grid grid-cols-2 gap-3 sm:gap-4">
       {metrics.map((item, idx) => {
         const Icon = item.icon;
         return (

@@ -2,6 +2,110 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   Kyoto Heritage Typography: Local Self-Hosted Fonts
+   ========================================================================== */
+
+/* Okashi: Heading & Latin Display */
+@font-face {
+  font-family: 'Okashi';
+  src: url('/fonts/Okashi^-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Yatra One: Accent, Badges & Visual Emphases */
+@font-face {
+  font-family: 'Yatra One';
+  src: url('/fonts/YatraOne-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* M PLUS Rounded 1c: Body, Data, Forms & Navigation Labels */
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  src: url('/fonts/RoundedMplus1c-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  src: url('/fonts/RoundedMplus1c-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  src: url('/fonts/RoundedMplus1c-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  src: url('/fonts/RoundedMplus1c-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  src: url('/fonts/RoundedMplus1c-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  src: url('/fonts/RoundedMplus1c-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  src: url('/fonts/RoundedMplus1c-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Zen Old Mincho: Kanji, Tategaki & Japanese Calligraphy */
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Bold.ttf') format('truetype');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Black.ttf') format('truetype');
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -9,7 +113,7 @@
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: #F3ECDD;
     color: #1A2421;
     min-height: 100vh;
@@ -17,8 +121,18 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nunito Sans', sans-serif;
-    font-weight: 700;
+    font-family: 'Okashi', sans-serif;
+    font-weight: 400;
+  }
+}
+
+@layer utilities {
+  .tategaki {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-style: normal !important;
+    letter-spacing: 0.22em;
+    font-family: 'Zen Old Mincho', serif !important;
   }
 }
 

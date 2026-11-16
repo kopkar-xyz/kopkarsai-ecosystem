@@ -60,7 +60,7 @@ export const GatewayPage: React.FC = () => {
           <div className="divider-line-left flex-1 h-px bg-stone-300 origin-right" />
           <span className="divider-label px-4 text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-stone-500 uppercase flex items-center gap-2 whitespace-nowrap">
             <span>APPLICATION</span>
-            <span className="text-stone-300 font-light">||</span>
+            <span className="text-stone-500 font-light select-none">||</span>
             <span className="font-kanji tracking-wider">アプリケーション</span>
           </span>
           <div className="divider-line-right flex-1 h-px bg-stone-300 origin-left" />

@@ -6,10 +6,13 @@ import { useRouter } from '../router';
 export const MobileHeader: React.FC = () => {
   const { currentPath, navigate } = useRouter();
 
-  // Hilangkan header pada mobile di pesanan, produk, dan sinjam
+  // Hilangkan header pada mobile di beranda, pesanan, produk, produk baru/detail, dan sinjam
   if (
+    currentPath === '/' ||
     currentPath === '/orders' ||
     currentPath === '/products' ||
+    currentPath === '/products/new' ||
+    currentPath === '/products/detail' ||
     currentPath === '/financial'
   ) {
     return null;

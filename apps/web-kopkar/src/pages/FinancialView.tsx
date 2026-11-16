@@ -21,8 +21,8 @@ const MOCK_LOAN_DATA: LoanSummary = {
 export const FinancialView: React.FC = () => {
   return (
     <div className="space-y-5 sm:space-y-6">
-      {/* Header Halaman SinJam (Mobile & Desktop) */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
+      {/* Header Halaman SinJam (Khusus Mobile, di Desktop tampil di DesktopHeader) */}
+      <div className="md:hidden flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-[#1F5B45] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
             <Wallet size={20} />
@@ -31,8 +31,8 @@ export const FinancialView: React.FC = () => {
             <h1 className="text-xl sm:text-2xl font-heading font-extrabold text-[#1A2421]">
               Layanan SinJam (Simpan Pinjam)
             </h1>
-            <p className="text-xs sm:text-sm font-body text-[#5C6F67]">
-              Fasilitas pinjaman karyawan PT SAI, simulasi cicilan, dan transaksi pelunasan
+            <p className="text-xs sm:text-sm font-kanji text-[#5C6F67] tracking-widest">
+              貯蓄融資管理
             </p>
           </div>
         </div>

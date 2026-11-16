@@ -39,12 +39,13 @@ export default {
         },
       },
       fontFamily: {
-        heading: ['"Nunito Sans"', 'sans-serif'],
-        sans: ['"Inter"', 'sans-serif'],
-        body: ['"Inter"', 'sans-serif'],
-        accent: ['"Quicksand"', 'sans-serif'],
-        serif: ['"Nunito Sans"', '"Zen Old Mincho"', 'serif'],
+        heading: ['"Okashi"', 'sans-serif'],
+        display: ['"Okashi"', 'sans-serif'],
+        sans: ['"M PLUS Rounded 1c"', 'sans-serif'],
+        body: ['"M PLUS Rounded 1c"', 'sans-serif'],
+        accent: ['"Yatra One"', 'sans-serif'],
         kanji: ['"Zen Old Mincho"', 'serif'],
+        serif: ['"Zen Old Mincho"', 'serif'],
       },
       borderRadius: {
         '2.5xl': '20px',

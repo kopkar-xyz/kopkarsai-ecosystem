@@ -38,6 +38,14 @@ const STATUS_CONFIG: Record<
     label: 'Aktif',
     kanji: '有効',
   },
+  INACTIVE: {
+    bg: 'bg-[#F3ECDD]',
+    border: 'border-[#DED5C3]',
+    text: 'text-[#5C6F67]',
+    dot: 'bg-[#8FA39A]',
+    label: 'Nonaktif',
+    kanji: '停止',
+  },
   IN_REVIEW: {
     bg: 'bg-[#EEF2F6]',
     border: 'border-[#BFDBFE]',

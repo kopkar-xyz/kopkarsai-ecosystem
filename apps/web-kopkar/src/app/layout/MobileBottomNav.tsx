@@ -1,15 +1,41 @@
 import React from 'react';
 import { BarChart3, ShoppingBag, Package, Wallet } from 'lucide-react';
 import { useRouter, type RoutePath } from '../router';
+import {
+  ActiveBarChartIcon,
+  ActiveShoppingBagIcon,
+  ActivePackageIcon,
+  ActiveWalletIcon,
+} from './NavActiveIcons';
 
 export const MobileBottomNav: React.FC = () => {
   const { currentPath, navigate } = useRouter();
 
-  const navItems: { path: RoutePath; label: string; icon: typeof BarChart3 }[] = [
-    { path: '/', label: 'Beranda', icon: BarChart3 },
-    { path: '/orders', label: 'Pesanan', icon: ShoppingBag },
-    { path: '/products', label: 'Produk', icon: Package },
-    { path: '/financial', label: 'SinJam', icon: Wallet },
+  const navItems = [
+    {
+      path: '/' as RoutePath,
+      label: 'Beranda',
+      icon: BarChart3,
+      activeIcon: ActiveBarChartIcon,
+    },
+    {
+      path: '/orders' as RoutePath,
+      label: 'Pesanan',
+      icon: ShoppingBag,
+      activeIcon: ActiveShoppingBagIcon,
+    },
+    {
+      path: '/products' as RoutePath,
+      label: 'Produk',
+      icon: Package,
+      activeIcon: ActivePackageIcon,
+    },
+    {
+      path: '/financial' as RoutePath,
+      label: 'SinJam',
+      icon: Wallet,
+      activeIcon: ActiveWalletIcon,
+    },
   ];
 
   return (
@@ -19,8 +45,11 @@ export const MobileBottomNav: React.FC = () => {
     >
       <div className="max-w-md mx-auto px-3 py-2 pb-3.5 flex items-center justify-around">
         {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = currentPath === item.path || (item.path === '/products' && currentPath.startsWith('/products'));
+          const isActive =
+            currentPath === item.path ||
+            (item.path === '/products' && currentPath.startsWith('/products'));
+          const InactiveIcon = item.icon;
+          const ActiveIcon = item.activeIcon;
 
           return (
             <button
@@ -30,16 +59,21 @@ export const MobileBottomNav: React.FC = () => {
                 isActive ? 'text-white' : 'text-[#A9C3A2] hover:text-white'
               }`}
             >
-              {/* Active = Fill; Inactive = Outline */}
-              <div className="relative">
-                <Icon
-                  size={23}
-                  fill={isActive ? 'currentColor' : 'none'}
-                  strokeWidth={isActive ? 2.2 : 1.8}
-                  className={`transition-all duration-150 ${
-                    isActive ? 'scale-105 drop-shadow-sm' : 'opacity-85'
-                  }`}
-                />
+              {/* Active = Solid Revert Variant (With Cutouts); Inactive = Clean Outline */}
+              <div className="relative flex items-center justify-center">
+                {isActive ? (
+                  <ActiveIcon
+                    size={23}
+                    className="scale-105 drop-shadow-sm transition-transform duration-150 text-white"
+                  />
+                ) : (
+                  <InactiveIcon
+                    size={23}
+                    fill="none"
+                    strokeWidth={1.8}
+                    className="opacity-85 transition-opacity duration-150"
+                  />
+                )}
               </div>
 
               <span
