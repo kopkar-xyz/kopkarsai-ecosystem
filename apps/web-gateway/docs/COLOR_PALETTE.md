@@ -55,8 +55,9 @@ Elemen pelengkap arsitektur gerbang tradisional dan sorotan:
 
 ## 4. Tipografi & Kontras Tinta (Sumi Ink & Typography)
 
-- **Headings & Kanji**: Menggunakan font serif kaligrafi Jepang **`Zen Old Mincho`**.
-- **Body & Data**: Menggunakan font modern sans **`Zen Kaku Gothic New`**.
+- **Headings & Latin Display**: Menggunakan font display resmi **`Okashi`** (Weight `400` Regular; aset lokal: `/fonts/Okashi^-Regular.ttf`).
+- **Body, Form & Navigation**: Menggunakan font sans modern membulat **`M PLUS Rounded 1c`** (Weight `100`–`900`; aset lokal: `/fonts/RoundedMplus1c-*.ttf`).
+- **Kanji & Tategaki Calligraphy**: Mempertahankan font serif kaligrafi Jepang **`Zen Old Mincho`** (Weight `400`–`900`; aset lokal: `/fonts/ZenOldMincho-*.ttf`).
 
 | Token Tailwind | Kode HEX | Penggunaan & Konteks |
 | :--- | :--- | :--- |

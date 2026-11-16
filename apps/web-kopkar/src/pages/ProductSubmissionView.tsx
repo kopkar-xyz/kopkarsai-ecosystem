@@ -39,8 +39,8 @@ export const ProductSubmissionView: React.FC = () => {
 
   return (
     <div className="space-y-5 sm:space-y-6 max-w-4xl mx-auto pb-12">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
+      {/* Page Header Actions */}
+      <div className="flex items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -50,14 +50,17 @@ export const ProductSubmissionView: React.FC = () => {
           >
             <ArrowLeft size={18} />
           </button>
-          <div>
+          <div className="md:hidden">
             <h1 className="text-xl sm:text-2xl font-heading font-extrabold text-[#1A2421]">
               Ajukan Produk Baru
             </h1>
-            <p className="text-xs sm:text-sm font-body text-[#5C6F67]">
-              Formulir pengajuan produk makanan & minuman
+            <p className="text-xs sm:text-sm font-kanji text-[#5C6F67] tracking-widest">
+              新規商品申請
             </p>
           </div>
+          <span className="hidden md:inline text-xs font-accent font-bold text-[#5C6F67]">
+            Kembali ke Katalog
+          </span>
         </div>
 
         {/* Top-Right Action Controls */}

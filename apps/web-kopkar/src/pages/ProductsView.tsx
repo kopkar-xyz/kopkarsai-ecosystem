@@ -50,8 +50,8 @@ export const ProductsView: React.FC = () => {
 
   return (
     <div className="space-y-5 sm:space-y-6">
-      {/* Header Halaman Produk */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
+      {/* Header Halaman Produk (Khusus Mobile, di Desktop tampil di DesktopHeader) */}
+      <div className="md:hidden flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-[#1F5B45] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
             <Package size={20} />
@@ -60,8 +60,8 @@ export const ProductsView: React.FC = () => {
             <h1 className="text-xl sm:text-2xl font-heading font-extrabold text-[#1A2421]">
               Katalog Produk Mitra
             </h1>
-            <p className="text-xs sm:text-sm font-body text-[#5C6F67]">
-              Pilih kartu produk untuk membuka halaman detail spesifikasi, history revisi, & status aktif
+            <p className="text-xs sm:text-sm font-kanji text-[#5C6F67] tracking-widest">
+              提携商品一覧
             </p>
           </div>
         </div>
@@ -80,18 +80,34 @@ export const ProductsView: React.FC = () => {
         </Button>
       </div>
 
-      {/* Filter and Search Bar */}
-      <ProductSearchFilterBar
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        selectedPlace={selectedPlace}
-        onSelectPlace={setSelectedPlace}
-        selectedType={selectedType}
-        onSelectType={setSelectedType}
-        isFilterOpen={isFilterOpen}
-        setIsFilterOpen={setIsFilterOpen}
-        onResetFilter={resetFilters}
-      />
+      {/* Filter and Search Bar + Action Button on Desktop */}
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-3">
+        <div className="flex-1">
+          <ProductSearchFilterBar
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            selectedPlace={selectedPlace}
+            onSelectPlace={setSelectedPlace}
+            selectedType={selectedType}
+            onSelectType={setSelectedType}
+            isFilterOpen={isFilterOpen}
+            setIsFilterOpen={setIsFilterOpen}
+            onResetFilter={resetFilters}
+          />
+        </div>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => {
+            setSelectedRevisionData(null);
+            navigate('/products/new');
+          }}
+          icon={<Plus size={16} />}
+          className="hidden md:inline-flex flex-shrink-0 mt-0.5"
+        >
+          Ajukan Produk Baru
+        </Button>
+      </div>
 
       {/* Product Bento Grid */}
       {filtered.length === 0 ? (
@@ -130,8 +146,8 @@ export const ProductsView: React.FC = () => {
         </div>
       )}
 
-      {/* Floating Action Button (FAB) */}
-      <div className="fixed bottom-24 right-4 sm:right-6 z-40">
+      {/* Floating Action Button (FAB untuk Mobile) */}
+      <div className="md:hidden fixed bottom-24 right-4 sm:right-6 z-40">
         <button
           type="button"
           onClick={() => {

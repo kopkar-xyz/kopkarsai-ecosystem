@@ -12,24 +12,27 @@ export const DashboardHeader: React.FC = () => {
   const { navigate } = useRouter();
 
   return (
-    <div className="flex items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
+    <div className="md:hidden flex items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
       {/* Left: KopKar Logo + Page Title & Subtitle */}
       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-        <div className="w-10 h-10 rounded-2xl bg-[#1F5B45] border border-[#2F6F56] flex items-center justify-center p-1.5 flex-shrink-0 shadow-xs">
-          <BrandLogo size={24} />
+        <div
+          onClick={() => navigate('/')}
+          className="w-10 h-10 rounded-2xl bg-[#1F5B45] border border-[#2F6F56] flex items-center justify-center p-1 flex-shrink-0 shadow-xs cursor-pointer active:scale-95 transition-transform"
+        >
+          <BrandLogo size={26} />
         </div>
         <div className="min-w-0">
           <h1 className="text-lg sm:text-2xl font-heading font-extrabold text-[#1A2421] truncate sm:overflow-visible">
             Beranda Koperasi
           </h1>
-          <p className="text-xs sm:text-sm font-body text-[#5C6F67] truncate sm:overflow-visible">
-            Monitoring performa bisnis
+          <p className="text-xs sm:text-sm font-kanji text-[#5C6F67] tracking-widest truncate sm:overflow-visible">
+            業績管理
           </p>
         </div>
       </div>
 
-      {/* Right: Notifications & Profile */}
-      <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+      {/* Right: Notifications & Profile (Hanya untuk Mobile, di Desktop sudah diakomodasi DesktopHeader) */}
+      <div className="flex md:hidden items-center gap-2 sm:gap-2.5 flex-shrink-0">
         <button
           type="button"
           aria-label="Pusat Notifikasi"

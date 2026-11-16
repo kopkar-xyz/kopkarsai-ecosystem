@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 interface BrandLogoProps {
   className?: string;
@@ -60,6 +60,9 @@ export const CREASE_LINES = [
 ];
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({ className = '', size }) => {
+  const rawId = useId();
+  const gradientId = `kopkar-gold-grad-${rawId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
+
   return (
     <div
       className={`relative inline-flex items-center justify-center select-none ${className}`}
@@ -75,7 +78,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ className = '', size }) =>
       >
         <defs>
           <radialGradient
-            id="kopkar-gold-gradient"
+            id={gradientId}
             cx="50%"
             cy="50%"
             r="50%"
@@ -93,9 +96,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ className = '', size }) =>
           {PETAL_PATHS.map((petal, index) => (
             <path
               key={petal.id}
-              id={`kopkar-petal-${index}`}
+              id={`kopkar-petal-${index}-${gradientId}`}
               d={petal.d}
-              fill="url(#kopkar-gold-gradient)"
+              fill={`url(#${gradientId})`}
             />
           ))}
           {CREASE_LINES.map((coords, index) => (
