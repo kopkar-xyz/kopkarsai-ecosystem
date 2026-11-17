@@ -41,8 +41,9 @@ export default {
       fontFamily: {
         heading: ['"Okashi"', 'sans-serif'],
         display: ['"Okashi"', 'sans-serif'],
-        sans: ['"M PLUS Rounded 1c"', 'sans-serif'],
-        body: ['"M PLUS Rounded 1c"', 'sans-serif'],
+        geist: ['"Geist"', 'sans-serif'],
+        sans: ['"Geist"', 'sans-serif'],
+        body: ['"Geist"', 'sans-serif'],
         accent: ['"Yatra One"', 'sans-serif'],
         kanji: ['"Zen Old Mincho"', 'serif'],
         serif: ['"Zen Old Mincho"', 'serif'],

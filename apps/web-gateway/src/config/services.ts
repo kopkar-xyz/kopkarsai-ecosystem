@@ -38,8 +38,8 @@ export function isValidHttpUrl(urlString?: string): boolean {
   }
 }
 
-const rawSystemUrl = import.meta.env.VITE_KOPKARSAI_SYSTEM_URL;
-const rawMarketplaceUrl = import.meta.env.VITE_KOPKARSAI_MARKETPLACE_URL;
+const rawSystemUrl = import.meta.env.VITE_KOPKARSAI_SYSTEM_URL || 'http://localhost:5173';
+const rawMarketplaceUrl = import.meta.env.VITE_KOPKARSAI_MARKETPLACE_URL || 'http://localhost:5175';
 
 export const gatewayServices: GatewayService[] = [
   {

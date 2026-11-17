@@ -15,7 +15,7 @@ export const TopProductsAnalysis: React.FC<TopProductsAnalysisProps> = ({ produc
   return (
     <Card
       padding="md"
-      className={`flex flex-col justify-between overflow-hidden lg:h-[391px] ${className}`}
+      className={`flex flex-col justify-between overflow-hidden max-h-[460px] lg:max-h-none lg:h-[391px] ${className}`}
     >
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-[#DED5C3] flex-shrink-0">
