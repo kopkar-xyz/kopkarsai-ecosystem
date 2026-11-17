@@ -12,7 +12,7 @@ interface MarketplaceFooterProps {
 export const MarketplaceFooter: React.FC<MarketplaceFooterProps> = ({ isDetailOpen = false }) => {
   return (
     <footer
-      className={`w-full bg-[#F7F3ED] text-[#1A1615] py-12 border-t border-[#EAE3D5]/80 mt-auto select-none ${
+      className={`w-full bg-[#F7F3ED] text-[#1A1615] pt-12 pb-24 xl:pb-12 border-t border-[#EAE3D5]/80 mt-auto select-none ${
         isDetailOpen ? 'hidden lg:block' : 'block'
       }`}
     >

@@ -84,10 +84,12 @@ export const App: React.FC = () => {
         cartCount={cartCount}
         onOpenHelp={() => setIsHelpModalOpen(true)}
         onResetFilter={handleResetFilter}
+        activeFilter={activeFilter}
+        onFilterChange={setActiveFilter}
       />
 
       {/* 2. Main Content Container */}
-      <main className="w-full pt-32 sm:pt-24 lg:pt-24 pb-28 sm:pb-36 lg:pb-16 min-h-screen block">
+      <main className="w-full pt-32 sm:pt-24 lg:pt-24 pb-28 sm:pb-36 xl:pb-16 min-h-screen block">
         <div className="relative w-full max-w-[1440px] mx-auto px-3 sm:px-6 md:px-8 lg:px-12 py-2 sm:py-3">
           {/* Sliced 1:1 Categories & Sub-Categories */}
           <CategorySelector

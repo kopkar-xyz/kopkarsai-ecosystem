@@ -8,6 +8,8 @@ interface MarketplaceNavbarProps {
   cartCount: number;
   onOpenHelp: () => void;
   onResetFilter: () => void;
+  activeFilter?: 'all' | 'promo';
+  onFilterChange?: (filter: 'all' | 'promo') => void;
 }
 
 /**
@@ -21,6 +23,8 @@ export const MarketplaceNavbar: React.FC<MarketplaceNavbarProps> = ({
   cartCount,
   onOpenHelp,
   onResetFilter,
+  activeFilter = 'all',
+  onFilterChange,
 }) => {
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-[#EAE3D5]/60 block">
@@ -60,12 +64,28 @@ export const MarketplaceNavbar: React.FC<MarketplaceNavbarProps> = ({
         {/* Right Action Menu */}
         <div className="flex items-center gap-4 sm:gap-6 shrink-0">
           <nav className="hidden xl:flex items-center gap-3">
-            <span className="transition-colors bg-[#FDF0F3] text-[#83273B] font-medium rounded-full px-4 py-1.5 text-sm cursor-pointer border border-[#F7BAC7]">
+            <button
+              type="button"
+              onClick={() => onFilterChange?.('all')}
+              className={`transition-colors rounded-full px-4 py-1.5 text-sm cursor-pointer ${
+                activeFilter === 'all'
+                  ? 'bg-[#FDF0F3] text-[#83273B] font-medium border border-[#F7BAC7]'
+                  : 'text-[#665E60] hover:text-[#1A1615] border border-transparent bg-transparent'
+              }`}
+            >
               Katalog Menu
-            </span>
-            <span className="text-[#665E60] hover:text-[#1A1615] transition-colors px-3 py-1.5 text-sm font-normal cursor-pointer">
+            </button>
+            <button
+              type="button"
+              onClick={() => onFilterChange?.('promo')}
+              className={`transition-colors rounded-full px-4 py-1.5 text-sm cursor-pointer ${
+                activeFilter === 'promo'
+                  ? 'bg-[#FDF0F3] text-[#83273B] font-medium border border-[#F7BAC7]'
+                  : 'text-[#665E60] hover:text-[#1A1615] border border-transparent bg-transparent'
+              }`}
+            >
               Promo Spesial
-            </span>
+            </button>
             <span className="text-[#665E60] hover:text-[#1A1615] transition-colors px-3 py-1.5 text-sm font-normal cursor-pointer">
               Pesanan Saya
             </span>
