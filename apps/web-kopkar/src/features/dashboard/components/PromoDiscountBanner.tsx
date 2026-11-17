@@ -1,144 +1,122 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter, type RoutePath } from '../../../app/router';
+import { useRouter } from '../../../app/router';
+import { LanternsArt } from './ads/LanternsArt';
+import { CoinsArt } from './ads/CoinsArt';
+import { BentoArt } from './ads/BentoArt';
 
-interface SpecialOfferSlide {
-  id: number;
-  badge: string;
-  title: string;
-  discountPrefix: string;
-  discountValue: string;
-  terms: string;
-  ctaText: string;
-  ctaPath: RoutePath;
-  illustration: string;
-}
-
-const OFFERS: SpecialOfferSlide[] = [
-  {
-    id: 1,
-    badge: 'Limited time!',
-    title: 'Get Special Offer',
-    discountPrefix: 'Up to',
-    discountValue: '40%',
-    terms: 'Semua Produk Toko Koperasi | T&C Applied',
-    ctaText: 'Claim',
-    ctaPath: '/orders',
-    illustration: '🍱',
-  },
-  {
-    id: 2,
-    badge: 'Promo Katering',
-    title: 'Paket Hemat Makan Siang',
-    discountPrefix: 'Mulai',
-    discountValue: '15rb',
-    terms: 'Menu Makanan Basah & Segar Mitra UMKM | Kuota Terbatas',
-    ctaText: 'Pesan',
-    ctaPath: '/orders',
-    illustration: '🍲',
-  },
-  {
-    id: 3,
-    badge: 'Bunga Ringan',
-    title: 'Pinjaman Kesejahteraan',
-    discountPrefix: 'Bunga',
-    discountValue: '0.8%',
-    terms: 'Plafon Pinjaman s.d. Rp 15 Juta | Approval Cepat',
-    ctaText: 'Ajukan',
-    ctaPath: '/financial',
-    illustration: '💳',
-  },
-];
-
+/**
+ * PromoDiscountBanner — Carousel Banner Iklan Koperasi
+ * 100% Slicing Persis Sesuai kopkar-sai-beranda (1).html dengan Motif Seigaiha & Ilustrasi SVG Jepang
+ * Budget: < 200 LOC.
+ */
 export const PromoDiscountBanner: React.FC = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const { navigate } = useRouter();
 
-  const slide = OFFERS[currentIdx];
-
-  // Auto-slide every 5 seconds
+  // Auto-play interval 5s
   useEffect(() => {
     if (isHovered) return;
     const interval = setInterval(() => {
-      setCurrentIdx((prev) => (prev === OFFERS.length - 1 ? 0 : prev + 1));
+      setCurrentIdx((prev) => (prev + 1) % 3);
     }, 5000);
     return () => clearInterval(interval);
-  }, [isHovered, currentIdx]);
+  }, [isHovered]);
 
   return (
-    <div
+    <section
+      className="ads"
+      aria-roledescription="carousel"
+      aria-label="Promo koperasi"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="w-full space-y-2 select-none"
     >
-      {/* 1. Main Banner Card (Mirip Gaya Referensi Gambar) */}
-      <div className="relative w-full rounded-3xl bg-gradient-to-r from-[#173F30] via-[#1F5B45] to-[#2B6A53] text-white p-5 sm:p-6 shadow-bento overflow-hidden min-h-[160px] sm:min-h-[180px] flex items-center justify-between">
-        {/* Soft background glow and pattern */}
-        <div className="absolute inset-0 bg-radial-at-tr from-white/10 to-transparent pointer-events-none" />
-        <div className="absolute -right-8 -bottom-8 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
-
-        {/* Left Side Content */}
-        <div className="relative z-10 flex flex-col justify-between h-full space-y-2 max-w-[65%] sm:max-w-[70%]">
-          {/* Limited time! pill badge */}
-          <span className="inline-block px-3 py-0.5 rounded-full bg-white text-[#173F30] text-[11px] font-heading font-bold w-fit shadow-xs">
-            {slide.badge}
-          </span>
-
-          {/* Headline */}
-          <div>
-            <h3 className="text-lg sm:text-2xl font-heading font-extrabold text-white leading-tight">
-              {slide.title}
-            </h3>
-
-            {/* Discount Up to 40% */}
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-xs sm:text-sm font-body text-[#A9C3A2] font-medium">
-                {slide.discountPrefix}
-              </span>
-              <span className="text-2xl sm:text-4xl font-heading font-black text-white tracking-tight">
-                {slide.discountValue}
-              </span>
+      <div className="viewport">
+        <div
+          className="track"
+          style={{ transform: `translateX(-${currentIdx * 100}%)` }}
+        >
+          {/* Slide 1: Special Offer Toko Koperasi */}
+          <div className="slide s1">
+            <div className="txt">
+              <span className="badge">Limited time!</span>
+              <div className="t">Get Special Offer</div>
+              <div className="big">
+                <small>Up to</small>
+                <strong>40%</strong>
+              </div>
+              <p className="fine">Semua Produk Toko Koperasi | T&amp;C Applied</p>
+              <button
+                type="button"
+                onClick={() => navigate('/orders')}
+                className="btn"
+              >
+                Claim
+              </button>
             </div>
+            <LanternsArt />
           </div>
 
-          {/* Subtext Terms */}
-          <p className="text-[10px] sm:text-xs font-body text-[#F3ECDD]/75 truncate pt-0.5">
-            {slide.terms}
-          </p>
-        </div>
-
-        {/* Right Side Visual & Claim Button */}
-        <div className="relative z-10 flex flex-col items-end justify-between h-full space-y-4 flex-shrink-0">
-          {/* Big Illustration / Visual Avatar */}
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-3xl sm:text-4xl shadow-inner select-none">
-            {slide.illustration}
+          {/* Slide 2: Pinjaman Kesejahteraan */}
+          <div className="slide s2">
+            <div className="txt">
+              <span className="badge">Bunga Ringan</span>
+              <div className="t">Pinjaman Kesejahteraan</div>
+              <div className="big">
+                <small>Bunga</small>
+                <strong>0,8%</strong>
+              </div>
+              <p className="fine">
+                Plafon Pinjaman s.d. Rp 15 Juta | Approval Cepat
+              </p>
+              <button
+                type="button"
+                onClick={() => navigate('/financial')}
+                className="btn"
+              >
+                Ajukan
+              </button>
+            </div>
+            <CoinsArt />
           </div>
 
-          {/* Yellow/Gold Pill Claim Button (Persis di gambar) */}
-          <button
-            onClick={() => navigate(slide.ctaPath)}
-            className="px-5 sm:px-6 py-1.5 sm:py-2 rounded-full bg-[#F6CE2C] hover:bg-[#FFD967] text-[#1A2421] text-xs sm:text-sm font-heading font-extrabold shadow-md hover:shadow-lg active:scale-95 transition-all cursor-pointer"
-          >
-            {slide.ctaText}
-          </button>
+          {/* Slide 3: Promo Katering */}
+          <div className="slide s3">
+            <div className="txt">
+              <span className="badge">Promo Katering</span>
+              <div className="t">Paket Hemat Makan Siang</div>
+              <div className="big">
+                <small>Mulai</small>
+                <strong>15rb</strong>
+              </div>
+              <p className="fine">
+                Menu Makanan Basah &amp; Segar Mitra UMKM | Kuota Terbatas
+              </p>
+              <button
+                type="button"
+                onClick={() => navigate('/orders')}
+                className="btn"
+              >
+                Pesan
+              </button>
+            </div>
+            <BentoArt />
+          </div>
         </div>
       </div>
 
-      {/* 2. Dots Carousel Indicators (Persis di gambar) */}
-      <div className="flex items-center justify-center gap-1.5 pt-1">
-        {OFFERS.map((_, idx) => (
+      {/* Carousel Dots Indicators */}
+      <div className="dots" role="tablist">
+        {[0, 1, 2].map((idx) => (
           <button
             key={idx}
+            type="button"
             onClick={() => setCurrentIdx(idx)}
-            aria-label={`Pindah ke promo ${idx + 1}`}
-            className={`h-2 rounded-full transition-all duration-200 cursor-pointer ${
-              currentIdx === idx
-                ? 'w-5 bg-[#1F5B45]'
-                : 'w-2 bg-[#DED5C3] hover:bg-[#A9C3A2]'
-            }`}
+            aria-current={currentIdx === idx ? 'true' : 'false'}
+            aria-label={`Slide ${idx + 1}`}
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 };

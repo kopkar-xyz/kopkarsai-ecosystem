@@ -44,7 +44,7 @@ export const FeatureCardsGrid: React.FC = () => {
   const kopkarHref =
     gatewayServices.find((s) => s.id === 'cooperative')?.href || 'http://localhost:5173';
   const marketplaceHref =
-    gatewayServices.find((s) => s.id === 'marketplace')?.href || 'http://localhost:5174';
+    gatewayServices.find((s) => s.id === 'marketplace')?.href || 'http://localhost:5175';
 
   const featureApps: FeatureAppCard[] = [
     {

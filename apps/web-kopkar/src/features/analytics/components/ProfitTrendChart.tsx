@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TrendingUp } from 'lucide-react';
-import { Card } from '../../../components/ui/Card';
 import { formatCurrencyIDR } from '../../../lib/utils';
 
 export interface ProfitTrendPoint {
@@ -48,7 +47,7 @@ export const ProfitTrendChart: React.FC<ProfitTrendChartProps> = ({
   const getXPos = (idx: number) => 25 + (idx / 6) * 450;
 
   return (
-    <Card padding="md" className={`space-y-3.5 ${className}`}>
+    <div className={`rounded-2xl bg-white border border-[#DED5C3] p-4 sm:p-5 shadow-xs flex flex-col justify-between space-y-3.5 h-full ${className}`}>
       {/* Header Info */}
       <div className="flex items-center gap-2.5 pb-2.5 border-b border-[#DED5C3]">
         <div className="w-9 h-9 rounded-xl bg-[#EAF4EE] border border-[#A9C3A2] flex items-center justify-center text-[#1F5B45] flex-shrink-0">
@@ -56,16 +55,16 @@ export const ProfitTrendChart: React.FC<ProfitTrendChartProps> = ({
         </div>
         <div>
           <h2 className="text-base sm:text-lg font-heading font-extrabold text-[#1A2421]">
-            Tren Keuangan & Profitabilitas
+            Keuangan dan profitabilitas
           </h2>
-          <p className="text-xs font-body text-[#5C6F67]">
-            Pergerakan pendapatan, biaya produksi & laba bersih harian
+          <p className="text-xs font-sans text-[#5C6F67]">
+            Pendapatan, biaya produksi, dan laba bersih harian
           </p>
         </div>
       </div>
 
       {/* Chart Body */}
-      <div className="pt-1">
+      <div className="flex-1 flex flex-col justify-between pt-1">
         <div className="flex">
           {/* Y-Axis Labels */}
           <div className="relative w-8 sm:w-10 h-44 sm:h-52 flex-shrink-0 select-none">
@@ -73,7 +72,7 @@ export const ProfitTrendChart: React.FC<ProfitTrendChartProps> = ({
               <span
                 key={idx}
                 style={{ top: `${(idx / (TICKS.length - 1)) * 100}%` }}
-                className="absolute right-2 -translate-y-1/2 text-[11px] sm:text-xs font-body text-[#8FA39A]"
+                className="absolute right-2 -translate-y-1/2 text-[11px] sm:text-xs font-sans text-[#8FA39A] tabular-nums"
               >
                 {label}
               </span>
@@ -94,60 +93,51 @@ export const ProfitTrendChart: React.FC<ProfitTrendChartProps> = ({
 
             <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 500 200" preserveAspectRatio="none">
               {hoveredIdx !== null && (
-                <line
-                  x1={getXPos(hoveredIdx)}
-                  y1={0}
-                  x2={getXPos(hoveredIdx)}
-                  y2={200}
-                  stroke="#1F5B45"
-                  strokeWidth="1.2"
-                  strokeDasharray="3 3"
-                  opacity="0.4"
-                />
+                <line x1={getXPos(hoveredIdx)} y1={0} x2={getXPos(hoveredIdx)} y2={200} stroke="#1F5B45" strokeWidth="1.2" strokeDasharray="3 3" opacity="0.4" />
               )}
-
               {SERIES.map((s) => (
                 <g key={s.key}>
-                  <polyline
-                    points={data.map((d, i) => `${getXPos(i)},${getYPos(d[s.key])}`).join(' ')}
-                    fill="none"
-                    stroke={s.color}
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  <polyline points={data.map((d, i) => `${getXPos(i)},${getYPos(d[s.key])}`).join(' ')} fill="none" stroke={s.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                   {data.map((d, i) => (
-                    <circle
-                      key={i}
-                      cx={getXPos(i)}
-                      cy={getYPos(d[s.key])}
-                      r={hoveredIdx === i ? 6 : 4}
-                      fill={s.color}
-                      stroke="#FFFFFF"
-                      strokeWidth="2"
-                    />
+                    <circle key={i} cx={getXPos(i)} cy={getYPos(d[s.key])} r={hoveredIdx === i ? 6 : 4} fill={s.color} stroke="#FFFFFF" strokeWidth="2" />
                   ))}
                 </g>
               ))}
             </svg>
 
-            {/* Interactive hover overlays per day */}
+            {/* Interactive hover overlays per day with touch support */}
             <div className="absolute inset-0 flex">
               {data.map((_, idx) => (
                 <div
                   key={idx}
                   onMouseEnter={() => setHoveredIdx(idx)}
                   onMouseLeave={() => setHoveredIdx(null)}
+                  onTouchStart={() => setHoveredIdx(idx)}
+                  onClick={() => setHoveredIdx(hoveredIdx === idx ? null : idx)}
                   className="flex-1 h-full cursor-pointer"
                 />
               ))}
             </div>
 
-            {/* Tooltip */}
+            {/* Tooltip with Edge Clamping for Mobile & Tablet */}
             {activeItem && hoveredIdx !== null && (
               <div
-                style={{ left: `${((hoveredIdx + 0.5) / 7) * 100}%`, top: '6px' }}
-                className="absolute -translate-x-1/2 z-30 pointer-events-none bg-[#1A2421]/95 text-white p-2 rounded-xl shadow-lg border border-[#DED5C3]/20 text-[10px] sm:text-[11px] whitespace-nowrap space-y-0.5"
+                style={{
+                  left:
+                    hoveredIdx <= 1
+                      ? '4%'
+                      : hoveredIdx >= 5
+                      ? '96%'
+                      : `${((hoveredIdx + 0.5) / 7) * 100}%`,
+                  top: '6px',
+                }}
+                className={`absolute z-30 pointer-events-none bg-[#1A2421]/95 text-white p-2 rounded-xl shadow-lg border border-[#DED5C3]/20 text-[10px] sm:text-[11px] whitespace-nowrap space-y-0.5 transition-all duration-150 ${
+                  hoveredIdx <= 1
+                    ? 'translate-x-0'
+                    : hoveredIdx >= 5
+                    ? '-translate-x-full'
+                    : '-translate-x-1/2'
+                }`}
               >
                 <p className="font-heading font-bold text-[#F3ECDD] border-b border-white/20 pb-0.5">{activeItem.day}</p>
                 <p className="text-[#93C5FD]">Pendapatan: <span className="font-bold">{formatCurrencyIDR(activeItem.revenue)}</span></p>
@@ -166,11 +156,14 @@ export const ProfitTrendChart: React.FC<ProfitTrendChartProps> = ({
               <button
                 type="button"
                 key={idx}
+                onClick={() => setHoveredIdx(hoveredIdx === idx ? null : idx)}
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
-                className="text-center focus:outline-none cursor-pointer"
+                onTouchStart={() => setHoveredIdx(idx)}
+                className="text-center focus:outline-none cursor-pointer py-1 flex items-center justify-center flex-1"
+                aria-label={`Pilih ${item.day}`}
               >
-                <p className={`text-xs sm:text-sm ${hoveredIdx === idx ? 'font-bold text-[#1A2421]' : 'font-medium text-[#8FA39A]'}`}>
+                <p className={`text-xs sm:text-sm font-heading ${hoveredIdx === idx ? 'font-bold text-[#1A2421]' : 'font-medium text-[#8FA39A]'}`}>
                   {item.shortDay}
                 </p>
               </button>
@@ -179,7 +172,7 @@ export const ProfitTrendChart: React.FC<ProfitTrendChartProps> = ({
         </div>
 
         {/* Legend persis di gambar */}
-        <div className="flex items-center justify-center gap-4 sm:gap-6 pt-3 mt-1 border-t border-[#DED5C3]/60 text-xs font-accent font-semibold text-[#1A2421] select-none">
+        <div className="flex items-center justify-center gap-4 sm:gap-6 pt-3 mt-1 border-t border-[#DED5C3]/60 text-xs font-heading font-medium text-[#5C6F67] select-none">
           {SERIES.map((s) => (
             <div key={s.key} className="flex items-center gap-1.5 sm:gap-2">
               <span style={{ backgroundColor: s.color }} className="w-2.5 h-2.5 rounded-full" />
@@ -188,6 +181,6 @@ export const ProfitTrendChart: React.FC<ProfitTrendChartProps> = ({
           ))}
         </div>
       </div>
-    </Card>
+    </div>
   );
 };

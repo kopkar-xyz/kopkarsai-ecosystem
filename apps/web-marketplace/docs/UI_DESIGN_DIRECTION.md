@@ -45,9 +45,9 @@ Mengacu pada standar tipografi terbaru di [`07-ui-design-system.md`](../../../.a
   - Elemen aksen Kanji/display di header (`市場`)
 
 ### B. Teks Body / Data / Formulir / Accent / Navigation / Label
-- **Font Family**: **`M PLUS Rounded 1c`** (Weights `100`–`900`: Thin, Light, Regular, Medium, Bold, ExtraBold, Black)
-- **Aset Lokal**: `assets/fonts/M-PLUS-Rounded-1c/RoundedMplus1c-*.ttf`
-- **Karakter Visual**: Rounded geometric sans-serif dengan dukungan penuh Latin dan karakter Jepang, bersih, hangat, serta sangat mudah dibaca pada layar mobile.
+- **Font Family**: **`Geist`** (Weights `300`–`800`: Light, Regular, Medium, SemiBold, Bold)
+- **Aset Lokal**: `public/fonts/Geist-*.ttf` (tersedia juga di `assets/fonts/`)
+- **Karakter Visual**: Clean modern sans-serif dengan presisi tinggi, keterbacaan optimal, serta perataan angka monospaced via `tabular-nums` untuk kebutuhan transaksi finansial dan data tabel.
 - **Penggunaan pada UI**:
   - Label navigasi pada *Crimson Action Bar* & tab sub-kategori (`Seafood`, `Veggie`, `Meat`, `Poultry`)
   - Harga produk, harga coret, dan badge persentase diskon (`Rp 5.000`, `Rp 8.000`, `-30%`)

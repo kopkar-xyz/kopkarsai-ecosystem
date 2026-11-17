@@ -41,7 +41,7 @@ export const AnalyticsMetricCards: React.FC<AnalyticsMetricCardsProps> = ({ kpi 
             className="flex flex-col justify-between hover:shadow-bento-hover transition-all duration-200"
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-accent font-semibold text-[#5C6F67] truncate">
+              <span className="text-[11px] sm:text-xs font-accent font-semibold text-[#5C6F67] truncate">
                 {item.label}
               </span>
               <div
@@ -52,12 +52,12 @@ export const AnalyticsMetricCards: React.FC<AnalyticsMetricCardsProps> = ({ kpi 
             </div>
 
             <div>
-              <p className="text-base sm:text-xl font-heading font-extrabold text-[#1A2421] tracking-tight">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl font-heading font-extrabold text-[#1A2421] tracking-tight leading-tight truncate">
                 {item.value}
               </p>
-              <div className="flex items-center gap-1 mt-1 text-[11px] font-accent font-bold text-[#1F5B45]">
-                <TrendingUp size={12} className="text-[#2F6F56]" />
-                <span>{item.growth}</span>
+              <div className="flex items-center gap-1 mt-1 text-[10px] sm:text-[11px] font-accent font-bold text-[#1F5B45]">
+                <TrendingUp size={12} className="text-[#2F6F56] flex-shrink-0" />
+                <span className="truncate">{item.growth}</span>
               </div>
             </div>
           </Card>

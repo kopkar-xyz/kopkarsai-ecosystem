@@ -26,9 +26,9 @@ Mengacu pada aturan kanonikal ekosistem dan standardisasi aset lokal:
 1. **Heading (Judul Latin & Display)**:
    - **Keluarga Font**: `Okashi` (Regular 400)
    - **Karakter**: Artistik, khas display kaligrafi modern Jepang yang ramah, proporsional, dan menonjol untuk judul kartu, nama section, dan headline antarmuka.
-2. **Body (Teks Utama, Formulir & Data)**:
-   - **Keluarga Font**: `M PLUS Rounded 1c` (Weights 100–900: Thin, Light, Regular, Medium, Bold, ExtraBold, Black)
-   - **Karakter**: Geometric rounded sans-serif dengan keterbacaan tinggi (*high readability*) untuk tabel pesanan, paragraf, input form, dan data numerik keuangan.
+2. **Body (Teks Utama, Formulir, Navigasi & Data)**:
+   - **Keluarga Font**: `Geist` (Weights 300–800: Light, Regular, Medium, SemiBold, Bold)
+   - **Karakter**: Geometric clean sans-serif modern dengan perataan angka monospaced via `tabular-nums`, keterbacaan tinggi (*high readability*) untuk tabel pesanan, paragraf, input form, dan data numerik keuangan.
 3. **Accent (Aksen, Badge, Filter & Interaktif)**:
    - **Keluarga Font**: `Yatra One` (Regular 400)
    - **Karakter**: Bold, dinamis, berkarakter tegas dan khas untuk status badge dwibahasa, chip filter, label diskon, dan tombol interaktif aksen.

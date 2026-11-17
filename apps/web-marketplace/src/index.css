@@ -1,0 +1,277 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Sakura Kyoto Kitchen Typography: Local Self-Hosted Fonts
+   ========================================================================== */
+
+/* Okashi: Heading, Japanese Brush Display & Stylized Prices */
+@font-face {
+  font-family: 'Okashi';
+  src: url('/fonts/Okashi-Regular.ttf') format('truetype'),
+       url('/fonts/Okashi^-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Geist: Body, Data, Forms, Tables & Navigation Labels */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Zen Old Mincho: Kanji, Tategaki & Japanese Calligraphy */
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('/fonts/ZenOldMincho-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #FAF6F0;
+    color: #1A1615;
+  }
+}
+
+@layer utilities {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+}
+
+.font-brush {
+  font-family: 'Okashi', cursive, sans-serif;
+}
+
+.font-kanji {
+  font-family: 'Zen Old Mincho', serif;
+}
+
+/* Scrollbar utility: clean mobile experience without ugly OS scrollbars */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.bg-seigaiha {
+  background-color: #6B1A2C;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'%3E%3Cpath d='M30 30 A15 15 0 0 0 0 30 M30 30 A20 20 0 0 0 -10 30 M30 30 A25 25 0 0 0 -20 30 M30 30 A30 30 0 0 0 -30 30 M60 30 A15 15 0 0 0 30 30 M60 30 A20 20 0 0 0 20 30 M60 30 A25 25 0 0 0 10 30 M60 30 A30 30 0 0 0 0 30 M45 0 A15 15 0 0 1 15 0 M50 0 A20 20 0 0 1 10 0 M55 0 A25 25 0 0 1 5 0 M60 0 A30 30 0 0 1 0 0' fill='none' stroke='%23ffffff' stroke-opacity='0.08' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Kategori Utama KopKar SAI (Slicing 1:1 dari Kategori utama Kopkarsai)
+   ========================================================================== */
+:root {
+  --page: #f7f2e9;
+  --card: #fffcf6;
+  --ink: #2e1f22;
+  --mute: #7d6a6a;
+  --line: #eadfce;
+  --wine: #7a1c2e;
+  --gold: #f4c63d;
+  --onwine: #fffcf6;
+}
+
+.cats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(46, 31, 34, 0.04);
+}
+
+.cat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 16px 12px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: none;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.cat:first-child {
+  border-left: 0;
+}
+
+.cat svg {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  color: var(--wine);
+  transition: color .18s ease;
+}
+
+.cat b {
+  display: block;
+  font-family: 'Geist', -apple-system, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.cat small {
+  display: block;
+  margin-top: 2px;
+  font-family: 'Zen Old Mincho', serif;
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--mute);
+  transition: color .18s ease;
+}
+
+.cat:hover {
+  background: rgba(122, 28, 46, 0.05);
+}
+
+.cat[aria-selected="true"] {
+  background: var(--wine);
+  color: var(--onwine);
+  border-left-color: var(--wine);
+}
+
+.cat[aria-selected="true"] svg {
+  color: var(--gold);
+}
+
+.cat[aria-selected="true"] small {
+  color: var(--onwine);
+  opacity: .85;
+}
+
+.cat[aria-selected="true"] + .cat {
+  border-left-color: var(--wine);
+}
+
+.sub {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 2px;
+  margin-top: 18px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sub::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 18px 6px 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  font-family: 'Geist', -apple-system, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+
+.tab .k {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--page);
+  border: 1px solid var(--line);
+  font-family: 'Zen Old Mincho', serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--wine);
+  transition: transform .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.tab:hover {
+  background: rgba(122, 28, 46, 0.04);
+}
+
+.tab[aria-selected="true"] {
+  background: var(--wine);
+  border-color: var(--wine);
+  color: var(--onwine);
+  font-weight: 600;
+}
+
+.tab[aria-selected="true"] .k {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #5a1220;
+  transform: rotate(-5deg);
+}
+
+@media (max-width: 860px) {
+  .cats {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .cats::-webkit-scrollbar {
+    display: none;
+  }
+  .cat {
+    flex: none;
+    padding: 12px 18px;
+    gap: 10px;
+  }
+}
