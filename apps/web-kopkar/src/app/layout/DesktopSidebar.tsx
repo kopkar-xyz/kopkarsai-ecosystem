@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrandLogo } from '../../components/brand/BrandLogo';
 import { useRouter } from '../router';
 import { getNavGroupsForRole, useKopkarRole } from '../auth/RoleContext';
 
@@ -23,12 +24,7 @@ export const DesktopSidebar: React.FC = () => {
           onClick={() => navigate('/')}
           className="flex items-center gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2C94C] rounded-lg cursor-pointer"
         >
-          <div className="w-9 h-9 rounded-full bg-[#F2C94C] flex items-center justify-center shrink-0 shadow-sm">
-            <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#165239]" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <circle cx="12" cy="12" r="8" />
-              <path d="M12 4v16M4 12h16M6.3 6.3l11.4 11.4M17.7 6.3L6.3 17.7" />
-            </svg>
-          </div>
+          <BrandLogo size={36} className="shrink-0 drop-shadow-sm" />
           <div>
             <div className="font-okashi text-[18px] leading-tight tracking-wide text-white">
               KOPKARSAI
