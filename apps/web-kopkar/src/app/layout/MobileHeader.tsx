@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Bell, Menu } from 'lucide-react';
 import { BrandLogo } from '../../components/brand/BrandLogo';
 import { useRouter } from '../router';
+import { useKopkarRole } from '../auth/RoleContext';
 import { getKopkarPageMeta } from './navConfig';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 
@@ -14,6 +15,7 @@ import { MobileMenuDrawer } from './MobileMenuDrawer';
  */
 export const MobileHeader: React.FC = () => {
   const { currentPath, navigate } = useRouter();
+  const { currentUser, openRoleModal } = useKopkarRole();
   const [notifOpen, setNotifOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -79,11 +81,11 @@ export const MobileHeader: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => navigate('/profile')}
-              aria-label="Profil Saya"
+              onClick={openRoleModal}
+              aria-label="Pilih peran akun"
               className="w-9 h-9 rounded-full bg-[#165239] text-white font-sans font-semibold text-xs flex items-center justify-center ring-2 ring-[#A9C3A2] shadow-xs active:scale-95 transition-transform cursor-pointer"
             >
-              AA
+              {currentUser.initials}
             </button>
 
             <button
