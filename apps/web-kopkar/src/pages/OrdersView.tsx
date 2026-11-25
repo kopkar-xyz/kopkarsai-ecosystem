@@ -1,64 +1,99 @@
-import React from 'react';
-import { ShoppingBag } from 'lucide-react';
-import { useDashboardData } from '../features/dashboard/hooks/useDashboardData';
-import { HorizontalDateSelector } from '../features/dashboard/components/HorizontalDateSelector';
-import { DailySummaryCard } from '../features/dashboard/components/DailySummaryCard';
-import { ProductOrdersList } from '../features/dashboard/components/ProductOrdersList';
+import React, { useState } from 'react';
+import { OrdersWeekCalendar } from '../features/orders/components/OrdersWeekCalendar';
+import { OrdersMetricCards } from '../features/orders/components/OrdersMetricCards';
+import { OrdersPreOrderCard, PreOrderData } from '../features/orders/components/OrdersPreOrderCard';
+import { OrdersDailyTableCard, DailyOrderItem } from '../features/orders/components/OrdersDailyTableCard';
+import { OrderDetailModal } from '../features/orders/components/OrderDetailModal';
+import {
+  INITIAL_WEEK_DAYS,
+  INITIAL_PREORDERS,
+  INITIAL_DAILY_ORDERS,
+} from '../features/orders/data/ordersMockData';
 
 /**
- * OrdersView (Halaman Pesanan Produk) — KK-SCR-009
- * Pemesanan per produk dalam kacamata aplikasi web-kopkar
- * Strictly adheres to the 200-line budget invariant.
+ * OrdersView (Dasbor Rekapitulasi Pesanan Masuk & PO H-1 Supplier) — KK-SCR-010
+ * Slicing 1:1 Presisi Sesuai Gambar Referensi:
+ * 1. Kalender Mingguan (23 Nov – 29 Nov 2026, 7 Day Cards)
+ * 2. 3 Kartu Metric KPI (Perlu Konfirmasi, Pesanan Harian, Akumulasi Harian)
+ * 3. Modul PO Katering Untuk Besok (Cut-off 15:00 WIB, Porsi, Jadwal, Aksi)
+ * 4. Modul Pesanan Hari Ini (Tabel Pesanan, Filter Unit, Status Pills, Aksi Terima)
+ * Budget: < 200 LOC.
  */
 export const OrdersView: React.FC = () => {
-  const {
-    metrics,
-    orders,
-    dailySummaryOrders,
-    companyFilter,
-    setCompanyFilter,
-    selectedDate,
-    setSelectedDate,
-    dateRange,
-  } = useDashboardData();
+  const [selectedDate, setSelectedDate] = useState('2026-11-24');
+  const [preOrders, setPreOrders] = useState<PreOrderData[]>(INITIAL_PREORDERS);
+  const [dailyOrders, setDailyOrders] = useState<DailyOrderItem[]>(INITIAL_DAILY_ORDERS);
+  const [activeDetailOrder, setActiveDetailOrder] = useState<DailyOrderItem | null>(null);
+
+  const handleConfirmPreOrder = (id: string, isConfirmed: boolean) => {
+    setPreOrders((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, status: isConfirmed ? 'CONFIRMED' : 'DECLINED' } : item
+      )
+    );
+  };
+
+  const handleAcceptDailyOrder = (id: string) => {
+    setDailyOrders((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, status: 'DITERIMA' } : item))
+    );
+  };
+
+  const handleAcceptAllDailyOrders = () => {
+    setDailyOrders((prev) => prev.map((item) => ({ ...item, status: 'DITERIMA' })));
+  };
+
+  // Kalkulasi KPI Dinamis Sesuai Nilai di Gambar
+  const pendingPoCount = preOrders.filter((po) => po.status === 'PENDING').length;
+  const pendingDailyCount = dailyOrders.filter((o) => o.status === 'MENUNGGU').length;
+  const totalPendingConfirmation = pendingPoCount + pendingDailyCount;
+
+  const totalProducts = new Set(dailyOrders.map((o) => o.productName)).size;
+  const totalItemsCount = dailyOrders.reduce((sum, o) => sum + o.qty, 0);
+  const accumulatedDailyTotal = dailyOrders.reduce((sum, o) => sum + o.totalAmount, 0);
+  const acceptedOrdersCount = dailyOrders.filter((o) => o.status === 'DITERIMA').length;
 
   return (
-    <div className="space-y-5 sm:space-y-6">
-      {/* Header Halaman Pesanan Produk (Khusus Mobile, di Desktop tampil di DesktopHeader) */}
-      <div className="md:hidden flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#1F5B45] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
-            <ShoppingBag size={20} />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-heading font-extrabold text-[#1A2421]">
-              Pesanan Produk
-            </h1>
-            <p className="text-xs sm:text-sm font-kanji text-[#5C6F67] tracking-widest">
-              受注管理
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* 1. Selector Tanggal Horizontal Geser Kanan-Kiri */}
-      <HorizontalDateSelector
-        dates={dateRange}
+    <div className="space-y-4 sm:space-y-5 animate-fadeIn select-none">
+      {/* 1. Selector Kalender Mingguan Sesuai Gambar */}
+      <OrdersWeekCalendar
+        days={INITIAL_WEEK_DAYS}
         selectedDate={selectedDate}
         onSelectDate={setSelectedDate}
+        dateRangeLabel="23 Nov – 29 Nov 2026"
+        onToday={() => setSelectedDate('2026-11-24')}
       />
 
-      {/* 2. Ringkasan status harian & Container tunggal list summary yang dipesan */}
-      <DailySummaryCard
-        metrics={metrics}
-        summaryOrders={dailySummaryOrders}
-        selectedDate={selectedDate}
-        companyFilter={companyFilter}
-        onCompanyFilterChange={setCompanyFilter}
+      {/* 2. Tiga Kartu Metrik Ringkasan KPI Sesuai Gambar */}
+      <OrdersMetricCards
+        pendingConfirmationCount={totalPendingConfirmation}
+        pendingSubtitle={`${pendingPoCount} PO katering · ${pendingDailyCount} pesanan`}
+        dailyProductsCount={totalProducts}
+        dailyItemsSubtitle={`${totalItemsCount} item dipesan`}
+        accumulatedDailyTotal={accumulatedDailyTotal}
+        accumulatedSubtitle={`${acceptedOrdersCount} sudah diterima`}
       />
 
-      {/* 3. Daftar pesanan per produk (Kacamata Web-Kopkar) */}
-      <ProductOrdersList orders={orders} />
+      {/* 3. Antrean PO Katering Untuk Besok Sesuai Gambar */}
+      <OrdersPreOrderCard
+        items={preOrders}
+        onConfirm={handleConfirmPreOrder}
+      />
+
+      {/* 4. Tabel Pesanan Hari Ini Sesuai Gambar */}
+      <OrdersDailyTableCard
+        items={dailyOrders}
+        onAcceptOrder={handleAcceptDailyOrder}
+        onAcceptAll={handleAcceptAllDailyOrders}
+        onViewDetail={setActiveDetailOrder}
+      />
+
+      {/* 5. Modal Rincian Pesanan (Aksi Tombol Mata) */}
+      <OrderDetailModal
+        order={activeDetailOrder}
+        onClose={() => setActiveDetailOrder(null)}
+        onAcceptOrder={handleAcceptDailyOrder}
+      />
     </div>
   );
 };

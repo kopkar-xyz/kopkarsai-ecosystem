@@ -6,8 +6,14 @@ export type RoutePath =
   | '/products'
   | '/products/new'
   | '/products/detail'
+  | '/supplier/samples'
+  | '/supplier/revisions'
+  | '/admin/verification'
+  | '/admin/approval'
+  | '/admin/suppliers'
   | '/financial'
-  | '/profile';
+  | '/profile'
+  | '/analytics';
 
 interface RouterContextType {
   currentPath: RoutePath;
@@ -27,12 +33,18 @@ interface RouterProviderProps {
 
 const VALID_PATHS: RoutePath[] = [
   '/',
-  '/orders' as RoutePath,
-  '/products' as RoutePath,
-  '/products/new' as RoutePath,
-  '/products/detail' as RoutePath,
-  '/financial' as RoutePath,
-  '/profile' as RoutePath,
+  '/orders',
+  '/products',
+  '/products/new',
+  '/products/detail',
+  '/supplier/samples',
+  '/supplier/revisions',
+  '/admin/verification',
+  '/admin/approval',
+  '/admin/suppliers',
+  '/financial',
+  '/profile',
+  '/analytics',
 ];
 
 export const RouterProvider: React.FC<RouterProviderProps> = ({ children }) => {

@@ -30,7 +30,7 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       className={cn(
-        'rounded-2.5xl sm:rounded-3xl transition-all duration-200 overflow-hidden font-body',
+        'rounded-2xl transition-all duration-200 overflow-hidden font-body',
         variantStyles[variant],
         paddingStyles[padding],
         className

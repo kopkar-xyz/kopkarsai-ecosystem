@@ -16,6 +16,39 @@
   font-display: swap;
 }
 
+/* Geist: Modern Minimalist UI & Full-Geist V2 Mode */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* M PLUS Rounded 1c: Body, Data, Forms & Navigation Labels */
 @font-face {
   font-family: 'M PLUS Rounded 1c';
@@ -158,6 +191,19 @@
 .font-display {
   font-family: 'Okashi', sans-serif;
   font-weight: 400;
+}
+
+/* Versi 2 & Versi 3 Full Geist Minimalist Scope */
+[data-gateway-version='v2'],
+[data-gateway-version='v2'] *,
+[data-gateway-version='v3'],
+[data-gateway-version='v3'] * {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+[data-gateway-version='v2'] .font-kanji,
+[data-gateway-version='v3'] .font-kanji {
+  font-family: 'Zen Old Mincho', serif !important;
 }
 
 /* Custom subtle scrollbar */

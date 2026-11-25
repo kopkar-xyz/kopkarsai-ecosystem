@@ -27,8 +27,11 @@ function formatYAxisLabel(val: number): string {
 }
 
 /**
- * RevenueTrendChart — Grafik visualisasi tren omset harian (clean bar chart).
- * Invariant: Budget < 200 LOC.
+ * RevenueTrendChart — Grafik visualisasi tren omset harian
+ * Slicing 1:1 Presisi aistudio-src DashboardPage:
+ * - Header: font-okashi text-[20px] text-[#18221D]
+ * - Container: rounded-2xl border border-[#EAE4D3] bg-white p-5
+ * Budget: < 200 LOC.
  */
 export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, className = '' }) => {
   const [activeIdx, setActiveIdx] = useState<number>(data.length > 0 ? data.length - 1 : 0);
@@ -41,17 +44,17 @@ export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, clas
   const currentIdx = hoveredIdx !== null ? hoveredIdx : (activeIdx < data.length ? activeIdx : data.length - 1);
 
   return (
-    <div className={`rounded-2xl bg-white border border-[#E9E2D2] p-4 sm:p-5 shadow-xs flex flex-col justify-between space-y-3.5 h-full ${className}`}>
+    <div className={`rounded-2xl bg-white border border-[#EAE4D3] p-5 shadow-xs flex flex-col justify-between space-y-3.5 h-full select-none ${className}`}>
       {/* Header Info */}
-      <div className="flex items-center gap-2.5 pb-3 border-b border-[#E9E2D2]">
-        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#EAF4EE] border border-[#A9C3A2] flex items-center justify-center text-[#1F5B45] flex-shrink-0">
-          <BarChart2 size={18} />
+      <div className="flex items-center gap-2.5 pb-2.5 border-b border-[#F0EBDC]">
+        <div className="w-8 h-8 rounded-lg bg-[#EAF4EE] text-[#165239] flex items-center justify-center shrink-0">
+          <BarChart2 size={16} />
         </div>
         <div>
-          <h2 className="text-base sm:text-lg font-heading font-extrabold text-[#1A2421]">
+          <h3 className="font-okashi text-[20px] text-[#18221D]">
             Tren omset
-          </h2>
-          <p className="text-xs font-sans text-[#5C6F67]">
+          </h3>
+          <p className="text-[12px] text-[#7A867E]">
             Nilai transaksi harian toko dan katering
           </p>
         </div>
@@ -61,12 +64,12 @@ export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, clas
       <div className="flex-1 flex flex-col justify-between pt-2 min-h-0">
         <div className="flex flex-1 items-stretch min-h-[200px]">
           {/* Y-Axis Labels */}
-          <div className="relative w-8 sm:w-10 h-full min-h-[200px] flex-shrink-0 select-none">
+          <div className="relative w-8 sm:w-10 h-full min-h-[200px] shrink-0 select-none">
             {ticks.map((tick, idx) => (
               <span
                 key={idx}
                 style={{ top: `${(idx / (ticks.length - 1)) * 100}%` }}
-                className="absolute right-2 -translate-y-1/2 text-[11px] sm:text-xs font-sans text-[#8FA39A] tabular-nums"
+                className="absolute right-2 -translate-y-1/2 text-[11px] font-sans text-[#7A867E] tabular-nums"
               >
                 {formatYAxisLabel(tick)}
               </span>
@@ -81,7 +84,7 @@ export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, clas
                 <div
                   key={idx}
                   style={{ top: `${(idx / (ticks.length - 1)) * 100}%` }}
-                  className="absolute left-0 right-0 border-t border-dashed border-[#E5E7EB]"
+                  className="absolute left-0 right-0 border-t border-dashed border-[#F0EBDC]"
                 />
               ))}
             </div>
@@ -108,7 +111,7 @@ export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, clas
                       style={{ height: `${heightPercent}%` }}
                       className="relative w-full max-w-[34px] sm:max-w-[44px] flex flex-col justify-end items-center transition-all duration-300"
                     >
-                      {/* Tooltip with edge clamping for mobile screens */}
+                      {/* Tooltip */}
                       <div
                         className={`absolute bottom-full mb-1.5 z-20 transition-all duration-150 pointer-events-none ${
                           isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
@@ -120,24 +123,15 @@ export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, clas
                             : 'left-1/2 -translate-x-1/2'
                         }`}
                       >
-                        <div className="relative bg-[#1A2421] text-white text-[10px] sm:text-[11px] font-accent font-bold px-2 py-0.5 rounded shadow whitespace-nowrap">
+                        <div className="relative bg-[#18221D] text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg shadow-md whitespace-nowrap tabular-nums">
                           {formatCurrencyIDR(item.revenue)}
-                          <div
-                            className={`absolute top-full w-0 h-0 border-x-3 border-x-transparent border-t-[4px] border-t-[#1A2421] ${
-                              idx === 0
-                                ? 'left-3'
-                                : idx === data.length - 1
-                                ? 'right-3'
-                                : 'left-1/2 -translate-x-1/2'
-                            }`}
-                          />
                         </div>
                       </div>
 
                       {/* Bar body */}
                       <div
-                        className={`w-full h-full rounded-t-xl sm:rounded-t-2xl transition-all duration-300 ${
-                          isActive ? 'bg-[#1F5B45] shadow-xs' : 'bg-[#EDEDEE] group-hover:bg-[#DFE2E0]'
+                        className={`w-full h-full rounded-t-xl transition-all duration-300 ${
+                          isActive ? 'bg-[#165239] shadow-xs' : 'bg-[#EAE4D3] group-hover:bg-[#DFD8C5]'
                         }`}
                       />
                     </div>
@@ -150,7 +144,7 @@ export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, clas
 
         {/* X-Axis Labels (Days) */}
         <div className="flex mt-3">
-          <div className="w-8 sm:w-10 flex-shrink-0" />
+          <div className="w-8 sm:w-10 shrink-0" />
           <div className="flex-1 flex justify-between gap-1.5 sm:gap-4 px-1.5 sm:px-4">
             {data.map((item, idx) => (
               <button
@@ -160,8 +154,8 @@ export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, clas
                 className="flex-1 text-center focus:outline-none cursor-pointer"
               >
                 <p
-                  className={`text-xs sm:text-sm font-heading transition-colors ${
-                    currentIdx === idx ? 'font-bold text-[#1A2421]' : 'font-medium text-[#8FA39A] hover:text-[#5C6F67]'
+                  className={`text-[12px] transition-colors ${
+                    currentIdx === idx ? 'font-semibold text-[#18221D]' : 'font-medium text-[#7A867E] hover:text-[#18221D]'
                   }`}
                 >
                   {item.shortDay}

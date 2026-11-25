@@ -27,7 +27,8 @@ export async function apiClient<T>(endpoint: string, options: RequestInit = {}):
 
   if (response.status === 401) {
     localStorage.removeItem('kopkar_token');
-    window.location.href = '/login';
+    const gatewayUrl = import.meta.env.VITE_GATEWAY_URL || 'http://localhost:5175';
+    window.location.href = `${gatewayUrl}/#/login`;
     throw new ApiError(401, 'Sesi telah berakhir. Silakan login kembali.');
   }
 

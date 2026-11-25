@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { LogIn, UserPlus } from 'lucide-react';
 import { JapaneseBackgroundWaves } from '../components/decorations/JapaneseBackgroundWaves';
 import { SakuraPetalsOverlay } from '../components/sakura/SakuraPetalsOverlay';
 import { SakuraBranches } from '../components/sakura/SakuraBranches';
@@ -6,9 +7,14 @@ import { GatewayBrandHeader } from '../components/brand/GatewayBrandHeader';
 import { PromoBannerSlider } from '../components/landing/PromoBannerSlider';
 import { FeatureCardsGrid } from '../components/landing/FeatureCardsGrid';
 import { useGatewayIntro } from '../hooks/useGatewayIntro';
+import { useGatewayRouter } from '../router';
+import { useDesignVersion } from '../context/DesignVersionContext';
+import { GatewayPageV2 } from './GatewayPageV2';
+import { GatewayPageV3 } from './GatewayPageV3';
 
-export const GatewayPage: React.FC = () => {
+const GatewayPageV1: React.FC = () => {
   const pageRef = useRef<HTMLDivElement>(null);
+  const { navigate } = useGatewayRouter();
   const { isIntroComplete, canSkip, isDebugMode, skipIntro, replayIntro } = useGatewayIntro({
     scopeRef: pageRef,
   });
@@ -23,7 +29,7 @@ export const GatewayPage: React.FC = () => {
         <button
           onClick={skipIntro}
           aria-label="Lewati animasi intro (Esc)"
-          className="fixed top-4 right-4 z-50 px-3.5 py-1.5 rounded-full bg-white/85 hover:bg-white text-stone-600 hover:text-[#065C2B] text-xs font-medium tracking-wide shadow-sm border border-pink-200/80 backdrop-blur-md transition-all duration-200 flex items-center gap-1.5 cursor-pointer active:scale-95 animate-fade-in"
+          className="fixed top-4 sm:top-16 right-4 z-50 px-3.5 py-1.5 rounded-full bg-white/85 hover:bg-white text-stone-600 hover:text-[#065C2B] text-xs font-medium tracking-wide shadow-sm border border-pink-200/80 backdrop-blur-md transition-all duration-200 flex items-center gap-1.5 cursor-pointer active:scale-95 animate-fade-in"
         >
           <span>Lewati</span>
           <span className="text-[10px] text-stone-400 bg-stone-100 px-1.5 py-0.5 rounded border border-stone-200">
@@ -32,26 +38,23 @@ export const GatewayPage: React.FC = () => {
         </button>
       )}
 
-      {/* Layer 0: Pure CSS & Inline SVG Background Decorations (Circle Halo + Lower-Left Seigaiha Waves) */}
+      {/* Layer 0: Pure CSS & Inline SVG Background Decorations */}
       <JapaneseBackgroundWaves />
 
-      {/* Layer 1: Dynamically Generated Falling Sakura Petals with 3D Drift & Tumbling (pointer-events: none) */}
+      {/* Layer 1: Dynamically Generated Falling Sakura Petals */}
       <SakuraPetalsOverlay />
 
-      {/* Layer 2: Swaying Sakura Branches (Top-Left & Bottom-Right PNGs, pointer-events: none) */}
+      {/* Layer 2: Swaying Sakura Branches */}
       <SakuraBranches />
 
-      {/* Layer 10: Interactive Landing Page Content — Terpusat secara Vertikal */}
+      {/* Layer 10: Interactive Landing Page Content */}
       <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[100dvh] flex flex-col items-center justify-center py-6 sm:py-8">
-        {/* Concept C: Horizontal Japanese Seal Header langsung menyatu di atas banner */}
         <header className="w-full max-w-5xl mx-auto mb-2 sm:mb-3 px-2 sm:px-4">
           <GatewayBrandHeader />
         </header>
 
-        {/* Horizontal Promo Banner Carousel Slider */}
         <PromoBannerSlider />
 
-        {/* Gray Line Divider with APPLICATION || アプリケーション */}
         <div
           id="gateway-section-divider"
           className="w-full max-w-5xl mx-auto my-3 sm:my-4 px-2 sm:px-4 flex items-center select-none"
@@ -66,11 +69,41 @@ export const GatewayPage: React.FC = () => {
           <div className="divider-line-right flex-1 h-px bg-stone-300 origin-left" />
         </div>
 
-        {/* Three Feature Cards Grid: Koperasi, Marketplace, and Benefit Anggota */}
         <FeatureCardsGrid />
+
+        {/* Compact SSO Login & Self-Registration Strip */}
+        <div className="w-full max-w-6xl mx-auto mt-4 sm:mt-5 px-2 sm:px-4">
+          <div className="rounded-2xl bg-white/85 backdrop-blur-sm border border-pink-100/90 px-4 py-3 sm:px-5 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-[0_8px_24px_-10px_rgba(244,114,182,0.18)]">
+            <div className="text-center sm:text-left">
+              <p className="text-xs sm:text-[13px] font-bold text-[#0B4A25]">
+                Akses Akun Anggota Koperasi PT SAI
+              </p>
+              <p className="text-[11px] sm:text-xs text-[#4A5D52]">
+                Masuk dengan NIK melalui Login SSO Terpadu atau ajukan keanggotaan baru secara mandiri.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => navigate('/login')}
+                className="h-9 px-4 rounded-xl border border-emerald-200 bg-[#F0F8F3] hover:bg-[#E1F1E7] text-[#065C2B] text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Login SSO</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/register')}
+                className="h-9 px-4 rounded-xl bg-[#065C2B] hover:bg-[#043D1D] text-white text-xs font-bold inline-flex items-center gap-1.5 shadow-sm cursor-pointer transition-colors"
+              >
+                <UserPlus className="w-3.5 h-3.5" />
+                <span>Registrasi Mandiri</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </main>
 
-      {/* Developer Debug Replay Trigger (Only active when ?motionDebug=1 is present) */}
       {isDebugMode && (
         <button
           onClick={replayIntro}
@@ -84,4 +117,11 @@ export const GatewayPage: React.FC = () => {
       )}
     </div>
   );
+};
+
+export const GatewayPage: React.FC = () => {
+  const { version } = useDesignVersion();
+  if (version === 'v3') return <GatewayPageV3 />;
+  if (version === 'v2') return <GatewayPageV2 />;
+  return <GatewayPageV1 />;
 };

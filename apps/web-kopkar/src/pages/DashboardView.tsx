@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAnalyticsData } from '../features/analytics/hooks/useAnalyticsData';
-import { DashboardHeader } from '../features/dashboard/components/DashboardHeader';
 import { PromoDiscountBanner } from '../features/dashboard/components/PromoDiscountBanner';
 import { DashboardKpiGrid } from '../features/dashboard/components/DashboardKpiGrid';
 import { IncomingOrdersCard } from '../features/dashboard/components/IncomingOrdersCard';
@@ -18,10 +17,7 @@ export const DashboardView: React.FC = () => {
 
   return (
     <div className="space-y-5 sm:space-y-6">
-      {/* 1. Header Khusus Mobile */}
-      <DashboardHeader />
-
-      {/* 2. Top Carousel Promo Banner Iklan (Full Width) */}
+      {/* 1. Top Carousel Promo Banner Iklan (Full Width) */}
       <PromoDiscountBanner />
 
       {/* 3. Ringkasan 4 Kartu Metrik KPI (Full Width) */}

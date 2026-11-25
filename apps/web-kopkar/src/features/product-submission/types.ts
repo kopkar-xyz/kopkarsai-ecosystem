@@ -6,7 +6,12 @@ export type ProductKind =
   | 'Jajanan Buah'
   | 'Minuman (Es)'
   | 'Minuman (Non Es)'
+  | 'Makanan Berat'
   | 'Lain-lain';
+
+export type ProductTypeOption = ProductKind;
+export type SupplyScheduleOption = SupplyScheduleTime;
+export type ShelfLifeOption = ShelfLifeDuration;
 
 export type SupplyLocation = 'SAI-T' | 'SAI-B';
 
@@ -15,6 +20,7 @@ export type SupplyScheduleTime =
   | 'Shift B'
   | 'Setiap Pagi'
   | 'Setiap Malam'
+  | 'Tunggu Habis'
   | 'Tunggu Barang Habis';
 
 export type ShelfLifeDuration =
