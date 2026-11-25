@@ -14,8 +14,8 @@ export const INITIAL_FORM_DATA: CompleteSubmissionFormData = {
   supplySchedule: 'Shift A',
   shelfLife: 'Setiap Akhir Shift',
   customShelfLifeDays: 1,
-  costPrice: 0,
-  sellingPrice: 0,
+  costPrice: 12000,
+  sellingPrice: 15000,
   qtyKirim: 20,
   weightGrams: '', // Inactive, diisi pengurus koperasi
   productionDuration: '1.5 Jam',

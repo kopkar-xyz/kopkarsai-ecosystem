@@ -11,7 +11,7 @@ export const HeaderDateWidget: React.FC<HeaderDateWidgetProps> = ({ user }) => {
   const dateInfo = formatDateID();
 
   return (
-    <div className="w-full bg-gradient-to-r from-[#1F5B45] via-[#2F6F56] to-[#1F5B45] text-white rounded-3xl p-5 sm:p-7 shadow-bento relative overflow-hidden border border-[#2F6F56]">
+    <div className="w-full bg-gradient-to-r from-[#1F5B45] via-[#2F6F56] to-[#1F5B45] text-white rounded-2xl p-5 sm:p-7 shadow-bento relative overflow-hidden border border-[#2F6F56]">
       {/* Decorative Japanese pattern background watermark */}
       <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 pointer-events-none flex items-center justify-end pr-4">
         <span className="font-kanji text-8xl font-black select-none text-white">

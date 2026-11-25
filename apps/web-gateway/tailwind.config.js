@@ -46,6 +46,7 @@ export default {
       fontFamily: {
         heading: ['"Okashi"', 'sans-serif'],
         display: ['"Okashi"', 'sans-serif'],
+        geist: ['"Geist"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
         sans: ['"M PLUS Rounded 1c"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
         body: ['"M PLUS Rounded 1c"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
         kanji: ['"Zen Old Mincho"', 'serif'],

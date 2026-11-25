@@ -1,41 +1,9 @@
 import React from 'react';
-import {
-  BarChart3,
-  ShoppingBag,
-  Package,
-  Wallet,
-  User,
-  type LucideIcon,
-} from 'lucide-react';
-import { BrandLogo } from '../../components/brand/BrandLogo';
-import { useRouter, type RoutePath } from '../router';
-import {
-  ActiveBarChartIcon,
-  ActiveShoppingBagIcon,
-  ActivePackageIcon,
-  ActiveWalletIcon,
-} from './NavActiveIcons';
-
-interface NavItem {
-  path: RoutePath;
-  label: string;
-  icon: LucideIcon;
-  activeIcon: LucideIcon | React.ComponentType<{ size?: number; className?: string }>;
-  badge?: number;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { path: '/' as RoutePath, label: 'Beranda', icon: BarChart3, activeIcon: ActiveBarChartIcon },
-  { path: '/orders' as RoutePath, label: 'Pesanan Produk', icon: ShoppingBag, activeIcon: ActiveShoppingBagIcon, badge: 2 },
-  { path: '/products' as RoutePath, label: 'Katalog Produk', icon: Package, activeIcon: ActivePackageIcon },
-  { path: '/financial' as RoutePath, label: 'Layanan SinJam', icon: Wallet, activeIcon: ActiveWalletIcon },
-  { path: '/profile' as RoutePath, label: 'Profil Anggota', icon: User, activeIcon: User },
-];
+import { useRouter } from '../router';
+import { NAV_GROUPS } from './navConfig';
 
 /**
- * DesktopSidebar — Navigasi vertikal permanen untuk Desktop & Tablet
- * Mengadopsi palet Hijau Deep Forest (#1F5B45) dengan active tab Warm Cream (#F3ECDD).
- * Menggunakan font Geist untuk menu & label dengan profil pengguna di bagian bawah.
+ * DesktopSidebar — Slicing 1:1 Presisi aistudio-src LayoutShell.
  * Budget: < 200 LOC.
  */
 export const DesktopSidebar: React.FC = () => {
@@ -44,98 +12,98 @@ export const DesktopSidebar: React.FC = () => {
   return (
     <aside
       aria-label="Sidebar Utama Desktop"
-      className="hidden md:flex flex-col justify-between w-60 lg:w-64 h-screen sticky top-0 z-30 bg-[#1F5B45] text-white border-r border-[#2F6F56] shadow-md flex-shrink-0 select-none overflow-y-auto"
+      className="hidden md:flex flex-col justify-between w-60 lg:w-64 h-screen sticky top-0 z-30 bg-[#165239] text-white border-r border-white/10 shadow-md flex-shrink-0 select-none overflow-y-auto"
     >
       {/* 1. Brand Identity Header */}
-      <div className="p-5 lg:p-6 pb-4 border-b border-[#2F6F56]">
-        <div
+      <div className="px-5 pt-4 pb-3.5 border-b border-white/10 flex items-center justify-between">
+        <button
+          type="button"
           onClick={() => navigate('/')}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2C94C] rounded-lg cursor-pointer"
         >
-          <div className="w-10 h-10 rounded-2xl bg-[#174736] border border-[#2F6F56] flex items-center justify-center p-1 shadow-xs group-hover:scale-105 transition-transform">
-            <BrandLogo size={26} />
+          <div className="w-9 h-9 rounded-full bg-[#F2C94C] flex items-center justify-center shrink-0 shadow-sm">
+            <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#165239]" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <circle cx="12" cy="12" r="8" />
+              <path d="M12 4v16M4 12h16M6.3 6.3l11.4 11.4M17.7 6.3L6.3 17.7" />
+            </svg>
           </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5">
-              <span className="font-heading font-extrabold text-base lg:text-lg text-white tracking-tight leading-tight">
-                KOPKARSAI
-              </span>
+          <div>
+            <div className="font-okashi text-[18px] leading-tight tracking-wide text-white">
+              KOPKARSAI
             </div>
-            <p className="text-[11px] font-sans font-medium text-[#A9C3A2] leading-tight">
-              Koperasi Digital PT SAI
-            </p>
+            <div className="text-[11px] text-white/65 leading-tight mt-0.5 font-normal">
+              Ekosistem Koperasi PT SAI
+            </div>
           </div>
-        </div>
+        </button>
       </div>
 
-      {/* 2. Vertical Navigation Menu */}
-      <nav className="flex-1 px-3 lg:px-4 py-4 space-y-1.5">
-        <p className="px-3 pb-1 text-[10px] font-heading font-semibold uppercase tracking-widest text-[#A9C3A2]/80">
-          Menu Utama
-        </p>
-        {NAV_ITEMS.map((item) => {
-          const InactiveIcon = item.icon;
-          const ActiveIcon = item.activeIcon;
-          const isActive =
-            currentPath === item.path ||
-            (item.path === '/products' && currentPath.startsWith('/products'));
+      {/* 2. Categorized Navigation Groups */}
+      <nav className="flex-1 px-3 py-3 space-y-3.5 overflow-y-auto">
+        {NAV_GROUPS.map((group) => (
+          <div key={group.groupTitle} className="space-y-1">
+            <div className="px-3 mb-1 text-[10px] font-semibold tracking-[0.08em] text-white/45 uppercase">
+              {group.groupTitle}
+            </div>
+            <div className="space-y-0.5">
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const isActive =
+                  currentPath === item.path ||
+                  (item.path === '/products' && currentPath.startsWith('/products'));
 
-          return (
-            <button
-              key={item.path}
-              onClick={() => navigate(item.path)}
-              className={`w-full flex items-center gap-3 px-3.5 lg:px-4 py-3 rounded-2xl text-xs lg:text-sm transition-all duration-200 cursor-pointer text-left group ${
-                isActive
-                  ? 'bg-[#F3ECDD] text-[#1F5B45] font-heading font-semibold shadow-sm'
-                  : 'text-[#A9C3A2] hover:text-white hover:bg-white/10 font-heading font-medium'
-              }`}
-            >
-              <div className="flex-shrink-0">
-                {isActive ? (
-                  <ActiveIcon size={19} className="text-[#1F5B45]" />
-                ) : (
-                  <InactiveIcon
-                    size={19}
-                    strokeWidth={1.8}
-                    className="text-[#A9C3A2] group-hover:text-white transition-colors"
-                  />
-                )}
-              </div>
-              <span className="truncate flex-1 tracking-wide">{item.label}</span>
-              {item.badge && (
-                <span
-                  className={`ml-auto min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-sans font-bold flex items-center justify-center tabular-nums transition-colors ${
-                    isActive
-                      ? 'bg-[#1F5B45] text-white'
-                      : 'bg-[#E5C07B] text-[#182B24]'
-                  }`}
-                >
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
+                return (
+                  <button
+                    key={item.path}
+                    type="button"
+                    onClick={() => navigate(item.path)}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-2xl text-[12.5px] transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2C94C] ${
+                      isActive
+                        ? 'bg-[#FAF7EE] text-[#154A33] font-semibold shadow-sm'
+                        : 'text-white/80 hover:text-white hover:bg-white/10 font-normal'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2.5 min-w-0">
+                      <Icon
+                        className={`w-4 h-4 shrink-0 ${
+                          isActive ? 'text-[#165239]' : 'text-white/65'
+                        }`}
+                      />
+                      <span className="truncate whitespace-nowrap">{item.label}</span>
+                    </span>
+                    {item.badge && (
+                      <span className="w-5 h-5 rounded-full bg-[#F2C94C] text-[#154A33] text-[11px] font-bold flex items-center justify-center shrink-0 tabular-nums">
+                        {item.badge}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
-      {/* 3. Bottom User Profile Card (.me) */}
-      <div className="p-3 lg:p-4 pt-3 border-t border-[#2F6F56] mt-auto">
-        <div
+      {/* 3. Bottom User Profile Card */}
+      <div className="p-3 border-t border-white/10 mt-auto">
+        <button
+          type="button"
           onClick={() => navigate('/profile')}
-          className="flex items-center gap-3 p-2.5 rounded-2xl bg-[#174736]/70 border border-[#2F6F56] hover:bg-[#174736] transition-all cursor-pointer group select-none shadow-xs"
+          className="w-full flex items-center gap-2.5 p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2C94C]"
         >
-          <div className="w-9 h-9 rounded-full bg-[#E5C07B] text-[#182B24] font-heading font-bold text-xs flex items-center justify-center flex-shrink-0 shadow-xs">
+          <div className="w-8 h-8 rounded-full bg-[#F2C94C] text-[#154A33] font-bold text-xs flex items-center justify-center shrink-0">
             AA
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-heading font-medium text-white truncate leading-tight group-hover:text-[#F3ECDD] transition-colors">
+            <div className="text-[12px] font-semibold text-white truncate leading-tight">
               Alexander Agung
-            </p>
-            <p className="text-[11px] font-sans text-[#A9C3A2] truncate leading-tight mt-0.5">
-              Production
-            </p>
+            </div>
+            <div className="text-[10.5px] text-white/60 truncate leading-tight mt-0.5">
+              NIK: SAI-2024-001
+            </div>
           </div>
-        </div>
+        </button>
       </div>
     </aside>
   );

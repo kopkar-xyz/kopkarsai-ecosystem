@@ -1,54 +1,61 @@
-import React from 'react';
-import { Wallet } from 'lucide-react';
-import { LoanSummaryCard } from '../features/financial/components/LoanSummaryCard';
-import { LoanTransactionsCard } from '../features/financial/components/LoanTransactionsCard';
-import type { LoanSummary } from '../types';
+import React, { useState } from 'react';
+import { FinancialMetricsHeader } from '../features/financial/components/FinancialMetricsHeader';
+import { LoanCalculatorCard } from '../features/financial/components/LoanCalculatorCard';
+import { SavingsLoanHistoryCard } from '../features/financial/components/SavingsLoanHistoryCard';
+import { SavingsShuCard } from '../features/financial/components/SavingsShuCard';
 
-const MOCK_LOAN_DATA: LoanSummary = {
-  plafonMaksimal: 15000000,
-  pinjamanAktif: 2500000,
-  sisaPlafon: 12500000,
-  tenorBulan: 10,
-  cicilanPerBulan: 270000,
-  statusPengajuan: 'ACTIVE',
-};
+const MAX_LOAN_CEILING = 50000000; // Rp 50 Juta (KK-REQ-006)
 
 /**
- * FinancialView (Simpan Pinjam) — KK-SCR-005
- * Dedicated separate page for cooperative loan facilities and transactions.
- * Thin route composition view strictly following the 200-line budget invariant.
+ * FinancialView (Layanan Sinjam / Kalkulator Simulasi Simpan Pinjam) — KK-SCR-012
+ * Slicing 1:1 Presisi Gambar 1 Referensi:
+ * - 3 Kartu Metrik Plafon (Maksimal, Berjalan, Sisa Hak)
+ * - Grid 2 Kolom: Kalkulator Simulasi Pinjaman & Riwayat Simpanan & Pinjaman
+ * - Card Bawah: Saldo Simpanan & Estimasi SHU Tahunan
+ * Budget: < 200 LOC.
  */
 export const FinancialView: React.FC = () => {
+  const [currentDebt] = useState(15000000);
+  const remainingCeiling = Math.max(0, MAX_LOAN_CEILING - currentDebt);
+
+  const handleSubmitLoan = (amount: number, tenor: number, purpose: string) => {
+    alert(
+      `Pengajuan pinjaman sebesar Rp ${amount.toLocaleString('id-ID')} dengan tenor ${tenor} bulan untuk "${purpose}" berhasil dikirim ke Pengurus Finansial Koperasi.`
+    );
+  };
+
   return (
-    <div className="space-y-5 sm:space-y-6">
-      {/* Header Halaman SinJam (Khusus Mobile, di Desktop tampil di DesktopHeader) */}
-      <div className="md:hidden flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#1F5B45] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
-            <Wallet size={20} />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-heading font-extrabold text-[#1A2421]">
-              Layanan SinJam (Simpan Pinjam)
-            </h1>
-            <p className="text-xs sm:text-sm font-kanji text-[#5C6F67] tracking-widest">
-              貯蓄融資管理
-            </p>
-          </div>
+    <div className="space-y-4 sm:space-y-5 animate-fadeIn select-none">
+      {/* 1. Header Plafon & Sisa Pinjaman */}
+      <FinancialMetricsHeader
+        maxCeiling={MAX_LOAN_CEILING}
+        currentDebt={currentDebt}
+        remainingCeiling={remainingCeiling}
+      />
+
+      {/* 2. Grid 2 Kolom: Kalkulator Simulasi & Riwayat Mutasi */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
+        <div className="lg:col-span-7 flex flex-col">
+          <LoanCalculatorCard
+            maxLoan={remainingCeiling}
+            initialAmount={10000000}
+            initialTenor={12}
+            onSubmitLoan={handleSubmitLoan}
+          />
         </div>
 
-        <div className="hidden sm:flex items-center gap-2">
-          <span className="text-xs font-accent font-semibold text-[#1F5B45] bg-[#EAF4EE] px-3 py-1 rounded-full border border-[#A9C3A2]/60">
-            Payroll Unit SAI B
-          </span>
+        <div className="lg:col-span-5 flex flex-col">
+          <SavingsLoanHistoryCard />
         </div>
       </div>
 
-      {/* 1. Fasilitas Pinjaman */}
-      <LoanSummaryCard loans={MOCK_LOAN_DATA} />
-
-      {/* 2. Transaksi Pinjaman (Pinjam & Tebus/Pelunasan) */}
-      <LoanTransactionsCard />
+      {/* 3. Saldo Simpanan & Estimasi SHU Tahunan */}
+      <SavingsShuCard
+        simpananPokok={100000}
+        simpananWajib={1200000}
+        simpananSukarela={3500000}
+        estimasiShu={425000}
+      />
     </div>
   );
 };

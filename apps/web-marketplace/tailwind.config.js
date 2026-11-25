@@ -59,7 +59,7 @@ export default {
         },
       },
       fontFamily: {
-        heading: ['"Okashi"', 'cursive', 'sans-serif'],
+        heading: ['"Geist"', 'sans-serif'],
         display: ['"Okashi"', 'cursive', 'sans-serif'],
         brush: ['"Okashi"', 'cursive', 'sans-serif'],
         geist: ['"Geist"', 'sans-serif'],

@@ -1,68 +1,104 @@
-import React from 'react';
-import { Bell } from 'lucide-react';
+import React, { useState } from 'react';
+import { Bell, Menu } from 'lucide-react';
 import { BrandLogo } from '../../components/brand/BrandLogo';
 import { useRouter } from '../router';
+import { getKopkarPageMeta } from './navConfig';
+import { MobileMenuDrawer } from './MobileMenuDrawer';
 
+/**
+ * MobileHeader — Satu-satunya header untuk tampilan mobile (< md).
+ * Mengikuti desain navbar bawah pada referensi: logo KopKar hijau-emas,
+ * judul halaman dengan bobot font-semibold (1 tingkat lebih ringan dari bold),
+ * subjudul Kanji, tombol notifikasi, avatar profil AA, dan menu drawer.
+ * Budget: < 200 LOC.
+ */
 export const MobileHeader: React.FC = () => {
   const { currentPath, navigate } = useRouter();
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Hilangkan header pada mobile di beranda, pesanan, produk, produk baru/detail, dan sinjam
-  if (
-    currentPath === '/' ||
-    currentPath === '/orders' ||
-    currentPath === '/products' ||
-    currentPath === '/products/new' ||
-    currentPath === '/products/detail' ||
-    currentPath === '/financial'
-  ) {
-    return null;
-  }
+  const headerInfo = getKopkarPageMeta(currentPath);
 
   return (
-    <header className="md:hidden sticky top-0 z-30 w-full bg-[#F8F4EC]/95 backdrop-blur-md border-b border-[#DED5C3] px-4 py-3 shadow-xs">
-      <div className="flex items-center justify-between">
-        {/* Brand identity */}
-        <div
-          onClick={() => navigate('/')}
-          className="flex items-center gap-2.5 cursor-pointer active:scale-95 transition-transform select-none"
-        >
-          <div className="w-8 h-8 rounded-xl bg-[#1F5B45] border border-[#2F6F56] flex items-center justify-center p-0.5 shadow-xs">
-            <BrandLogo size={24} />
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-heading font-extrabold text-base text-[#1F5B45] tracking-tight">
-                Koperasi App
-              </span>
-              <span className="text-[9px] font-accent font-bold text-[#2F6F56] bg-[#A9C3A2]/25 px-1.5 py-0.2 rounded-full border border-[#A9C3A2]/50">
-                PT SAI
-              </span>
+    <>
+      <header className="md:hidden sticky top-0 z-30 w-full bg-[#FAF7EE]/95 backdrop-blur-md border-b border-[#EAE4D3] px-3.5 py-2.5 select-none">
+        <div className="flex items-center justify-between gap-2.5">
+          {/* Left: KopKar Logo + Page Title & Kanji Subtitle */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              aria-label="Beranda Koperasi"
+              className="w-10 h-10 rounded-2xl bg-[#165239] border border-[#2F6F56] flex items-center justify-center p-1 shrink-0 shadow-xs cursor-pointer active:scale-95 transition-transform"
+            >
+              <BrandLogo size={26} />
+            </button>
+            <div className="min-w-0">
+              <h1 className="text-[16.5px] font-sans font-semibold text-[#18221D] leading-tight truncate">
+                {headerInfo.title}
+              </h1>
+              <p className="text-[11px] font-kanji text-[#526058] tracking-widest leading-tight mt-0.5 truncate">
+                {headerInfo.kanji}
+              </p>
             </div>
-            <span className="text-[10px] text-[#5C6F67] font-body block -mt-0.5">
-              UI Style Direction
-            </span>
+          </div>
+
+          {/* Right: Notifications, Profile Circle, & All-Menus Drawer Trigger */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setNotifOpen((prev) => !prev)}
+                aria-label="Pusat Notifikasi"
+                className="relative w-9 h-9 rounded-xl bg-white text-[#165239] border border-[#EAE4D3] flex items-center justify-center shadow-xs active:scale-95 transition-transform cursor-pointer"
+              >
+                <Bell size={17} />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#DC4C70]" />
+              </button>
+
+              {notifOpen && (
+                <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl border border-[#EAE4D3] shadow-lg z-40 p-4">
+                  <div className="flex items-center justify-between pb-2.5 border-b border-[#EAE4D3]">
+                    <span className="text-[13px] font-semibold text-[#18221D]">
+                      Notifikasi
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setNotifOpen(false)}
+                      className="text-[12px] font-medium text-[#165239] cursor-pointer"
+                    >
+                      Tutup
+                    </button>
+                  </div>
+                  <div className="py-2 text-[12px] text-[#526058]">
+                    Tidak ada notifikasi baru saat ini.
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => navigate('/profile')}
+              aria-label="Profil Saya"
+              className="w-9 h-9 rounded-full bg-[#165239] text-white font-sans font-semibold text-xs flex items-center justify-center ring-2 ring-[#A9C3A2] shadow-xs active:scale-95 transition-transform cursor-pointer"
+            >
+              AA
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Buka semua menu"
+              className="w-9 h-9 rounded-xl bg-white text-[#165239] border border-[#EAE4D3] flex items-center justify-center shadow-xs active:scale-95 transition-transform cursor-pointer"
+            >
+              <Menu size={17} />
+            </button>
           </div>
         </div>
+      </header>
 
-        {/* Action icons */}
-        <div className="flex items-center gap-2">
-          <button
-            aria-label="Pusat Notifikasi"
-            className="relative p-2 rounded-xl bg-[#F3ECDD] text-[#1F5B45] border border-[#DED5C3] active:scale-90 transition-transform"
-          >
-            <Bell size={16} />
-            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#DC4C70]" />
-          </button>
-
-          <button
-            onClick={() => navigate('/profile')}
-            aria-label="Profil Saya"
-            className="w-8 h-8 rounded-full bg-[#1F5B45] text-white font-heading font-bold text-xs flex items-center justify-center ring-2 ring-[#A9C3A2] active:scale-90 transition-transform"
-          >
-            AA
-          </button>
-        </div>
-      </div>
-    </header>
+      <MobileMenuDrawer open={menuOpen} onClose={() => setMenuOpen(false)} />
+    </>
   );
 };

@@ -77,7 +77,7 @@ export const MobileBottomNav: React.FC = () => {
               </div>
 
               <span
-                className={`text-[11px] mt-1 tracking-tight font-heading transition-all ${
+                className={`text-[11px] mt-1 tracking-tight font-geist transition-all ${
                   isActive ? 'font-bold text-white' : 'font-medium text-[#A9C3A2]/90'
                 }`}
               >

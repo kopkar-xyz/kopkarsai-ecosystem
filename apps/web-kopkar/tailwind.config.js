@@ -39,8 +39,9 @@ export default {
         },
       },
       fontFamily: {
-        heading: ['"Okashi"', 'sans-serif'],
+        heading: ['"Geist"', 'sans-serif'],
         display: ['"Okashi"', 'sans-serif'],
+        okashi: ['"Okashi"', 'sans-serif'],
         geist: ['"Geist"', 'sans-serif'],
         sans: ['"Geist"', 'sans-serif'],
         body: ['"Geist"', 'sans-serif'],

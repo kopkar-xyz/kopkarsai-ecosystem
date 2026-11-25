@@ -1,124 +1,95 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Bell } from 'lucide-react';
 import { useRouter } from '../router';
 import { formatDateID } from '../../lib/utils';
-
-interface PageHeaderMeta {
-  title: string;
-  kanji: string;
-}
+import { getKopkarPageMeta } from './navConfig';
 
 /**
- * DesktopHeader — Header desktop/tablet selaras dengan gaya mobile
- * Menampilkan Judul & Kanji Subtitle tanpa ikon di kiri, tanpa background color,
- * tanpa search bar, serta dengan jarak vertikal yang ringkas.
+ * DesktopHeader — Header desktop/tablet Kyoto Heritage (hanya tampil >= md).
  * Budget: < 200 LOC.
  */
 export const DesktopHeader: React.FC = () => {
   const { currentPath, navigate } = useRouter();
   const dateInfo = formatDateID();
+  const [notifOpen, setNotifOpen] = useState(false);
 
-  const getHeaderInfo = (path: string): PageHeaderMeta => {
-    switch (path) {
-      case '/':
-        return {
-          title: 'Beranda Koperasi',
-          kanji: '業績管理',
-        };
-      case '/orders':
-        return {
-          title: 'Pesanan Produk',
-          kanji: '受注管理',
-        };
-      case '/products':
-        return {
-          title: 'Katalog Produk Mitra',
-          kanji: '提携商品一覧',
-        };
-      case '/products/new':
-        return {
-          title: 'Ajukan Produk Baru',
-          kanji: '新規商品申請',
-        };
-      case '/products/detail':
-        return {
-          title: 'Detail Produk Mitra',
-          kanji: '商品詳細',
-        };
-      case '/financial':
-        return {
-          title: 'Layanan SinJam (Simpan Pinjam)',
-          kanji: '貯蓄融資管理',
-        };
-      case '/profile':
-        return {
-          title: 'Profil Anggota',
-          kanji: '会員情報',
-        };
-      default:
-        return {
-          title: 'Beranda Koperasi',
-          kanji: '業績管理',
-        };
-    }
-  };
-
-  const headerInfo = getHeaderInfo(currentPath);
+  const headerInfo = getKopkarPageMeta(currentPath);
 
   return (
-    <header className="hidden md:flex items-center justify-between px-4 sm:px-6 lg:px-8 pt-3.5 pb-2.5 border-b border-[#DED5C3] select-none">
-      {/* 1. Left: Page Title & Kanji Subtitle (Tanpa Ikon) */}
-      <div className="min-w-0">
-        <h1 className="text-xl sm:text-2xl font-heading font-extrabold text-[#1A2421] leading-tight truncate">
-          {headerInfo.title}
-        </h1>
-        <p className="text-xs sm:text-sm font-kanji text-[#5C6F67] tracking-widest leading-none mt-0.5">
-          {headerInfo.kanji}
-        </p>
-      </div>
-
-      {/* 2. Right Actions: Date Widget, Notifications, Profile Pill */}
-      <div className="flex items-center gap-3 lg:gap-4 flex-shrink-0">
-        {/* Calendar & Era Date (Kyoto Heritage Accent) */}
-        <div className="text-right hidden xl:block pr-3.5 border-r border-[#DED5C3]">
-          <p className="text-xs font-heading font-extrabold text-[#1A2421] leading-tight">
-            {dateInfo.fullDate}
-          </p>
-          <p className="text-[11px] text-[#5C6F67] font-body flex items-center justify-end gap-1.5 mt-0.5">
-            <span className="font-kanji text-[#1F5B45] tracking-wide">
-              {dateInfo.kanjiEraDate}
-            </span>
-            <span className="text-[#8FA39A]">•</span>
-            <span>{dateInfo.timeFormatted}</span>
-          </p>
+    <header className="hidden md:block sticky top-0 z-30 bg-[#FAF7EE]/90 backdrop-blur-md border-b border-[#EAE4D3] px-4 sm:px-7 py-2.5 select-none font-geist">
+      <div className="w-full max-w-[1320px] mx-auto flex items-center justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-[16px] sm:text-[17px] font-medium tracking-[-0.015em] leading-snug text-[#18221D] truncate">
+            {headerInfo.title}
+          </h1>
+          <div className="text-[11px] font-normal text-[#7A867E] leading-tight mt-0.5 truncate">
+            {headerInfo.kanji}
+          </div>
         </div>
 
-        {/* Notification Bell with Red Badge */}
-        <button
-          type="button"
-          aria-label="Pusat Notifikasi"
-          className="relative p-2 rounded-xl bg-white hover:bg-[#F3ECDD] text-[#1F5B45] border border-[#DED5C3] shadow-xs active:scale-95 transition-all cursor-pointer"
-        >
-          <Bell size={18} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#DC4C70]" />
-        </button>
+        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+          <div className="text-right pr-1">
+            <div className="text-[12.5px] font-normal text-[#18221D] leading-tight whitespace-nowrap">
+              {dateInfo.fullDate}
+            </div>
+            <div className="text-[11px] font-normal text-[#859089] leading-tight mt-0.5 tabular-nums whitespace-nowrap">
+              <span>{dateInfo.kanjiEraDate}</span>
+              <span className="mx-1">·</span>
+              <span>{dateInfo.timeFormatted}</span>
+            </div>
+          </div>
 
-        {/* User Profile Pill (Alexander Agung) */}
-        <div
-          onClick={() => navigate('/profile')}
-          className="flex items-center gap-2.5 pl-1.5 pr-3.5 py-1 rounded-2xl bg-white hover:bg-[#F3ECDD]/60 border border-[#DED5C3] shadow-xs active:scale-98 transition-all cursor-pointer group"
-        >
-          <div className="w-8 h-8 rounded-full bg-[#1F5B45] text-white font-heading font-extrabold text-xs flex items-center justify-center ring-2 ring-[#A9C3A2] group-hover:scale-105 transition-transform flex-shrink-0">
-            AA
+          <div className="w-px h-6 bg-[#E5DEC9]" />
+
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setNotifOpen((prev) => !prev)}
+              aria-label="Notifikasi koperasi"
+              className="relative w-9 h-9 rounded-xl bg-white hover:bg-[#F5F0E2]/70 border border-[#EAE4D3] flex items-center justify-center text-[#526058] hover:text-[#18221D] transition-colors cursor-pointer"
+            >
+              <Bell className="w-4 h-4 stroke-[1.75]" />
+              <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#E8590C]" />
+            </button>
+
+            {notifOpen && (
+              <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl border border-[#EAE4D3] shadow-lg z-30 p-4">
+                <div className="flex items-center justify-between pb-3 border-b border-[#EAE4D3]">
+                  <span className="text-[13.5px] font-medium text-[#18221D]">
+                    Notifikasi
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setNotifOpen(false)}
+                    className="text-[12px] font-medium text-[#165239] hover:underline cursor-pointer"
+                  >
+                    Tutup
+                  </button>
+                </div>
+                <div className="py-2 text-[12.5px] text-[#526058]">
+                  Tidak ada notifikasi baru saat ini.
+                </div>
+              </div>
+            )}
           </div>
-          <div className="text-left min-w-0">
-            <p className="text-xs font-heading font-bold text-[#1A2421] leading-tight truncate">
-              Alexander Agung
-            </p>
-            <p className="text-[10px] text-[#2F6F56] font-accent font-semibold leading-tight">
-              Production
-            </p>
-          </div>
+
+          <button
+            type="button"
+            onClick={() => navigate('/profile')}
+            className="flex items-center gap-2.5 bg-white hover:bg-[#F5F0E2]/70 border border-[#EAE4D3] rounded-xl p-1 pl-1.5 pr-3 py-1 transition-colors cursor-pointer"
+          >
+            <div className="w-7 h-7 rounded-lg bg-[#165239] text-white text-[11px] font-medium flex items-center justify-center shrink-0">
+              AA
+            </div>
+            <div className="text-left">
+              <div className="text-[12.5px] font-medium text-[#18221D] leading-tight whitespace-nowrap">
+                Alexander Agung
+              </div>
+              <div className="text-[11px] font-normal text-[#7A867E] leading-tight whitespace-nowrap">
+                Production
+              </div>
+            </div>
+          </button>
         </div>
       </div>
     </header>

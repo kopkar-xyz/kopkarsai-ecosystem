@@ -1,191 +1,159 @@
 import React, { useState } from 'react';
-import { ArrowLeft, History, CheckCircle2, AlertTriangle, Clock, XCircle } from 'lucide-react';
+import { ArrowLeft, Calendar, ClipboardList, DollarSign, Package } from 'lucide-react';
 import { useRouter } from '../app/router';
 import { useProductStore } from '../features/product-submission/context/ProductStoreContext';
-import { ProductDetailCardSections } from '../features/product-submission/components/ProductDetailCardSections';
-import { ProductRevisionHistoryModal } from '../features/product-submission/components/ProductRevisionHistoryModal';
-import type { SubmissionTransaction, SubmissionStatus, DetailedProduct } from '../features/product-submission/types';
+import { CATALOG_PRODUCTS } from '../features/products/data/catalogProductsData';
+import { ProductDetailHeroCard } from '../features/products/components/ProductDetailHeroCard';
+import { ProductDetailFinancialCard } from '../features/products/components/ProductDetailFinancialCard';
+import { ProductDetailSpecsCard } from '../features/products/components/ProductDetailSpecsCard';
+import { ProductDetailCompositionCard } from '../features/products/components/ProductDetailCompositionCard';
+import { ProductDetailHistoryCard } from '../features/products/components/ProductDetailHistoryCard';
 
 /**
- * ProductDetailView (Halaman Detail Produk Mitra & Log Revisi) — KK-SCR-006 & KK-SCR-007
+ * ProductDetailView (Halaman Detail Produk Mitra) — KK-SCR-008
+ * Slicing 1:1 Presisi Gambar 3 Referensi:
+ * - Header: Tombol "← Kembali ke Katalog" (tombol Tambah ke Keranjang dihapus sesuai instruksi)
+ * - Row 1: Hero Card (Foto, badge, judul, mitra halal/P-IRT, 4 metrik, toggle marketplace)
+ * - Row 2: Grid 2 Kolom (Rincian Finansial + Spesifikasi Teknis & Jadwal Pasokan)
+ * - Row 3: Grid 2 Kolom (Komposisi & Penyimpanan + Riwayat Pengajuan & Revisi)
  * Budget: < 200 LOC.
  */
 export const ProductDetailView: React.FC = () => {
   const { navigate } = useRouter();
-  const {
-    selectedProduct,
-    toggleProductActive,
-    setSelectedRevisionData,
-  } = useProductStore();
+  const { selectedProductId } = useProductStore();
 
-  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isActive, setIsActive] = useState(true);
+  const [activeTab, setActiveTab] = useState<'financial' | 'specs' | 'composition' | 'history'>(
+    'financial'
+  );
 
-  if (!selectedProduct) {
-    return (
-      <div className="max-w-4xl mx-auto py-12 text-center space-y-4">
-        <p className="text-sm font-heading font-bold text-[#1A2421]">
-          Tidak ada produk yang dipilih.
-        </p>
+  const DETAIL_TABS = [
+    { key: 'financial' as const, label: 'Finansial & Omset', icon: DollarSign },
+    { key: 'specs' as const, label: 'Teknis & Jadwal Pasokan', icon: Calendar },
+    { key: 'composition' as const, label: 'Komposisi & Simpan', icon: Package },
+    { key: 'history' as const, label: 'Riwayat Versi (2)', icon: ClipboardList },
+  ];
+
+  // Cari produk dari data katalog (default ke Nasi Kotak Ayam Bakar Madu)
+  const catalogItem =
+    CATALOG_PRODUCTS.find((p) => p.id === selectedProductId) || CATALOG_PRODUCTS[0];
+
+  const handleToggleActive = () => {
+    setIsActive((prev) => !prev);
+  };
+
+  const isBento = catalogItem.name.includes('Ayam Bakar');
+  const costPrice = isBento ? 20000 : Math.round(catalogItem.price * 0.8);
+  const sellingPrice = catalogItem.price;
+  const marginAmount = sellingPrice - costPrice;
+  const marginPercent = Math.round((marginAmount / sellingPrice) * 100);
+
+  return (
+    <div className="space-y-4 sm:space-y-5 animate-fadeIn select-none">
+      {/* 1. Header Bar: Tombol Kembali (Tanpa Tambah ke Keranjang) */}
+      <div className="flex items-center justify-between pt-1">
         <button
           type="button"
           onClick={() => navigate('/products')}
-          className="px-4 py-2 bg-[#1F5B45] text-white rounded-xl text-xs font-heading font-bold"
+          className="flex items-center gap-1.5 text-xs font-sans font-medium text-[#14261E] hover:text-[#1F5C45] transition-colors cursor-pointer"
         >
-          Kembali ke Katalog Produk
+          <ArrowLeft size={14} />
+          <span>Kembali ke Katalog</span>
         </button>
       </div>
-    );
-  }
 
-  const isApproved = selectedProduct.submissionStatus === 'DISETUJUI';
-  const marginAmount = Math.max(0, selectedProduct.sellingPrice - selectedProduct.costPrice);
-  const marginPercent =
-    selectedProduct.sellingPrice > 0
-      ? Math.round((marginAmount / selectedProduct.sellingPrice) * 100)
-      : 0;
-
-  const handleStartRevision = (trx: SubmissionTransaction) => {
-    setSelectedRevisionData(trx.formDataSnapshot);
-    navigate('/products/new');
-  };
-
-  const handleNewDropSchedule = (prod: DetailedProduct) => {
-    setSelectedRevisionData({
-      id: prod.id,
-      name: prod.name,
-      productType: prod.productType,
-      origin: prod.origin,
-      supplyLocation: prod.supplyLocation,
-      supplySchedule: prod.supplySchedule,
-      shelfLife: prod.shelfLife,
-      costPrice: prod.costPrice,
-      sellingPrice: prod.sellingPrice,
-      qtyKirim: prod.qtyKirim,
-      weightGrams: prod.weightGrams,
-      productionDuration: prod.productionDuration,
-      deliveryTimeWindow: prod.deliveryTimeWindow,
-      productionTime: prod.productionTime,
-      ingredients: [...prod.ingredients],
-      additionalNotes: prod.additionalNotes,
-      imageFile: null,
-      imagePreviewUrl: prod.imagePreviewUrl,
-      dropDay: 'SELASA',
-      dropShift: 'SHIFT_A',
-      dropLocation: prod.supplyLocation,
-    });
-    navigate('/products/new');
-  };
-
-  const getStatusBadge = (status: SubmissionStatus, isActive: boolean) => {
-    switch (status) {
-      case 'DISETUJUI':
-        return (
-          <span
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-heading font-bold shadow-xs ${
-              isActive
-                ? 'bg-[#1F5B45] text-white border border-[#1F5B45]'
-                : 'bg-[#F3ECDD] text-[#5C6F67] border border-[#DED5C3]'
-            }`}
-          >
-            <CheckCircle2 size={13} className={isActive ? 'text-[#F6CE2C]' : 'text-[#8FA39A]'} />
-            <span>{isActive ? 'Disetujui & Aktif' : 'Disetujui (Nonaktif)'}</span>
-          </span>
-        );
-      case 'PERLU_REVISI':
-        return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FEF6DC] text-[#B87D09] border border-[#F6CE2C] text-xs font-heading font-bold">
-            <AlertTriangle size={13} />
-            <span>Perlu Revisi</span>
-          </span>
-        );
-      case 'DITOLAK':
-        return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FDF0F3] text-[#DC4C70] border border-[#DC4C70]/40 text-xs font-heading font-bold">
-            <XCircle size={13} />
-            <span>Ditolak</span>
-          </span>
-        );
-      default:
-        return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF4EE] text-[#1F5B45] border border-[#A9C3A2] text-xs font-heading font-bold">
-            <Clock size={13} />
-            <span>Menunggu Uji Sampel</span>
-          </span>
-        );
-    }
-  };
-
-  return (
-    <div className="space-y-5 sm:space-y-6 max-w-4xl mx-auto pb-12">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DED5C3]">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => navigate('/products')}
-            className="w-10 h-10 rounded-2xl bg-white hover:bg-[#F3ECDD] border border-[#DED5C3] text-[#1F5B45] flex items-center justify-center flex-shrink-0 shadow-xs cursor-pointer transition-colors"
-            aria-label="Kembali ke Katalog Produk"
-          >
-            <ArrowLeft size={18} />
-          </button>
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-xl sm:text-2xl font-heading font-extrabold text-[#1A2421]">
-                {selectedProduct.name}
-              </h1>
-              <span className="text-[10px] font-accent font-bold px-2 py-0.5 rounded-full bg-[#EAF4EE] text-[#1F5B45] border border-[#A9C3A2]">
-                {selectedProduct.productType}
-              </span>
-              <span className="text-[11px] text-[#5C6F67]">
-                {selectedProduct.origin === 'BUAT_SENDIRI' ? 'Produksi Sendiri' : 'Supply Orang'}
-              </span>
-            </div>
-            <div className="mt-1 flex items-center gap-2 flex-wrap">
-              {getStatusBadge(selectedProduct.submissionStatus, selectedProduct.isActive)}
-              <span className="text-xs text-[#5C6F67]">
-                Penempatan: <strong className="text-[#1A2421]">Pabrik {selectedProduct.supplyLocation}</strong>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Tombol Kanan Atas: History Revisi */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            type="button"
-            onClick={() => setIsHistoryModalOpen(true)}
-            className="px-3.5 py-2 rounded-xl bg-white hover:bg-[#F3ECDD] text-[#1F5B45] border border-[#DED5C3] text-xs font-heading font-bold flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
-          >
-            <History size={15} />
-            <span>History Revisi</span>
-            {selectedProduct.transactions.length > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full bg-[#EAF4EE] text-[#1F5B45] border border-[#A9C3A2] text-[10px]">
-                {selectedProduct.transactions.length}
-              </span>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Main Detail Cards */}
-      <ProductDetailCardSections
-        product={selectedProduct}
-        isApproved={isApproved}
-        marginAmount={marginAmount}
-        marginPercent={marginPercent}
-        onToggleActive={toggleProductActive}
-        onStartRevision={handleStartRevision}
-        onNewDropSchedule={handleNewDropSchedule}
+      {/* 2. Hero Detail Card Sesuai Gambar 3 */}
+      <ProductDetailHeroCard
+        name={catalogItem.name}
+        categoryTag={`${catalogItem.category} · Buat Sendiri · Pabrik ${catalogItem.unit} · v2.0`}
+        badgeStatus="Disetujui & Aktif"
+        partnerSubtitle={`Mitra: ${catalogItem.supplier || 'Dapur Oishi Mitra'} · Halal ID321100184920 · P-IRT 205327501`}
+        price={catalogItem.price}
+        stock={`${catalogItem.stock} porsi`}
+        rating={`${catalogItem.rating ?? 4.9} / 5.0`}
+        quota="30 porsi/batch"
+        isActive={isActive}
+        image={catalogItem.image}
+        onToggleActive={handleToggleActive}
       />
 
-      {/* Modal History Revisi */}
-      <ProductRevisionHistoryModal
-        isOpen={isHistoryModalOpen}
-        onClose={() => setIsHistoryModalOpen(false)}
-        productName={selectedProduct.name}
-        transactions={selectedProduct.transactions}
-        onStartRevision={handleStartRevision}
-      />
+      {/* 3. Card Terpadu dengan Underline Tabs */}
+      <section className="bg-white border border-[#EAE4D3] rounded-2xl shadow-xs overflow-hidden">
+        <nav
+          aria-label="Bagian Detail Produk"
+          className="border-b border-[#F0EBDC] px-5 sm:px-6 flex items-center gap-6 overflow-x-auto"
+        >
+          {DETAIL_TABS.map((tab) => {
+            const Icon = tab.icon;
+            const isTabActive = activeTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setActiveTab(tab.key)}
+                className={`relative py-3.5 text-[12.5px] inline-flex items-center gap-2 cursor-pointer transition-colors whitespace-nowrap ${
+                  isTabActive
+                    ? 'text-[#165239] font-semibold'
+                    : 'text-[#7A867E] hover:text-[#18221D] font-medium'
+                }`}
+              >
+                <Icon size={14} className="shrink-0" />
+                <span>{tab.label}</span>
+                {isTabActive && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute bottom-0 inset-x-0 h-[2.5px] bg-[#165239] rounded-full"
+                  />
+                )}
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="p-5 sm:p-6">
+          {activeTab === 'financial' && (
+            <ProductDetailFinancialCard
+              costPrice={costPrice}
+              sellingPrice={sellingPrice}
+              marginAmount={marginAmount}
+              marginPercent={marginPercent}
+              quotaPorsi={30}
+              projectedMonthlyRevenue={costPrice * 30 * 20}
+              settlementNote={`Settlement dana ditransfer H+1 setelah rekonsiliasi penjualan harian di gerai ${catalogItem.unit}.`}
+            />
+          )}
+
+          {activeTab === 'specs' && (
+            <ProductDetailSpecsCard
+              supplySchedule={`Setiap Pagi · Unit ${catalogItem.unit}`}
+              shelfLife="Setiap Akhir Shift"
+              productionTimeAndDuration="Mulai 04:30 WIB · 1,5 Jam"
+              deliveryTimeWindow="06:00 - 06:45 WIB"
+              netWeight={isBento ? '420 gram' : 'Kemasan Standar'}
+              sampleDropSchedule={`Selasa · Shift A - ${catalogItem.unit}`}
+            />
+          )}
+
+          {activeTab === 'composition' && (
+            <ProductDetailCompositionCard
+              ingredients={
+                isBento
+                  ? [
+                      'Beras Pandan Wangi',
+                      'Ayam Kampung Fillet',
+                      'Madu Hutan',
+                      'Kecap Manis',
+                      'Sambal Terasi',
+                    ]
+                  : ['Bahan Alami Pilihan', 'Bumbu Khas', 'Gula & Garam', 'Rempah Tradisional']
+              }
+              handlingNotes="Simpan di penghangat food-warmer meja kasir maksimal 6 jam."
+            />
+          )}
+
+          {activeTab === 'history' && <ProductDetailHistoryCard />}
+        </div>
+      </section>
     </div>
   );
 };

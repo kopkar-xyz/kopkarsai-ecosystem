@@ -16,7 +16,13 @@ interface Petal {
   opacity: number;
 }
 
-export const SakuraPetalsOverlay: React.FC = () => {
+interface SakuraPetalsOverlayProps {
+  contained?: boolean;
+}
+
+export const SakuraPetalsOverlay: React.FC<SakuraPetalsOverlayProps> = ({
+  contained = false,
+}) => {
   // Generate 28 petals with randomized, desynchronized 3D tumbling states
   const petals: Petal[] = useMemo(() => {
     const totalPetals = 28;
@@ -64,7 +70,7 @@ export const SakuraPetalsOverlay: React.FC = () => {
   return (
     <div
       id="sakura-petals-overlay"
-      className="pointer-events-none fixed inset-0 overflow-hidden z-[2]"
+      className={`pointer-events-none ${contained ? 'absolute' : 'fixed'} inset-0 overflow-hidden z-[2]`}
       aria-hidden="true"
     >
       {petals.map((petal) => (

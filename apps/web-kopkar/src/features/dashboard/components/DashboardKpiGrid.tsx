@@ -63,7 +63,11 @@ const TIMEFRAME_OPTIONS: { label: string; value: '7D' | '30D' | 'QUARTER' }[] = 
 
 /**
  * DashboardKpiGrid — 4 Kartu KPI Ringkasan Performa Bisnis Koperasi
- * Menggunakan Geist tabular-nums untuk angka rapi, font semantik & tata letak responsif (1/2/4 col).
+ * Slicing 1:1 Presisi aistudio-src DashboardPage:
+ * - Header: font-okashi text-[20px] text-[#18221D]
+ * - Nilai KPI: font-okashi text-[24px/26px] tabular-nums
+ * - Label: text-[13px] text-[#526058] (Geist)
+ * - Container: rounded-2xl border border-[#EAE4D3] bg-white p-5
  * Budget: < 200 LOC.
  */
 export const DashboardKpiGrid: React.FC<DashboardKpiGridProps> = ({
@@ -83,14 +87,14 @@ export const DashboardKpiGrid: React.FC<DashboardKpiGridProps> = ({
   };
 
   return (
-    <section className="space-y-3" aria-label="Ringkasan Performa">
+    <section className="space-y-4" aria-label="Ringkasan Performa">
       {/* Header Ringkasan & Filter Waktu */}
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base sm:text-lg font-heading font-extrabold text-[#1A2421]">
+          <h2 className="font-okashi text-[20px] text-[#18221D]">
             Ringkasan
           </h2>
-          <p className="text-xs font-sans text-[#5C6F67]">
+          <p className="text-[12.5px] text-[#7A867E]">
             Performa {currentLabel.toLowerCase()}
           </p>
         </div>
@@ -100,23 +104,23 @@ export const DashboardKpiGrid: React.FC<DashboardKpiGridProps> = ({
           <button
             type="button"
             onClick={() => setDropdownOpen((prev) => !prev)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-[#F8F4EC] border border-[#DED5C3] text-xs font-heading font-medium text-[#1A2421] shadow-2xs transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-[#EAE4D3] text-[13px] font-medium text-[#18221D] cursor-pointer shadow-xs transition-colors"
           >
             <span>{currentLabel}</span>
-            <ChevronDown size={14} className="text-[#5C6F67]" />
+            <ChevronDown size={14} className="text-[#526058]" />
           </button>
 
           {dropdownOpen && (
-            <div className="absolute right-0 top-full mt-1.5 w-40 rounded-xl bg-white border border-[#DED5C3] shadow-bento py-1 z-20">
+            <div className="absolute right-0 top-full mt-1.5 w-44 rounded-xl bg-white border border-[#EAE4D3] shadow-lg py-1 z-20">
               {TIMEFRAME_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
                   onClick={() => handleSelect(opt.value)}
-                  className={`w-full text-left px-3 py-2 text-xs font-heading font-medium transition-colors ${
+                  className={`w-full text-left px-3.5 py-2 text-[12.5px] font-medium transition-colors ${
                     selectedTf === opt.value
-                      ? 'bg-[#EAF4EE] text-[#1F5B45] font-semibold'
-                      : 'text-[#1A2421] hover:bg-[#F8F4EC]'
+                      ? 'bg-[#EAF4EE] text-[#165239] font-semibold'
+                      : 'text-[#18221D] hover:bg-[#FAF7EE]'
                   }`}
                 >
                   {opt.label}
@@ -128,52 +132,50 @@ export const DashboardKpiGrid: React.FC<DashboardKpiGridProps> = ({
       </div>
 
       {/* Grid 4 Kartu KPI */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {KPI_METRICS.map((kpi) => {
           const Icon = kpi.icon;
           return (
             <div
               key={kpi.id}
-              className="p-4 sm:p-4.5 rounded-2xl bg-white border border-[#E9E2D2] shadow-xs flex flex-col justify-between space-y-2 hover:border-[#1F5B45]/40 transition-colors"
+              className="p-5 rounded-2xl bg-white border border-[#EAE4D3] flex flex-col justify-between hover:border-[#165239]/40 transition-colors"
             >
               {/* Row Atas: Label & Ikon */}
-              <div className="flex items-center justify-between text-xs text-[#5C6F67]">
-                <span className="truncate font-heading font-medium text-xs text-[#5C6F67]">{kpi.title}</span>
-                <div className="w-7 h-7 rounded-lg bg-[#EAF4EE] text-[#1F5B45] flex items-center justify-center flex-shrink-0">
-                  <Icon size={14} />
-                </div>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[13px] text-[#526058]">{kpi.title}</span>
+                <span className="w-8 h-8 rounded-lg bg-[#EAF4EE] text-[#165239] flex items-center justify-center shrink-0">
+                  <Icon size={16} />
+                </span>
               </div>
 
-              {/* Nilai Utama dengan Geist Tabular Nums */}
-              <div className="flex items-baseline gap-1.5 text-xl sm:text-2xl font-sans font-semibold text-[#1A2421] tracking-tight tabular-nums">
-                <span>{kpi.value}</span>
+              {/* Nilai Utama dengan font-okashi & tabular-nums */}
+              <div className="mt-3 flex items-baseline gap-1.5">
+                <span className="font-okashi text-[24px] text-[#18221D] tabular-nums">
+                  {kpi.value}
+                </span>
                 {kpi.unit && (
-                  <span className="text-xs sm:text-sm font-sans font-normal text-[#5C6F67]">
+                  <span className="text-[12.5px] text-[#526058]">
                     {kpi.unit}
                   </span>
                 )}
               </div>
 
               {/* Subtitle Trend / Status */}
-              <div className="text-[11px] font-sans text-[#5C6F67] tabular-nums flex items-center gap-1.5 flex-wrap">
+              <div className="mt-2.5">
                 {kpi.badgeText ? (
-                  <>
-                    <span className="font-medium px-2 py-0.5 rounded-full text-[10px] bg-amber-100/80 text-amber-800">
-                      {kpi.badgeText}
-                    </span>
-                    <span className="text-[#5C6F67]">{kpi.subtext}</span>
-                  </>
+                  <span className="inline-block px-2 py-0.5 rounded-md bg-[#FEF3C7] text-[#B45309] text-[11.5px] font-medium">
+                    {kpi.badgeText} ({kpi.subtext})
+                  </span>
                 ) : (
-                  <p className="text-[11px] font-sans text-[#5C6F67] tabular-nums">
-                    <span
-                      className={`font-semibold mr-1 ${
-                        kpi.isPositive ? 'text-[#1F5B45]' : 'text-[#D97706]'
-                      }`}
-                    >
-                      {kpi.trend}
-                    </span>
-                    {kpi.subtext || 'dari minggu lalu'}
-                  </p>
+                  <span
+                    className={`inline-block px-2 py-0.5 rounded-md text-[11.5px] font-medium ${
+                      kpi.isPositive
+                        ? 'bg-[#EAF4EE] text-[#15803D]'
+                        : 'bg-[#FEF3C7] text-[#B45309]'
+                    }`}
+                  >
+                    {kpi.trend} vs minggu lalu
+                  </span>
                 )}
               </div>
             </div>

@@ -44,7 +44,10 @@ const DEFAULT_TOP_PRODUCTS: TopProductMetric[] = [
 
 /**
  * TopProductsTableCard — Tabel Produk Terlaris
- * Slicing 1:1 sesuai template kanonikal kopkar-sai-beranda (1).html.
+ * Slicing 1:1 Presisi aistudio-src DashboardPage:
+ * - Header: font-okashi text-[20px] text-[#18221D]
+ * - Container: rounded-2xl border border-[#EAE4D3] bg-white p-5
+ * - Table header: bg-[#F6F2E6] text-[12px] font-medium text-[#526058] rounded-l-xl / rounded-r-xl
  * Budget: < 200 LOC.
  */
 export const TopProductsTableCard: React.FC<TopProductsTableCardProps> = ({
@@ -52,65 +55,62 @@ export const TopProductsTableCard: React.FC<TopProductsTableCardProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`rounded-2xl bg-white border border-[#E9E2D2] p-5 shadow-xs flex flex-col justify-between h-full ${className}`}>
+    <div className={`rounded-2xl bg-white border border-[#EAE4D3] p-5 shadow-xs flex flex-col justify-between h-full select-none ${className}`}>
       {/* Header */}
-      <div className="mb-3">
-        <h2 className="text-lg sm:text-[22px] font-heading font-medium text-[#14261E] leading-snug">
+      <div className="mb-3 pb-2 border-b border-[#F0EBDC]">
+        <h3 className="font-okashi text-[20px] text-[#18221D]">
           Produk terlaris
-        </h2>
-        <p className="text-[13px] font-sans text-[#6F776F] mt-0.5">
+        </h3>
+        <p className="text-[12px] text-[#7A867E] mt-0.5">
           Kontribusi penjualan tertinggi
         </p>
       </div>
 
-      {/* Table Slicing 1:1 */}
-      <div className="overflow-x-auto scrollbar-thin flex-1">
-        <table className="w-full text-left border-collapse">
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse min-w-[360px]">
           <thead>
-            <tr className="bg-[#F2EBDC]">
-              <th className="rounded-l-[10px] py-2.5 px-3 text-left text-[13px] font-heading font-medium text-[#6F776F]">
+            <tr className="bg-[#F6F2E6] text-[12px] font-medium text-[#526058]">
+              <th className="rounded-l-xl py-2.5 px-3">
                 Produk
               </th>
-              <th className="py-2.5 px-3 text-right text-[13px] font-heading font-medium text-[#6F776F]">
+              <th className="py-2.5 px-3 text-right">
                 Terjual
               </th>
-              <th className="rounded-r-[10px] py-2.5 px-3 text-right text-[13px] font-heading font-medium text-[#6F776F]">
+              <th className="rounded-r-xl py-2.5 px-3 text-right">
                 Omset
               </th>
             </tr>
           </thead>
-          <tbody>
-            {products.slice(0, 4).map((item, idx) => {
-              const isLast = idx === Math.min(products.length, 4) - 1;
-              return (
-                <tr key={item.id} className="hover:bg-[#F8F4EC]/60 transition-colors">
-                  {/* 1. Nama & Kategori Produk */}
-                  <td className={`py-3 px-3 align-top ${isLast ? 'border-b-0' : 'border-b border-[#E9E2D2]'}`}>
-                    <b className="text-[13px] font-heading font-medium text-[#14261E] leading-tight block">
-                      {item.name}
-                    </b>
-                    <span className="text-xs font-sans text-[#6F776F] block mt-0.5">
-                      {item.category}
-                    </span>
-                  </td>
+          <tbody className="divide-y divide-[#F0EBDC] text-[13px]">
+            {products.slice(0, 4).map((item) => (
+              <tr key={item.id} className="hover:bg-[#FAF7EE]/75 transition-colors">
+                {/* 1. Nama & Kategori Produk */}
+                <td className="py-3 px-3 align-top">
+                  <div className="font-semibold text-[#18221D] leading-tight block">
+                    {item.name}
+                  </div>
+                  <span className="text-[11.5px] text-[#7A867E] block mt-0.5">
+                    {item.category}
+                  </span>
+                </td>
 
-                  {/* 2. Volume Terjual */}
-                  <td className={`py-3 px-3 align-top text-right text-[13px] font-sans font-medium text-[#14261E] tabular-nums whitespace-nowrap ${isLast ? 'border-b-0' : 'border-b border-[#E9E2D2]'}`}>
-                    {item.soldUnits}
-                  </td>
+                {/* 2. Volume Terjual */}
+                <td className="py-3 px-3 align-top text-right font-medium text-[#18221D] tabular-nums whitespace-nowrap">
+                  {item.soldUnits}
+                </td>
 
-                  {/* 3. Total Omset & Persentase Kenaikan */}
-                  <td className={`py-3 px-3 align-top text-right whitespace-nowrap ${isLast ? 'border-b-0' : 'border-b border-[#E9E2D2]'}`}>
-                    <span className="text-[13px] font-sans font-medium text-[#14261E] tabular-nums block">
-                      {formatCurrencyIDR(item.totalRevenue)}
-                    </span>
-                    <span className="block text-xs font-semibold text-[#1E7A4F] tabular-nums mt-0.5">
-                      +{item.growthPercentage.toLocaleString('id-ID')}%
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
+                {/* 3. Total Omset & Persentase Kenaikan */}
+                <td className="py-3 px-3 align-top text-right whitespace-nowrap">
+                  <span className="font-semibold text-[#18221D] tabular-nums block">
+                    {formatCurrencyIDR(item.totalRevenue)}
+                  </span>
+                  <span className="block text-[11px] font-medium text-[#15803D] tabular-nums mt-0.5">
+                    +{item.growthPercentage.toLocaleString('id-ID')}%
+                  </span>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

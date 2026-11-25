@@ -33,7 +33,7 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-white rounded-3xl border border-[#DED5C3] shadow-2xl p-6 sm:p-7 space-y-5 overflow-hidden">
+      <div className="relative w-full max-w-lg bg-white rounded-2xl border border-[#EAE4D3] shadow-2xl p-6 sm:p-7 space-y-5 overflow-hidden">
         {/* Accent Bar */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#1F5B45] via-[#4F8A67] to-[#F6CE2C]" />
 

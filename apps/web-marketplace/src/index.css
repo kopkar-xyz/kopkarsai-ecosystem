@@ -122,7 +122,7 @@
   grid-template-columns: repeat(5, 1fr);
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(46, 31, 34, 0.04);
 }
@@ -131,8 +131,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  padding: 16px 12px;
+  gap: 10px;
+  padding: 11px 10px;
   border: 0;
   border-left: 1px solid var(--line);
   background: none;
@@ -148,8 +148,8 @@
 
 .cat svg {
   flex: none;
-  width: 34px;
-  height: 34px;
+  width: 26px;
+  height: 26px;
   color: var(--wine);
   transition: color .18s ease;
 }
@@ -158,16 +158,16 @@
   display: block;
   font-family: 'Geist', -apple-system, sans-serif;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.25;
 }
 
 .cat small {
   display: block;
-  margin-top: 2px;
+  margin-top: 1px;
   font-family: 'Zen Old Mincho', serif;
   font-weight: 500;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--mute);
   transition: color .18s ease;
 }
@@ -197,10 +197,10 @@
 
 .sub {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   overflow-x: auto;
   padding: 2px;
-  margin-top: 18px;
+  margin-top: 12px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -212,31 +212,31 @@
 .tab {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px 18px 6px 6px;
+  gap: 8px;
+  padding: 4px 12px 4px 5px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--card);
   color: var(--ink);
   font-family: 'Geist', -apple-system, sans-serif;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 12.5px;
   cursor: pointer;
   white-space: nowrap;
   transition: background .18s ease, color .18s ease, border-color .18s ease;
 }
 
 .tab .k {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   display: grid;
   place-items: center;
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--page);
   border: 1px solid var(--line);
   font-family: 'Zen Old Mincho', serif;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 13px;
   color: var(--wine);
   transition: transform .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
 }
