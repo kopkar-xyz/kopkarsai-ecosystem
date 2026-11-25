@@ -30,6 +30,7 @@ export function isValidHttpUrl(urlString?: string): boolean {
   if (!urlString || typeof urlString !== 'string') return false;
   const trimmed = urlString.trim();
   if (!trimmed) return false;
+  if (trimmed.startsWith('/') || trimmed.startsWith('./')) return true;
   try {
     const parsed = new URL(trimmed);
     return parsed.protocol === 'http:' || parsed.protocol === 'https:';
