@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Bell } from 'lucide-react';
 import { useRouter } from '../router';
+import { useKopkarRole } from '../auth/RoleContext';
 import { formatDateID } from '../../lib/utils';
 import { getKopkarPageMeta } from './navConfig';
 
@@ -9,7 +10,8 @@ import { getKopkarPageMeta } from './navConfig';
  * Budget: < 200 LOC.
  */
 export const DesktopHeader: React.FC = () => {
-  const { currentPath, navigate } = useRouter();
+  const { currentPath } = useRouter();
+  const { currentUser, openRoleModal } = useKopkarRole();
   const dateInfo = formatDateID();
   const [notifOpen, setNotifOpen] = useState(false);
 
@@ -75,18 +77,19 @@ export const DesktopHeader: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => navigate('/profile')}
-            className="flex items-center gap-2.5 bg-white hover:bg-[#F5F0E2]/70 border border-[#EAE4D3] rounded-xl p-1 pl-1.5 pr-3 py-1 transition-colors cursor-pointer"
+            onClick={openRoleModal}
+            aria-label="Pilih peran akun"
+            className="flex items-center gap-2.5 bg-white hover:bg-[#F5F0E2]/70 border border-[#EAE4D3] rounded-full p-1 pl-1.5 pr-3.5 py-1 transition-colors cursor-pointer"
           >
-            <div className="w-7 h-7 rounded-lg bg-[#165239] text-white text-[11px] font-medium flex items-center justify-center shrink-0">
-              AA
+            <div className="w-7 h-7 rounded-full bg-[#165239] text-white text-[11px] font-medium flex items-center justify-center shrink-0">
+              {currentUser.initials}
             </div>
             <div className="text-left">
               <div className="text-[12.5px] font-medium text-[#18221D] leading-tight whitespace-nowrap">
-                Alexander Agung
+                {currentUser.name}
               </div>
-              <div className="text-[11px] font-normal text-[#7A867E] leading-tight whitespace-nowrap">
-                Production
+              <div className="text-[11px] font-normal text-[#165239] leading-tight whitespace-nowrap">
+                {currentUser.roleLabel}
               </div>
             </div>
           </button>

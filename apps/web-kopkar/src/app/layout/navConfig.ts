@@ -3,7 +3,6 @@ import {
   ShoppingBag,
   Package,
   Wallet,
-  User,
   TrendingUp,
   FlaskConical,
   History,
@@ -37,10 +36,9 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { path: '/', label: 'Beranda Koperasi', icon: BarChart3 },
       { path: '/orders', label: 'Pesanan Masuk & PO', icon: ShoppingBag, badge: 2 },
-      { path: '/products', label: 'Katalog Produk Mitra', icon: Package },
+      { path: '/products', label: 'Manajemen Produk Mitra', icon: Package },
       { path: '/financial', label: 'Layanan SinJam', icon: Wallet },
       { path: '/analytics', label: 'Rekomendasi Suplai', icon: TrendingUp },
-      { path: '/profile', label: 'Profil & E-Card', icon: User },
     ],
   },
   {
@@ -63,11 +61,11 @@ export const NAV_GROUPS: NavGroup[] = [
 export function getKopkarPageMeta(path: string): PageHeaderMeta {
   switch (path) {
     case '/':
-      return { title: 'Beranda Koperasi', kanji: '業績管理' };
+      return { title: 'Beranda Koperasi', kanji: '組合ホーム' };
     case '/orders':
       return { title: 'Pesanan Masuk & PO H-1', kanji: '受注管理' };
     case '/products':
-      return { title: 'Katalog Produk Mitra', kanji: '提携商品一覧' };
+      return { title: 'Manajemen Produk Mitra', kanji: '提携商品管理' };
     case '/products/new':
       return { title: 'Ajukan Produk Baru', kanji: '新規商品申請' };
     case '/products/detail':
@@ -85,10 +83,10 @@ export function getKopkarPageMeta(path: string): PageHeaderMeta {
     case '/financial':
       return { title: 'Simulasi Simpan Pinjam', kanji: '貯蓄融資管理' };
     case '/profile':
-      return { title: 'Profil & E-Card Anggota', kanji: '会員情報' };
+      return { title: 'Akun & E-Card Saya', kanji: '会員証・マイページ' };
     case '/analytics':
       return { title: 'Rekomendasi Suplai Harian', kanji: '供給分析' };
     default:
-      return { title: 'Beranda Koperasi', kanji: '業績管理' };
+      return { title: 'Beranda Koperasi', kanji: '組合ホーム' };
   }
 }

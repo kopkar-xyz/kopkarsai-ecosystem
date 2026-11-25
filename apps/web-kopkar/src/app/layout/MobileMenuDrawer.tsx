@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useRouter, type RoutePath } from '../router';
-import { NAV_GROUPS } from './navConfig';
+import { getNavGroupsForRole, useKopkarRole } from '../auth/RoleContext';
 
 interface MobileMenuDrawerProps {
   open: boolean;
@@ -10,6 +10,8 @@ interface MobileMenuDrawerProps {
 
 export const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({ open, onClose }) => {
   const { currentPath, navigate } = useRouter();
+  const { currentUser } = useKopkarRole();
+  const navGroups = getNavGroupsForRole(currentUser.role);
 
   useEffect(() => {
     if (!open) return;
@@ -67,7 +69,7 @@ export const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({ open, onClos
         </div>
 
         <nav className="flex-1 px-3 py-3 space-y-3.5 overflow-y-auto">
-          {NAV_GROUPS.map((group) => (
+          {navGroups.map((group) => (
             <div key={group.groupTitle} className="space-y-1">
               <div className="px-3 mb-1 text-[10px] font-semibold tracking-[0.08em] text-white/45 uppercase">
                 {group.groupTitle}
@@ -110,26 +112,6 @@ export const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({ open, onClos
             </div>
           ))}
         </nav>
-
-        <div className="p-3 border-t border-white/10">
-          <button
-            type="button"
-            onClick={() => handleSelect('/profile')}
-            className="w-full flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-left cursor-pointer"
-          >
-            <div className="w-8 h-8 rounded-full bg-[#F2C94C] text-[#154A33] font-bold text-xs flex items-center justify-center shrink-0">
-              AA
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-[12.5px] font-semibold text-white truncate">
-                Alexander Agung
-              </div>
-              <div className="text-[10.5px] text-white/60 truncate">
-                NIK: SAI-2024-001
-              </div>
-            </div>
-          </button>
-        </div>
       </aside>
     </div>
   );

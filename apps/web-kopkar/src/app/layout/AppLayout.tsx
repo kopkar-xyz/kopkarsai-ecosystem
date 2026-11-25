@@ -3,6 +3,7 @@ import { DesktopSidebar } from './DesktopSidebar';
 import { DesktopHeader } from './DesktopHeader';
 import { MobileHeader } from './MobileHeader';
 import { MobileBottomNav } from './MobileBottomNav';
+import { KopkarRoleModal } from '../../components/ui/KopkarRoleModal';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -30,6 +31,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
       {/* Mobile Full-Green Bottom Nav */}
       <MobileBottomNav />
+
+      {/* Role Switcher Modal (Triggered by Profile in Navbar/Sidebar) */}
+      <KopkarRoleModal />
     </div>
   );
 };

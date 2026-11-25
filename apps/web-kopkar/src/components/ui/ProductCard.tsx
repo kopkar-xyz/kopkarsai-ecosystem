@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, Plus } from 'lucide-react';
+import { Star } from 'lucide-react';
 import type { OperationalStatus } from '../../types';
 
 export type ProductUnit = 'SAI-B' | 'SAI-T';
@@ -41,7 +41,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   className = '',
   onClick,
-  onAddToCart,
 }) => {
   const getUnitSuffix = () => {
     if (product.category === 'Sembako') {
@@ -114,12 +113,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              onAddToCart?.(e);
+              onClick?.();
             }}
-            className="px-2 sm:px-3.5 py-1 sm:py-1.5 rounded-lg sm:rounded-xl bg-[#165239] hover:bg-[#11402c] text-white text-[10.5px] sm:text-[12px] font-medium transition-colors cursor-pointer whitespace-nowrap active:scale-95 shadow-2xs shrink-0"
+            className="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg sm:rounded-xl bg-[#165239] hover:bg-[#11402c] text-white text-[10.5px] sm:text-[12px] font-medium transition-colors cursor-pointer whitespace-nowrap active:scale-95 shadow-2xs shrink-0"
           >
-            <Plus size={11} className="inline mr-0.5 sm:mr-1 sm:w-[13px] sm:h-[13px]" />
-            Tambah
+            Kelola
           </button>
         </div>
       </div>
