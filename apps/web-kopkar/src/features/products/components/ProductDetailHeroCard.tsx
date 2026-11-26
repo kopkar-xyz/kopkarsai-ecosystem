@@ -47,9 +47,16 @@ export const ProductDetailHeroCard: React.FC<ProductDetailHeroCardProps> = ({
           <img
             src={image}
             alt={name}
-            className="w-full h-full md:absolute md:inset-0 object-cover"
+            className={`w-full h-full md:absolute md:inset-0 object-cover ${
+              isActive ? '' : 'opacity-80 grayscale-[20%]'
+            }`}
             loading="lazy"
           />
+          {!isActive && (
+            <span className="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-[#FEF3C7]/95 border border-[#F59E0B]/35 text-[11px] font-semibold text-[#B45309] shadow-2xs">
+              Belum Aktif · Kurasi
+            </span>
+          )}
         </div>
 
         {/* Informasi Produk, Grid Metrik & Kendali Etalase */}
@@ -60,7 +67,13 @@ export const ProductDetailHeroCard: React.FC<ProductDetailHeroCardProps> = ({
               <span className="text-[12px] text-[#7A867E]">
                 {categoryTag}
               </span>
-              <span className="px-3 py-1 rounded-full text-[11.5px] font-semibold bg-[#EAF4EE] text-[#165239]">
+              <span
+                className={`px-3 py-1 rounded-full text-[11.5px] font-semibold ${
+                  isActive
+                    ? 'bg-[#EAF4EE] text-[#165239]'
+                    : 'bg-[#FEF3C7] text-[#B45309]'
+                }`}
+              >
                 {badgeStatus}
               </span>
             </div>
@@ -117,9 +130,21 @@ export const ProductDetailHeroCard: React.FC<ProductDetailHeroCardProps> = ({
           </div>
 
           {/* 2. Bar Kendali Etalase Mandiri */}
-          <div className="p-3.5 rounded-xl bg-[#FAF8F2] border border-[#EAE4D3] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div
+            className={`p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+              isActive
+                ? 'bg-[#FAF8F2] border-[#EAE4D3]'
+                : 'bg-[#FEF3C7]/45 border-[#F59E0B]/30'
+            }`}
+          >
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#EAF4EE] text-[#165239] flex items-center justify-center shrink-0">
+              <div
+                className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                  isActive
+                    ? 'bg-[#EAF4EE] text-[#165239]'
+                    : 'bg-[#FEF3C7] text-[#B45309]'
+                }`}
+              >
                 <Power size={15} />
               </div>
               <div>

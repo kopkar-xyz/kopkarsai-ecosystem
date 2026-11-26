@@ -18,13 +18,6 @@ export const ProductSubmissionView: React.FC = () => {
   const { navigate } = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
 
-  const STEPS = [
-    { step: 1, title: 'Jadwal & Kurasi' },
-    { step: 2, title: 'Data & Foto Produk' },
-    { step: 3, title: 'Aturan Pasokan' },
-    { step: 4, title: 'Harga & Margin' },
-  ];
-
   const {
     formData,
     isSubmitting,
@@ -80,41 +73,6 @@ export const ProductSubmissionView: React.FC = () => {
             <span>Kirim Pengajuan</span>
           </button>
         </div>
-      </div>
-
-      {/* Horizontal Step Progress Bar (Mobile & Desktop Friendly) */}
-      <div className="bg-white rounded-2xl border border-[#EAE4D3] p-2 grid grid-cols-2 sm:grid-cols-4 gap-1.5 shadow-xs">
-        {STEPS.map((s) => {
-          const active = currentStep === s.step;
-          const completed = currentStep > s.step;
-          return (
-            <button
-              key={s.step}
-              type="button"
-              onClick={() => setCurrentStep(s.step)}
-              className={`px-3 py-2 rounded-xl text-left transition-colors cursor-pointer flex items-center gap-2 ${
-                active
-                  ? 'bg-[#165239] text-white shadow-2xs'
-                  : completed
-                    ? 'bg-[#EAF4EE] text-[#165239]'
-                    : 'bg-[#FAF8F2] text-[#526058] hover:text-[#18221D]'
-              }`}
-            >
-              <span
-                className={`w-5 h-5 rounded-full text-[11px] font-semibold flex items-center justify-center shrink-0 ${
-                  active
-                    ? 'bg-white text-[#165239]'
-                    : completed
-                      ? 'bg-[#165239] text-white'
-                      : 'bg-[#EAE4D3] text-[#526058]'
-                }`}
-              >
-                {s.step}
-              </span>
-              <span className="text-[12px] font-medium truncate">{s.title}</span>
-            </button>
-          );
-        })}
       </div>
 
       {/* 2. Grid 2 Kolom: Sidebar Stepper (Kiri) & Konten Form Multi-Step (Kanan) */}

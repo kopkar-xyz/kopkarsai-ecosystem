@@ -131,44 +131,46 @@ export const DashboardKpiGrid: React.FC<DashboardKpiGridProps> = ({
         </div>
       </div>
 
-      {/* Grid 4 Kartu KPI */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Grid 4 Kartu KPI (2x2 di mobile, 4 kolom di desktop) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
         {KPI_METRICS.map((kpi) => {
           const Icon = kpi.icon;
           return (
             <div
               key={kpi.id}
-              className="p-5 rounded-2xl bg-white border border-[#EAE4D3] flex flex-col justify-between hover:border-[#165239]/40 transition-colors"
+              className="p-3.5 sm:p-5 rounded-2xl bg-white border border-[#EAE4D3] flex flex-col justify-between hover:border-[#165239]/40 transition-colors min-w-0"
             >
               {/* Row Atas: Label & Ikon */}
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-[13px] text-[#526058]">{kpi.title}</span>
-                <span className="w-8 h-8 rounded-lg bg-[#EAF4EE] text-[#165239] flex items-center justify-center shrink-0">
-                  <Icon size={16} />
+              <div className="flex items-center justify-between gap-1.5 sm:gap-2">
+                <span className="text-[11.5px] sm:text-[13px] text-[#526058] truncate">
+                  {kpi.title}
+                </span>
+                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#EAF4EE] text-[#165239] flex items-center justify-center shrink-0">
+                  <Icon size={15} />
                 </span>
               </div>
 
-              {/* Nilai Utama dengan font-okashi & tabular-nums */}
-              <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-okashi text-[24px] text-[#18221D] tabular-nums">
+              {/* Nilai Utama */}
+              <div className="mt-2 sm:mt-3 flex items-baseline gap-1 sm:gap-1.5 min-w-0">
+                <span className="font-geist font-normal text-[17px] sm:text-[24px] text-[#18221D] tabular-nums leading-tight truncate">
                   {kpi.value}
                 </span>
                 {kpi.unit && (
-                  <span className="text-[12.5px] text-[#526058]">
+                  <span className="text-[11px] sm:text-[12.5px] text-[#526058] shrink-0">
                     {kpi.unit}
                   </span>
                 )}
               </div>
 
               {/* Subtitle Trend / Status */}
-              <div className="mt-2.5">
+              <div className="mt-2 sm:mt-2.5">
                 {kpi.badgeText ? (
-                  <span className="inline-block px-2 py-0.5 rounded-md bg-[#FEF3C7] text-[#B45309] text-[11.5px] font-medium">
+                  <span className="inline-block px-2 py-0.5 rounded-md bg-[#FEF3C7] text-[#B45309] text-[10px] sm:text-[11.5px] font-medium max-w-full truncate">
                     {kpi.badgeText} ({kpi.subtext})
                   </span>
                 ) : (
                   <span
-                    className={`inline-block px-2 py-0.5 rounded-md text-[11.5px] font-medium ${
+                    className={`inline-block px-2 py-0.5 rounded-md text-[10px] sm:text-[11.5px] font-medium max-w-full truncate ${
                       kpi.isPositive
                         ? 'bg-[#EAF4EE] text-[#15803D]'
                         : 'bg-[#FEF3C7] text-[#B45309]'

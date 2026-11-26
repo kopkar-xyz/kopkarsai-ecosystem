@@ -1,5 +1,24 @@
-<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="48" fill="#065C2B"/>
-  <circle cx="50" cy="50" r="32" fill="#F6CE2C"/>
-  <circle cx="50" cy="50" r="16" fill="#032813"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="fav-gold" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF4A8" />
+      <stop offset="30%" stop-color="#FED74C" />
+      <stop offset="70%" stop-color="#F6CE2C" />
+      <stop offset="100%" stop-color="#D99709" />
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="#065C2B" />
+  <g transform="translate(10, 10) scale(0.9)">
+    <g transform="translate(100, 100)">
+      <!-- 8 segments -->
+      <path d="M 0 0 L 57.51 -23.82 L 81.02 -29.49 C 78.6 -18.5 78.0 -8.5 81.79 0 C 78.0 8.5 78.6 18.5 80.97 29.47 L 57.51 23.82 Z" fill="url(#fav-gold)" />
+      <path d="M 0 0 L 57.51 -23.82 L 81.02 -29.49 C 78.6 -18.5 78.0 -8.5 81.79 0 C 78.0 8.5 78.6 18.5 80.97 29.47 L 57.51 23.82 Z" fill="url(#fav-gold)" transform="rotate(45)" />
+      <path d="M 0 0 L 57.51 -23.82 L 81.02 -29.49 C 78.6 -18.5 78.0 -8.5 81.79 0 C 78.0 8.5 78.6 18.5 80.97 29.47 L 57.51 23.82 Z" fill="url(#fav-gold)" transform="rotate(90)" />
+      <path d="M 0 0 L 57.51 -23.82 L 81.02 -29.49 C 78.6 -18.5 78.0 -8.5 81.79 0 C 78.0 8.5 78.6 18.5 80.97 29.47 L 57.51 23.82 Z" fill="url(#fav-gold)" transform="rotate(135)" />
+      <path d="M 0 0 L 57.51 -23.82 L 81.02 -29.49 C 78.6 -18.5 78.0 -8.5 81.79 0 C 78.0 8.5 78.6 18.5 80.97 29.47 L 57.51 23.82 Z" fill="url(#fav-gold)" transform="rotate(180)" />
+      <path d="M 0 0 L 57.51 -23.82 L 81.02 -29.49 C 78.6 -18.5 78.0 -8.5 81.79 0 C 78.0 8.5 78.6 18.5 80.97 29.47 L 57.51 23.82 Z" fill="url(#fav-gold)" transform="rotate(225)" />
+      <path d="M 0 0 L 57.51 -23.82 L 81.02 -29.49 C 78.6 -18.5 78.0 -8.5 81.79 0 C 78.0 8.5 78.6 18.5 80.97 29.47 L 57.51 23.82 Z" fill="url(#fav-gold)" transform="rotate(270)" />
+      <path d="M 0 0 L 57.51 -23.82 L 81.02 -29.49 C 78.6 -18.5 78.0 -8.5 81.79 0 C 78.0 8.5 78.6 18.5 80.97 29.47 L 57.51 23.82 Z" fill="url(#fav-gold)" transform="rotate(315)" />
+    </g>
+  </g>
 </svg>
