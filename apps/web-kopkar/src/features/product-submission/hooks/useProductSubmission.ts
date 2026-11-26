@@ -7,6 +7,8 @@ import type {
 import { useProductStore } from '../context/ProductStoreContext';
 
 export const INITIAL_FORM_DATA: CompleteSubmissionFormData = {
+  supplierBusinessName: '',
+  supplierWhatsapp: '',
   name: '',
   productType: 'Jajanan Basah',
   origin: 'BUAT_SENDIRI',

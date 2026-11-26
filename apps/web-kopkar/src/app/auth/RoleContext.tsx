@@ -10,9 +10,12 @@ export interface KopkarPresetUser {
   initials: string;
   department: string;
   nik: string;
+  unit: 'SAI-B' | 'SAI-T';
   role: KopkarRole;
   roleLabel: string;
   badgeClass: string;
+  isSupplierActive?: boolean;
+  supplierBusinessName?: string;
 }
 
 export const PRESET_KOPKAR_USERS: KopkarPresetUser[] = [
@@ -22,9 +25,11 @@ export const PRESET_KOPKAR_USERS: KopkarPresetUser[] = [
     initials: 'AA',
     department: 'Production',
     nik: 'SAI-2024-001',
+    unit: 'SAI-B',
     role: 'ANGGOTA',
     roleLabel: 'Anggota Koperasi',
     badgeClass: 'bg-[#EAF4EE] text-[#165239]',
+    isSupplierActive: false,
   },
   {
     id: 'usr-supplier',
@@ -32,9 +37,12 @@ export const PRESET_KOPKAR_USERS: KopkarPresetUser[] = [
     initials: 'DO',
     department: 'Mitra UMKM · SAI-B',
     nik: 'SUP-2024-012',
+    unit: 'SAI-B',
     role: 'SUPPLIER',
     roleLabel: 'Mitra Supplier',
     badgeClass: 'bg-[#FEF3C7] text-[#B45309]',
+    isSupplierActive: true,
+    supplierBusinessName: 'Dapur Oishi Mitra',
   },
   {
     id: 'usr-admin',
@@ -42,9 +50,11 @@ export const PRESET_KOPKAR_USERS: KopkarPresetUser[] = [
     initials: 'BH',
     department: 'Admin Toko & Kasir',
     nik: 'ADM-2024-003',
+    unit: 'SAI-B',
     role: 'ADMIN_TOKO',
     roleLabel: 'Admin Toko',
     badgeClass: 'bg-[#EFF6FF] text-[#1D4ED8]',
+    isSupplierActive: false,
   },
   {
     id: 'usr-kepala',
@@ -52,14 +62,16 @@ export const PRESET_KOPKAR_USERS: KopkarPresetUser[] = [
     initials: 'HW',
     department: 'Pimpinan Pengurus',
     nik: 'KEP-2024-001',
+    unit: 'SAI-T',
     role: 'KEPALA_KOPERASI',
     roleLabel: 'Kepala Koperasi',
     badgeClass: 'bg-[#165239] text-white',
+    isSupplierActive: false,
   },
 ];
 
 const ROLE_ALLOWED_PATHS: Record<KopkarRole, RoutePath[]> = {
-  ANGGOTA: ['/', '/financial', '/profile'],
+  ANGGOTA: ['/', '/products/new', '/financial', '/profile'],
   SUPPLIER: [
     '/',
     '/orders',
@@ -74,6 +86,7 @@ const ROLE_ALLOWED_PATHS: Record<KopkarRole, RoutePath[]> = {
   ADMIN_TOKO: [
     '/',
     '/orders',
+    '/settings',
     '/products',
     '/products/new',
     '/products/detail',
@@ -88,7 +101,6 @@ const ROLE_ALLOWED_PATHS: Record<KopkarRole, RoutePath[]> = {
     '/',
     '/orders',
     '/products',
-    '/products/new',
     '/products/detail',
     '/supplier/samples',
     '/supplier/revisions',

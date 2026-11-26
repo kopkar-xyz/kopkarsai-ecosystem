@@ -1,17 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useKopkarRole } from '../app/auth/RoleContext';
 import { DigitalMemberCard } from '../features/profile/components/DigitalMemberCard';
 import { MemberPreferencesForm } from '../features/profile/components/MemberPreferencesForm';
 
-/**
- * ProfileView (Akun & E-Card Saya) — KK-SCR-013
- * Slicing 1:1 Presisi Gambar 3 Referensi:
- * - Kolom Kiri: E-Card Digital Anggota PT SAI, Tombol QR Kasir, Simpanan Aktif, Limit Kredit
- * - Kolom Kanan: Preferensi Layanan Anggota (Nama, Email, No WA, Titik Pengantaran, Metode Bayar)
- * Budget: < 200 LOC.
- */
 export const ProfileView: React.FC = () => {
   const { currentUser } = useKopkarRole();
+  const [plantUnit, setPlantUnit] = useState<'SAI-B' | 'SAI-T'>(currentUser.unit);
+
+  useEffect(() => {
+    setPlantUnit(currentUser.unit);
+  }, [currentUser.id, currentUser.unit]);
 
   return (
     <div className="space-y-4 sm:space-y-5 max-w-[1240px] mx-auto pb-12 animate-fadeIn select-none">
@@ -22,7 +20,9 @@ export const ProfileView: React.FC = () => {
             name={currentUser.name}
             roleDescription={`${currentUser.department} · ${currentUser.roleLabel}`}
             nik={currentUser.nik}
-            shuPoints="1.420"
+            rightMetricLabel="Unit Pabrik"
+            rightMetricValue={plantUnit}
+            subtitle={`Kartu Anggota Digital PT SAI (${plantUnit})`}
             activeSavings="Rp 4.800.000"
             creditLimit="Rp 35.000.000"
           />
@@ -30,7 +30,11 @@ export const ProfileView: React.FC = () => {
 
         {/* Kolom Kanan: Formulir Pengaturan Preferensi */}
         <div className="lg:col-span-7 w-full">
-          <MemberPreferencesForm />
+          <MemberPreferencesForm
+            plantUnit={plantUnit}
+            onPlantUnitChange={setPlantUnit}
+            initialName={currentUser.name}
+          />
         </div>
       </div>
     </div>

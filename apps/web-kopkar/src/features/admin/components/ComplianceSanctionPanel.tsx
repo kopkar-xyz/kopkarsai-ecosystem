@@ -1,9 +1,10 @@
 import React from 'react';
-import { Check, ShieldAlert } from 'lucide-react';
+import { Check, Eye, ShieldAlert } from 'lucide-react';
 import type { ComplianceRecord } from '../../../types/kopkarAdmin';
 
 interface ComplianceSanctionPanelProps {
   record: ComplianceRecord;
+  isReadOnly?: boolean;
   onApplySanction: (id: string, severity: ComplianceRecord['severity']) => void;
 }
 
@@ -36,6 +37,7 @@ const SANCTION_TIERS: Array<{
 
 export const ComplianceSanctionPanel: React.FC<ComplianceSanctionPanelProps> = ({
   record,
+  isReadOnly = false,
   onApplySanction,
 }) => {
   return (
@@ -97,61 +99,75 @@ export const ComplianceSanctionPanel: React.FC<ComplianceSanctionPanelProps> = (
         )}
       </div>
 
-      {/* Sanksi Bertingkat 2x2 Grid */}
-      <div className="space-y-2.5">
-        <div className="text-[12.5px] font-medium text-[#18221D]">
-          Pilih Tingkat Sanksi Bertingkat
+      {isReadOnly ? (
+        <div className="p-4 rounded-xl bg-[#FAF8F2] border border-[#EAE4D3] flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-[12px] text-[#526058]">
+            <Eye className="w-4 h-4 text-[#165239] shrink-0" />
+            <span>Status Sanksi Berjalan (Mode Monitoring)</span>
+          </div>
+          <span className="px-3 py-1 rounded-full bg-[#165239] text-white text-[11.5px] font-semibold">
+            {record.severity}
+          </span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {SANCTION_TIERS.map((tier) => {
-            const isSelected =
-              record.severity === tier.severity ||
-              (tier.severity === 'Teguran 1' && record.severity === 'Teguran 2');
-            return (
-              <button
-                key={tier.severity}
-                type="button"
-                onClick={() => onApplySanction(record.id, tier.severity)}
-                className={`text-left p-3.5 rounded-xl border transition-colors cursor-pointer flex items-start justify-between gap-2 ${
-                  isSelected
-                    ? 'bg-[#165239] border-[#165239] text-white shadow-xs'
-                    : 'bg-[#FAF8F2] border-[#EAE4D3] hover:bg-[#F3EFE2] text-[#18221D]'
-                }`}
-              >
-                <div>
-                  <div className="text-[13px] font-semibold leading-snug">
-                    {tier.title}
-                  </div>
-                  <div
-                    className={`text-[11px] mt-0.5 ${
-                      isSelected ? 'text-white/80' : 'text-[#7A867E]'
+      ) : (
+        <>
+          {/* Sanksi Bertingkat 2x2 Grid */}
+          <div className="space-y-2.5">
+            <div className="text-[12.5px] font-medium text-[#18221D]">
+              Pilih Tingkat Sanksi Bertingkat
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {SANCTION_TIERS.map((tier) => {
+                const isSelected =
+                  record.severity === tier.severity ||
+                  (tier.severity === 'Teguran 1' && record.severity === 'Teguran 2');
+                return (
+                  <button
+                    key={tier.severity}
+                    type="button"
+                    onClick={() => onApplySanction(record.id, tier.severity)}
+                    className={`text-left p-3.5 rounded-xl border transition-colors cursor-pointer flex items-start justify-between gap-2 ${
+                      isSelected
+                        ? 'bg-[#165239] border-[#165239] text-white shadow-xs'
+                        : 'bg-[#FAF8F2] border-[#EAE4D3] hover:bg-[#F3EFE2] text-[#18221D]'
                     }`}
                   >
-                    {tier.subtitle}
-                  </div>
-                </div>
-                {isSelected && <Check className="w-4 h-4 shrink-0 mt-0.5" />}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+                    <div>
+                      <div className="text-[13px] font-semibold leading-snug">
+                        {tier.title}
+                      </div>
+                      <div
+                        className={`text-[11px] mt-0.5 ${
+                          isSelected ? 'text-white/80' : 'text-[#7A867E]'
+                        }`}
+                      >
+                        {tier.subtitle}
+                      </div>
+                    </div>
+                    {isSelected && <Check className="w-4 h-4 shrink-0 mt-0.5" />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-      {/* Footer */}
-      <div className="pt-3 border-t border-[#F0EBDC] flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5 text-[11.5px] text-[#7A867E]">
-          <ShieldAlert className="w-3.5 h-3.5 text-[#B45309] shrink-0" />
-          <span>Skorsing &amp; Blacklist otomatis nonaktifkan etalase</span>
-        </div>
+          {/* Footer */}
+          <div className="pt-3 border-t border-[#F0EBDC] flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-1.5 text-[11.5px] text-[#7A867E]">
+              <ShieldAlert className="w-3.5 h-3.5 text-[#B45309] shrink-0" />
+              <span>Skorsing &amp; Blacklist otomatis nonaktifkan etalase</span>
+            </div>
 
-        <button
-          type="button"
-          onClick={() => onApplySanction(record.id, 'Normal')}
-          className="px-3.5 py-1.5 rounded-xl border border-[#EAE4D3] bg-white hover:bg-[#FAF7EE] text-[12px] font-medium text-[#18221D] cursor-pointer transition-colors"
-        >
-          Pulihkan (Patuh)
-        </button>
-      </div>
+            <button
+              type="button"
+              onClick={() => onApplySanction(record.id, 'Normal')}
+              className="px-3.5 py-1.5 rounded-xl border border-[#EAE4D3] bg-white hover:bg-[#FAF7EE] text-[12px] font-medium text-[#18221D] cursor-pointer transition-colors"
+            >
+              Pulihkan (Patuh)
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

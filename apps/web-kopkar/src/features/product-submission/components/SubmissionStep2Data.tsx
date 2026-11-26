@@ -53,8 +53,36 @@ export const SubmissionStep2Data: React.FC<SubmissionStep2DataProps> = ({
       {/* 2. Bagian A: Identitas & Kategori */}
       <div className="space-y-4">
         <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#5C6F67] block mb-3">
-          A. IDENTITAS & KATEGORI
+          A. PROFIL USAHA &amp; IDENTITAS PRODUK
         </span>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className="text-xs font-sans font-medium text-[#1A2421] block">
+              Nama Usaha / Dapur Mitra
+            </label>
+            <input
+              type="text"
+              value={formData.supplierBusinessName || ''}
+              onChange={(e) => onChange('supplierBusinessName', e.target.value)}
+              placeholder="cth: Dapur Sejahtera / UMKM Mandiri"
+              className="w-full h-11 px-4 rounded-xl bg-[#FAF7F2] border border-[#E9E2D2] text-xs font-sans text-[#1A2421] placeholder:text-[#8C827A] focus:outline-none focus:border-[#1F5B45] transition-colors"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-sans font-medium text-[#1A2421] block">
+              No. WhatsApp Aktif Supplier
+            </label>
+            <input
+              type="tel"
+              value={formData.supplierWhatsapp || ''}
+              onChange={(e) => onChange('supplierWhatsapp', e.target.value)}
+              placeholder="cth: 0812-xxxx-xxxx"
+              className="w-full h-11 px-4 rounded-xl bg-[#FAF7F2] border border-[#E9E2D2] text-xs font-sans text-[#1A2421] placeholder:text-[#8C827A] focus:outline-none focus:border-[#1F5B45] transition-colors"
+            />
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">

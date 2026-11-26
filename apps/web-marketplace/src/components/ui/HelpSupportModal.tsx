@@ -34,7 +34,7 @@ export const HelpSupportModal: React.FC<HelpSupportModalProps> = ({ isOpen, onCl
           <X className="w-4 h-4" />
         </button>
 
-        <HelpView mode="customer" />
+        <HelpView />
       </div>
     </div>
   );

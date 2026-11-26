@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft, Calendar, ClipboardList, DollarSign, Package } from 'lucide-react';
 import { useRouter } from '../app/router';
+import { useKopkarRole } from '../app/auth/RoleContext';
 import { useProductStore } from '../features/product-submission/context/ProductStoreContext';
+import type { CatalogProductStatus } from '../components/ui/ProductCard';
 import { CATALOG_PRODUCTS } from '../features/products/data/catalogProductsData';
 import { ProductDetailHeroCard } from '../features/products/components/ProductDetailHeroCard';
 import { ProductDetailFinancialCard } from '../features/products/components/ProductDetailFinancialCard';
@@ -20,16 +22,26 @@ import { ProductDetailHistoryCard } from '../features/products/components/Produc
  */
 export const ProductDetailView: React.FC = () => {
   const { navigate } = useRouter();
+  const { currentUser } = useKopkarRole();
   const { selectedProductId } = useProductStore();
+  const isReadOnly = currentUser.role === 'KEPALA_KOPERASI';
 
-  // Cari produk dari data katalog (default ke Nasi Kotak Ayam Bakar Madu)
   const catalogItem =
     CATALOG_PRODUCTS.find((p) => p.id === selectedProductId) || CATALOG_PRODUCTS[0];
 
-  const [isActive, setIsActive] = useState(catalogItem.isActive !== false);
+  const initialStatus: CatalogProductStatus =
+    catalogItem.productStatus ?? (catalogItem.isActive === false ? 'KURASI' : 'AKTIF');
+
+  const [productStatus, setProductStatus] = useState<CatalogProductStatus>(initialStatus);
   const [activeTab, setActiveTab] = useState<'financial' | 'specs' | 'composition' | 'history'>(
     'financial'
   );
+
+  useEffect(() => {
+    setProductStatus(
+      catalogItem.productStatus ?? (catalogItem.isActive === false ? 'KURASI' : 'AKTIF')
+    );
+  }, [catalogItem.id, catalogItem.isActive, catalogItem.productStatus]);
 
   const DETAIL_TABS = [
     { key: 'financial' as const, label: 'Finansial & Omset', icon: DollarSign },
@@ -38,9 +50,18 @@ export const ProductDetailView: React.FC = () => {
     { key: 'history' as const, label: 'Riwayat Versi (2)', icon: ClipboardList },
   ];
 
+  // Kurasi hanya sekali di awal; menonaktifkan produk aktif memindahkannya ke NONAKTIF (bukan KURASI)
   const handleToggleActive = () => {
-    setIsActive((prev) => !prev);
+    if (isReadOnly || productStatus === 'KURASI') return;
+    setProductStatus((prev) => (prev === 'AKTIF' ? 'NONAKTIF' : 'AKTIF'));
   };
+
+  const badgeStatusText =
+    productStatus === 'KURASI'
+      ? 'Belum Aktif · Proses Kurasi'
+      : productStatus === 'NONAKTIF'
+        ? 'Nonaktif Sementara'
+        : 'Disetujui & Aktif';
 
   const isBento = catalogItem.name.includes('Ayam Bakar');
   const costPrice = isBento ? 20000 : Math.round(catalogItem.price * 0.8);
@@ -66,13 +87,14 @@ export const ProductDetailView: React.FC = () => {
       <ProductDetailHeroCard
         name={catalogItem.name}
         categoryTag={`${catalogItem.category} · Buat Sendiri · Pabrik ${catalogItem.unit} · v2.0`}
-        badgeStatus={isActive ? 'Disetujui & Aktif' : 'Belum Aktif · Dalam Kurasi'}
+        badgeStatus={badgeStatusText}
         partnerSubtitle={`Mitra: ${catalogItem.supplier || 'Dapur Oishi Mitra'} · Halal ID321100184920 · P-IRT 205327501`}
         price={catalogItem.price}
         stock={`${catalogItem.stock} porsi`}
         rating={`${catalogItem.rating ?? 4.9} / 5.0`}
         quota="30 porsi/batch"
-        isActive={isActive}
+        productStatus={productStatus}
+        isReadOnly={isReadOnly}
         image={catalogItem.image}
         onToggleActive={handleToggleActive}
       />

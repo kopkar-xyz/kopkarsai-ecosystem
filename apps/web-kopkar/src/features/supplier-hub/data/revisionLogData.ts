@@ -1,4 +1,4 @@
-export type LogFilterType = 'Semua' | 'Perlu Revisi' | 'Menunggu Uji' | 'Aktif Etalase';
+export type LogFilterType = 'Semua' | 'Perlu Revisi' | 'Menunggu Uji' | 'Selesai';
 
 export interface ProductAuditEntryItem {
   id: string;
@@ -122,8 +122,8 @@ export const INITIAL_UNIFIED_REVISION_LOGS: UnifiedLogItem[] = [
     unitLabel: 'SAI-B',
     image: '/images/products/menu_ayam_bakar_1795520430127.jpg',
     version: 'v2.0',
-    statusBadge: 'Aktif Etalase',
-    filterBucket: 'Aktif Etalase',
+    statusBadge: 'Selesai',
+    filterBucket: 'Selesai',
     hppPrice: 20000,
     sellingPrice: 25000,
     entries: [
@@ -160,8 +160,8 @@ export const INITIAL_UNIFIED_REVISION_LOGS: UnifiedLogItem[] = [
     unitLabel: 'SAI-B',
     image: '/images/products/menu_snack_box_1795520431330.jpg',
     version: 'v1.0',
-    statusBadge: 'Aktif Etalase',
-    filterBucket: 'Aktif Etalase',
+    statusBadge: 'Selesai',
+    filterBucket: 'Selesai',
     hppPrice: 12000,
     sellingPrice: 15000,
     entries: [
@@ -186,8 +186,8 @@ export const INITIAL_UNIFIED_REVISION_LOGS: UnifiedLogItem[] = [
     unitLabel: 'SAI-B',
     image: '/images/products/menu_roti_gandum_1795520432589.jpg',
     version: 'v1.0',
-    statusBadge: 'Aktif Etalase',
-    filterBucket: 'Aktif Etalase',
+    statusBadge: 'Selesai',
+    filterBucket: 'Selesai',
     hppPrice: 10500,
     sellingPrice: 14000,
     entries: [
@@ -212,8 +212,8 @@ export const INITIAL_UNIFIED_REVISION_LOGS: UnifiedLogItem[] = [
     unitLabel: 'SAI-T',
     image: '/images/products/menu_kopi_susu_1795520432807.jpg',
     version: 'v1.0',
-    statusBadge: 'Aktif Etalase',
-    filterBucket: 'Aktif Etalase',
+    statusBadge: 'Selesai',
+    filterBucket: 'Selesai',
     hppPrice: 11000,
     sellingPrice: 15000,
     entries: [
@@ -238,8 +238,8 @@ export const INITIAL_UNIFIED_REVISION_LOGS: UnifiedLogItem[] = [
     unitLabel: 'SAI-B',
     image: '/images/products/menu_es_teh_1795520433405.jpg',
     version: 'v1.0',
-    statusBadge: 'Aktif Etalase',
-    filterBucket: 'Aktif Etalase',
+    statusBadge: 'Selesai',
+    filterBucket: 'Selesai',
     hppPrice: 3500,
     sellingPrice: 5000,
     entries: [
@@ -264,8 +264,8 @@ export const INITIAL_UNIFIED_REVISION_LOGS: UnifiedLogItem[] = [
     unitLabel: 'SAI-B',
     image: '/images/products/menu_susu_uht_1795520839002.jpg',
     version: 'v1.0',
-    statusBadge: 'Aktif Etalase',
-    filterBucket: 'Aktif Etalase',
+    statusBadge: 'Selesai',
+    filterBucket: 'Selesai',
     hppPrice: 6500,
     sellingPrice: 8500,
     entries: [
@@ -290,8 +290,8 @@ export const INITIAL_UNIFIED_REVISION_LOGS: UnifiedLogItem[] = [
     unitLabel: 'SAI-B',
     image: '/images/products/menu_beras_pandan_1795520839006.jpg',
     version: 'v1.0',
-    statusBadge: 'Aktif Etalase',
-    filterBucket: 'Aktif Etalase',
+    statusBadge: 'Selesai',
+    filterBucket: 'Selesai',
     hppPrice: 64000,
     sellingPrice: 74000,
     entries: [
@@ -316,8 +316,8 @@ export const INITIAL_UNIFIED_REVISION_LOGS: UnifiedLogItem[] = [
     unitLabel: 'SAI-T',
     image: '/images/products/menu_minyak_goreng_1795520839514.jpg',
     version: 'v1.0',
-    statusBadge: 'Aktif Etalase',
-    filterBucket: 'Aktif Etalase',
+    statusBadge: 'Selesai',
+    filterBucket: 'Selesai',
     hppPrice: 30000,
     sellingPrice: 34500,
     entries: [
@@ -343,7 +343,7 @@ export const INITIAL_UNIFIED_REVISION_LOGS: UnifiedLogItem[] = [
     unitLabel: 'SAI-B',
     version: 'v1.0',
     statusBadge: 'Selesai',
-    filterBucket: 'Aktif Etalase',
+    filterBucket: 'Selesai',
     entries: [
       {
         id: 'REV-199',

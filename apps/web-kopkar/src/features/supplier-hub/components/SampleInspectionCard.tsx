@@ -1,26 +1,28 @@
 import React from 'react';
+import { Eye } from 'lucide-react';
 import type { SampleTest } from '../../../types/kopkarSupplier';
-import { computeSampleChecklistScore } from '../../../lib/kopkarsaiMath';
 
 interface SampleInspectionCardProps {
   sample: SampleTest;
-  localChecklist: SampleTest['checklist'];
+  scoreInput: number;
   noteInput: string;
-  onChecklistChange: (key: keyof SampleTest['checklist'], val: boolean) => void;
+  isReadOnly?: boolean;
+  onScoreChange: (score: number) => void;
   onNoteChange: (note: string) => void;
   onEvaluate: (decision: 'Lulus' | 'Perlu Revisi') => void;
 }
 
 export const SampleInspectionCard: React.FC<SampleInspectionCardProps> = ({
   sample,
-  localChecklist,
+  scoreInput,
   noteInput,
-  onChecklistChange,
+  isReadOnly = false,
+  onScoreChange,
   onNoteChange,
   onEvaluate,
 }) => {
-  const score = computeSampleChecklistScore(localChecklist);
-  const scoreFive = (score / 20).toFixed(1);
+  const safeScore = Math.max(0, Math.min(100, Number.isFinite(scoreInput) ? scoreInput : 0));
+  const scoreFive = (safeScore / 20).toFixed(1);
 
   return (
     <div className="bg-white rounded-2xl border border-[#EAE4D3] p-4 sm:p-6 space-y-5 shadow-xs">
@@ -34,7 +36,7 @@ export const SampleInspectionCard: React.FC<SampleInspectionCardProps> = ({
         <div className="text-right shrink-0">
           <div className="text-[11px] text-[#7A867E]">Skor Uji</div>
           <div className="font-geist font-normal text-[24px] text-[#1F5B45] tabular-nums leading-tight">
-            {score}/100
+            {safeScore}/100
           </div>
           <div className="text-[11.5px] font-medium text-[#5C6F67] tabular-nums">
             ({scoreFive}/5)
@@ -64,68 +66,76 @@ export const SampleInspectionCard: React.FC<SampleInspectionCardProps> = ({
         </div>
       </div>
 
-      {/* Checklist */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {(
-          [
-            ['rasa', 'Rasa & Aroma (30%)'],
-            ['kemasan', 'Kebersihan Kemasan (25%)'],
-            ['suhu', 'Ketahanan Suhu (25%)'],
-            ['porsi', 'Akurasi Porsi (20%)'],
-          ] as const
-        ).map(([key, label]) => (
-          <label
-            key={key}
-            className="flex items-center gap-2.5 p-3 rounded-xl bg-[#FAF7EE] border border-[#EAE4D3] cursor-pointer text-[13px] font-sans"
-          >
-            <input
-              type="checkbox"
-              checked={localChecklist[key]}
-              onChange={(e) => onChecklistChange(key, e.target.checked)}
-              className="accent-[#1F5B45] w-4 h-4 cursor-pointer"
-            />
-            <span>{label}</span>
-          </label>
-        ))}
-      </div>
+      {isReadOnly ? (
+        <div className="rounded-xl bg-[#FAF7EE] border border-[#EAE4D3] p-4 space-y-2 text-[12.5px]">
+          <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-[#165239]">
+            <Eye className="w-3.5 h-3.5" />
+            <span>Ringkasan Hasil Uji (Monitoring)</span>
+          </div>
+          <p className="text-[#526058] leading-relaxed">
+            {noteInput || sample.inspectorNote || 'Belum ada catatan evaluasi dari tim kurasi toko.'}
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label
+                htmlFor="manual-score"
+                className="block text-[12.5px] font-medium text-[#5C6F67] mb-1.5 font-sans"
+              >
+                Nilai Sampel (0–100)
+              </label>
+              <input
+                id="manual-score"
+                type="number"
+                min={0}
+                max={100}
+                value={safeScore}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  onScoreChange(Math.max(0, Math.min(100, Number.isNaN(val) ? 0 : val)));
+                }}
+                className="w-full h-11 px-3.5 bg-[#FAF7EE] border border-[#EAE4D3] rounded-xl text-[14px] font-semibold text-[#18221D] tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F5B45]"
+              />
+            </div>
 
-      <div className="px-3.5 py-2.5 rounded-xl bg-[#EAF4EE]/60 border border-[#D4E7DA] flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 text-[12px] font-sans">
-        <span className="text-[#5C6F67]">Validasi Finansial (Margin Koperasi min. 20%)</span>
-        <span className="font-semibold text-[#15803D] tabular-nums">
-          Margin {sample.financialMarginPct ?? 20}% · Sesuai Standar
-        </span>
-      </div>
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="inspector-note"
+                className="block text-[12.5px] font-medium text-[#5C6F67] mb-1.5 font-sans"
+              >
+                Catatan Tim Kurasi
+              </label>
+              <textarea
+                id="inspector-note"
+                rows={3}
+                value={noteInput}
+                onChange={(e) => onNoteChange(e.target.value)}
+                placeholder="Catatan singkat kualitas sampel atau instruksi revisi..."
+                className="w-full bg-[#FAF7EE] border border-[#EAE4D3] rounded-xl p-3 text-[13px] font-sans focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F5B45]"
+              />
+            </div>
+          </div>
 
-      <div>
-        <label htmlFor="inspector-note" className="block text-[12.5px] font-medium text-[#5C6F67] mb-1.5 font-sans">
-          Catatan Tim Kurasi
-        </label>
-        <textarea
-          id="inspector-note"
-          rows={3}
-          value={noteInput}
-          onChange={(e) => onNoteChange(e.target.value)}
-          placeholder="Catatan singkat kualitas sampel atau instruksi revisi..."
-          className="w-full bg-[#FAF7EE] border border-[#EAE4D3] rounded-xl p-3 text-[13px] font-sans focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F5B45]"
-        />
-      </div>
-
-      <div className="flex items-center justify-end gap-2.5">
-        <button
-          type="button"
-          onClick={() => onEvaluate('Perlu Revisi')}
-          className="px-4 py-2 rounded-xl border border-[#FCA5A5] text-[#B91C1C] hover:bg-[#FEF2F2] text-[13px] font-medium cursor-pointer transition-colors"
-        >
-          Minta Revisi
-        </button>
-        <button
-          type="button"
-          onClick={() => onEvaluate('Lulus')}
-          className="px-5 py-2 rounded-xl bg-[#1F5B45] hover:bg-[#174736] text-white text-[13px] font-medium cursor-pointer shadow-xs transition-colors"
-        >
-          Luluskan Sampel
-        </button>
-      </div>
+          <div className="flex items-center justify-end gap-2.5">
+            <button
+              type="button"
+              onClick={() => onEvaluate('Perlu Revisi')}
+              className="px-4 py-2 rounded-xl border border-[#FCA5A5] text-[#B91C1C] hover:bg-[#FEF2F2] text-[13px] font-medium cursor-pointer transition-colors"
+            >
+              Minta Revisi
+            </button>
+            <button
+              type="button"
+              onClick={() => onEvaluate('Lulus')}
+              className="px-5 py-2 rounded-xl bg-[#1F5B45] hover:bg-[#174736] text-white text-[13px] font-medium cursor-pointer shadow-xs transition-colors"
+            >
+              Luluskan Sampel
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

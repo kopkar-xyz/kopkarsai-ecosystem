@@ -5,6 +5,7 @@ import { getRevisionBadgeTone, type UnifiedLogItem } from '../data/revisionLogDa
 
 interface RevisionTimelineCardProps {
   item: UnifiedLogItem | null;
+  isReadOnly?: boolean;
   onClose: () => void;
   onAdvanceRevision: (key: string) => void;
   onOpenRevisionForm: (item: UnifiedLogItem) => void;
@@ -15,6 +16,7 @@ const formatRp = (val: number) => `Rp ${val.toLocaleString('id-ID')}`;
 
 export const RevisionTimelineCard: React.FC<RevisionTimelineCardProps> = ({
   item,
+  isReadOnly = false,
   onClose,
   onAdvanceRevision,
   onOpenRevisionForm,
@@ -90,7 +92,7 @@ export const RevisionTimelineCard: React.FC<RevisionTimelineCardProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            {item.isNeedsRevisionProduct && (
+            {!isReadOnly && item.isNeedsRevisionProduct && (
               <button
                 type="button"
                 onClick={() => {
@@ -104,7 +106,7 @@ export const RevisionTimelineCard: React.FC<RevisionTimelineCardProps> = ({
               </button>
             )}
 
-            {item.revisionId && item.revisionStatus && item.revisionStatus !== 'Selesai' && (
+            {!isReadOnly && item.revisionId && item.revisionStatus && item.revisionStatus !== 'Selesai' && (
               <button
                 type="button"
                 onClick={() => onAdvanceRevision(item.key)}

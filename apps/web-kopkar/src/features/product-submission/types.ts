@@ -43,6 +43,8 @@ export type SubmissionStatus =
 
 export interface ProductFormData {
   id?: string;
+  supplierBusinessName?: string;
+  supplierWhatsapp?: string;
   name: string;
   productType: ProductKind;
   origin: ItemOrigin;

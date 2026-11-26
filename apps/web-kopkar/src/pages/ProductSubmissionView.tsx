@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Save, Send } from 'lucide-react';
 import { useRouter } from '../app/router';
+import { useKopkarRole } from '../app/auth/RoleContext';
 import { useProductSubmission } from '../features/product-submission/hooks/useProductSubmission';
 import { SubmissionSidebar } from '../features/product-submission/components/SubmissionSidebar';
 import { SubmissionStep1Schedule } from '../features/product-submission/components/SubmissionStep1Schedule';
@@ -16,6 +17,9 @@ import { SubmissionSuccessModal } from '../features/product-submission/component
  */
 export const ProductSubmissionView: React.FC = () => {
   const { navigate } = useRouter();
+  const { currentUser } = useKopkarRole();
+  const isMemberApplicant = currentUser.role === 'ANGGOTA';
+  const backTarget = isMemberApplicant ? '/' : '/products';
   const [currentStep, setCurrentStep] = useState(1);
 
   const {
@@ -45,11 +49,11 @@ export const ProductSubmissionView: React.FC = () => {
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#F0EBDC]">
         <button
           type="button"
-          onClick={() => navigate('/products')}
+          onClick={() => navigate(backTarget)}
           className="inline-flex items-center gap-2 text-[13.5px] font-medium text-[#526058] hover:text-[#18221D] cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Kembali ke Manajemen Produk</span>
+          <span>{isMemberApplicant ? 'Kembali ke Beranda' : 'Kembali ke Manajemen Produk'}</span>
         </button>
 
         <div className="flex items-center gap-2.5">

@@ -9,6 +9,7 @@ import {
   UserCheck,
   ShieldCheck,
   AlertOctagon,
+  SlidersHorizontal,
   type LucideIcon,
 } from 'lucide-react';
 import type { RoutePath } from '../router';
@@ -36,6 +37,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { path: '/', label: 'Beranda Koperasi', icon: BarChart3 },
       { path: '/orders', label: 'Pesanan Masuk & PO', icon: ShoppingBag, badge: 2 },
+      { path: '/settings', label: 'Pengaturan Toko', icon: SlidersHorizontal },
       { path: '/products', label: 'Manajemen Produk Mitra', icon: Package },
       { path: '/financial', label: 'Layanan SinJam', icon: Wallet },
       { path: '/analytics', label: 'Rekomendasi Suplai', icon: TrendingUp },
@@ -63,7 +65,9 @@ export function getKopkarPageMeta(path: string): PageHeaderMeta {
     case '/':
       return { title: 'Beranda Koperasi', kanji: '組合ホーム' };
     case '/orders':
-      return { title: 'Pesanan Masuk & PO H-1', kanji: '受注管理' };
+      return { title: 'Pesanan Masuk & PO', kanji: '受注管理' };
+    case '/settings':
+      return { title: 'Pengaturan Toko', kanji: '店舗設定' };
     case '/products':
       return { title: 'Manajemen Produk Mitra', kanji: '提携商品管理' };
     case '/products/new':

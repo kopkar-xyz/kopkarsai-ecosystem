@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check, Eye, Search } from 'lucide-react';
+import { FilterCountPill } from '../../../components/ui/FilterCountPill';
 import type { PendingMember } from '../../../types/kopkarAdmin';
 
 export type MemberFilterTab = 'Semua' | 'Menunggu' | 'Lolos' | 'Ditolak';
@@ -46,9 +47,9 @@ export const MemberCandidateList: React.FC<MemberCandidateListProps> = ({
   onFilterChange,
   onOpenDrawer,
 }) => {
-  const tabs: Array<{ key: MemberFilterTab; label: string }> = [
-    { key: 'Semua', label: `Semua ${totalCount}` },
-    { key: 'Menunggu', label: `Menunggu ${pendingCount}` },
+  const tabs: Array<{ key: MemberFilterTab; label: string; count?: number }> = [
+    { key: 'Semua', label: 'Semua', count: totalCount },
+    { key: 'Menunggu', label: 'Menunggu', count: pendingCount },
     { key: 'Lolos', label: 'Lolos' },
     { key: 'Ditolak', label: 'Ditolak' },
   ];
@@ -86,13 +87,16 @@ export const MemberCandidateList: React.FC<MemberCandidateListProps> = ({
                   key={tab.key}
                   type="button"
                   onClick={() => onFilterChange(tab.key)}
-                  className={`px-2.5 py-1 rounded-lg text-[11.5px] font-medium cursor-pointer transition-colors whitespace-nowrap ${
+                  className={`px-2.5 py-1 rounded-lg text-[11.5px] font-medium cursor-pointer transition-colors whitespace-nowrap inline-flex items-center ${
                     active
                       ? 'bg-[#165239] text-white shadow-2xs'
                       : 'text-[#526058] hover:text-[#18221D]'
                   }`}
                 >
-                  {tab.label}
+                  <span>{tab.label}</span>
+                  {typeof tab.count === 'number' && (
+                    <FilterCountPill count={tab.count} active={active} />
+                  )}
                 </button>
               );
             })}

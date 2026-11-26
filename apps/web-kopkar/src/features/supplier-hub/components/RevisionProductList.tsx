@@ -1,5 +1,6 @@
 import React from 'react';
 import { Eye, Package, Search } from 'lucide-react';
+import { FilterCountPill } from '../../../components/ui/FilterCountPill';
 import {
   getRevisionBadgeTone,
   type LogFilterType,
@@ -8,9 +9,10 @@ import {
 
 interface RevisionProductListProps {
   items: UnifiedLogItem[];
-  counts: { all: number; revisi: number; uji: number; aktif: number };
+  counts: { all: number; revisi: number; uji: number; selesai: number };
   filter: LogFilterType;
   search: string;
+  isReadOnly?: boolean;
   onFilterChange: (f: LogFilterType) => void;
   onSearchChange: (q: string) => void;
   onOpenDrawer: (item: UnifiedLogItem) => void;
@@ -23,15 +25,16 @@ export const RevisionProductList: React.FC<RevisionProductListProps> = ({
   counts,
   filter,
   search,
+  isReadOnly = false,
   onFilterChange,
   onSearchChange,
   onOpenDrawer,
 }) => {
-  const tabs: Array<{ key: LogFilterType; label: string }> = [
-    { key: 'Semua', label: `Semua ${counts.all}` },
-    { key: 'Perlu Revisi', label: `Revisi ${counts.revisi}` },
-    { key: 'Menunggu Uji', label: `Uji ${counts.uji}` },
-    { key: 'Aktif Etalase', label: `Aktif ${counts.aktif}` },
+  const tabs: Array<{ key: LogFilterType; label: string; count: number }> = [
+    { key: 'Semua', label: 'Semua', count: counts.all },
+    { key: 'Perlu Revisi', label: 'Revisi', count: counts.revisi },
+    { key: 'Menunggu Uji', label: 'Uji', count: counts.uji },
+    { key: 'Selesai', label: 'Selesai', count: counts.selesai },
   ];
 
   return (
@@ -67,13 +70,14 @@ export const RevisionProductList: React.FC<RevisionProductListProps> = ({
                   key={tab.key}
                   type="button"
                   onClick={() => onFilterChange(tab.key)}
-                  className={`px-2.5 py-1 rounded-lg text-[11.5px] font-medium cursor-pointer transition-colors whitespace-nowrap ${
+                  className={`px-2.5 py-1 rounded-lg text-[11.5px] font-medium cursor-pointer transition-colors whitespace-nowrap inline-flex items-center ${
                     active
                       ? 'bg-[#165239] text-white shadow-2xs'
                       : 'text-[#526058] hover:text-[#18221D]'
                   }`}
                 >
-                  {tab.label}
+                  <span>{tab.label}</span>
+                  <FilterCountPill count={tab.count} active={active} />
                 </button>
               );
             })}
@@ -101,7 +105,7 @@ export const RevisionProductList: React.FC<RevisionProductListProps> = ({
               const sell = item.sellingPrice;
               const marginPct =
                 hpp && sell && sell > 0 ? Math.round(((sell - hpp) / sell) * 100) : null;
-              const needsFollowUp = item.filterBucket !== 'Aktif Etalase';
+              const needsFollowUp = !isReadOnly && item.filterBucket !== 'Selesai';
 
               return (
                 <tr key={item.key} className="hover:bg-[#FAF8F2]/70 transition-colors">

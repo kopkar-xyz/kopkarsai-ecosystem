@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowRight, ShieldCheck, Store, User } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, BookOpen, ShieldCheck, Store, User } from 'lucide-react';
 import { useKopkarRole } from '../app/auth/RoleContext';
 import { useRouter } from '../app/router';
 import { useAnalyticsData } from '../features/analytics/hooks/useAnalyticsData';
@@ -9,7 +9,12 @@ import { IncomingOrdersCard } from '../features/dashboard/components/IncomingOrd
 import { RevenueTrendChart } from '../features/analytics/components/RevenueTrendChart';
 import { TopProductsTableCard } from '../features/dashboard/components/TopProductsTableCard';
 import { ProfitTrendChart } from '../features/analytics/components/ProfitTrendChart';
-import { GovernanceDocumentsCard } from '../features/dashboard/components/GovernanceDocumentsCard';
+import {
+  GovernanceDocumentsDrawer,
+  loadGovernanceDocs,
+  type GovernanceDocItem,
+} from '../features/dashboard/components/GovernanceDocumentsDrawer';
+import { FilterCountPill } from '../components/ui/FilterCountPill';
 import {
   MemberDashboardSection,
   SupplierDashboardSection,
@@ -24,6 +29,8 @@ export const DashboardView: React.FC = () => {
   const { currentUser } = useKopkarRole();
   const { navigate } = useRouter();
   const { timeframe, setTimeframe, data } = useAnalyticsData();
+  const [isGovDrawerOpen, setIsGovDrawerOpen] = useState(false);
+  const [govDocs, setGovDocs] = useState<GovernanceDocItem[]>(loadGovernanceDocs);
 
   const isMember = currentUser.role === 'ANGGOTA';
   const isSupplier = currentUser.role === 'SUPPLIER';
@@ -32,14 +39,14 @@ export const DashboardView: React.FC = () => {
 
   const RoleIcon = isMember ? User : isSupplier ? Store : ShieldCheck;
   const roleSubtitle = isMember
-    ? 'Simpanan, SinJam & E-Card'
+    ? `Simpanan, SinJam & E-Card · ${currentUser.unit}`
     : isSupplier
-      ? 'Pesanan H-1, Sampel & Revisi'
-      : 'Operasional & Otorisasi';
+      ? `Pesanan, Sampel & Revisi · ${currentUser.unit}`
+      : `Operasional & Otorisasi · ${currentUser.unit}`;
 
   return (
     <div className="space-y-4 sm:space-y-5 animate-fadeIn">
-      {/* Compact Role Header Card */}
+      {/* Compact Role Header Card + Pedoman Tata Kelola Button */}
       <div className="bg-white rounded-2xl border border-[#EAE4D3] p-4 sm:px-5 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
         <div className="flex items-center gap-3 min-w-0">
           <div className="w-10 h-10 rounded-xl bg-[#EAF4EE] text-[#165239] flex items-center justify-center shrink-0">
@@ -57,33 +64,51 @@ export const DashboardView: React.FC = () => {
           </div>
         </div>
 
-        {isAdminOrHead && (
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
           <button
             type="button"
-            onClick={() =>
-              navigate(
-                currentUser.role === 'KEPALA_KOPERASI'
-                  ? '/admin/approval'
-                  : '/admin/verification'
-              )
-            }
-            className="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-[#FAF8F2] hover:bg-[#EAF4EE] border border-[#EAE4D3] hover:border-[#165239]/40 text-[#165239] text-[12.5px] font-medium inline-flex items-center justify-center gap-1.5 cursor-pointer transition-colors shrink-0"
+            onClick={() => setIsGovDrawerOpen(true)}
+            className="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl bg-[#FAF8F2] hover:bg-[#EAF4EE] border border-[#EAE4D3] hover:border-[#165239]/40 text-[#165239] text-[12px] sm:text-[12.5px] font-medium inline-flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
           >
+            <BookOpen className="w-3.5 h-3.5" />
             <span>
-              {currentUser.role === 'KEPALA_KOPERASI'
-                ? 'Tinjau Persetujuan Final'
-                : 'Cek Verifikasi Anggota'}
+              {currentUser.role === 'KEPALA_KOPERASI' ? 'Kelola Pedoman' : 'Dokumen Pedoman'}
             </span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <FilterCountPill count={govDocs.length} />
           </button>
-        )}
+
+          {isAdminOrHead && (
+            <button
+              type="button"
+              onClick={() =>
+                navigate(
+                  currentUser.role === 'KEPALA_KOPERASI'
+                    ? '/admin/approval'
+                    : '/admin/verification'
+                )
+              }
+              className="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl bg-[#165239] hover:bg-[#12422E] text-white text-[12px] sm:text-[12.5px] font-medium inline-flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+            >
+              <span>
+                {currentUser.role === 'KEPALA_KOPERASI'
+                  ? 'Persetujuan Final'
+                  : 'Verifikasi Anggota'}
+              </span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Top Promo Banner */}
       <PromoDiscountBanner />
 
-      {/* Compact Single Governance Document & Head Upload Management */}
-      <GovernanceDocumentsCard />
+      <GovernanceDocumentsDrawer
+        open={isGovDrawerOpen}
+        onClose={() => setIsGovDrawerOpen(false)}
+        docs={govDocs}
+        onDocsChange={setGovDocs}
+      />
 
       {isMember && <MemberDashboardSection />}
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FilterCountPill } from '../../../components/ui/FilterCountPill';
 import type { ComplianceRecord } from '../../../types/kopkarAdmin';
 
 interface ComplianceRecordListProps {
@@ -45,24 +46,26 @@ export const ComplianceRecordList: React.FC<ComplianceRecordListProps> = ({
         <button
           type="button"
           onClick={() => onTabChange('defect')}
-          className={`px-3.5 py-1.5 rounded-full text-[12px] font-medium cursor-pointer transition-colors ${
+          className={`px-3.5 py-1.5 rounded-full text-[12px] font-medium cursor-pointer transition-colors inline-flex items-center ${
             activeTab === 'defect'
               ? 'bg-[#165239] text-white shadow-2xs'
               : 'bg-[#FAF7EE] text-[#526058] hover:text-[#18221D]'
           }`}
         >
-          Tiket Cacat Mutu ({defectCount})
+          <span>Tiket Cacat Mutu</span>
+          <FilterCountPill count={defectCount} active={activeTab === 'defect'} />
         </button>
         <button
           type="button"
           onClick={() => onTabChange('inactivity')}
-          className={`px-3.5 py-1.5 rounded-full text-[12px] font-medium cursor-pointer transition-colors ${
+          className={`px-3.5 py-1.5 rounded-full text-[12px] font-medium cursor-pointer transition-colors inline-flex items-center ${
             activeTab === 'inactivity'
               ? 'bg-[#165239] text-white shadow-2xs'
               : 'bg-[#FAF7EE] text-[#526058] hover:text-[#18221D]'
           }`}
         >
-          Timer Inaktivitas 30 Hari ({inactivityCount})
+          <span>Timer Inaktivitas 30 Hari</span>
+          <FilterCountPill count={inactivityCount} active={activeTab === 'inactivity'} />
         </button>
       </div>
 
