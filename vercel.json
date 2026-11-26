@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "trailingSlash": true,
+  "installCommand": "pnpm --version >/dev/null 2>&1 || npm install -g pnpm@10; pnpm --dir apps/web-gateway install && pnpm --dir apps/web-kopkar install && pnpm --dir apps/web-marketplace install",
+  "buildCommand": "node scripts/build-vercel.mjs",
+  "outputDirectory": "dist"
+}
