@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 export type RoutePath =
   | '/'
   | '/orders'
+  | '/settings'
   | '/products'
   | '/products/new'
   | '/products/detail'
@@ -34,6 +35,7 @@ interface RouterProviderProps {
 const VALID_PATHS: RoutePath[] = [
   '/',
   '/orders',
+  '/settings',
   '/products',
   '/products/new',
   '/products/detail',

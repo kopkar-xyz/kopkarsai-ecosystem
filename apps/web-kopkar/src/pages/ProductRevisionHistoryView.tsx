@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { AlertCircle, CheckCircle2, Clock } from 'lucide-react';
 import { useRouter } from '../app/router';
+import { useKopkarRole } from '../app/auth/RoleContext';
 import { KpiStatCard } from '../components/ui/KpiStatCard';
 import { INITIAL_FORM_DATA } from '../features/product-submission/hooks/useProductSubmission';
 import { useProductStore } from '../features/product-submission/context/ProductStoreContext';
@@ -14,6 +15,8 @@ import {
 
 export const ProductRevisionHistoryView: React.FC = () => {
   const { navigate } = useRouter();
+  const { currentUser } = useKopkarRole();
+  const isReadOnly = currentUser.role === 'KEPALA_KOPERASI';
   const { setSelectedProductId, setSelectedRevisionData } = useProductStore();
 
   const [items, setItems] = useState<UnifiedLogItem[]>(INITIAL_UNIFIED_REVISION_LOGS);
@@ -26,7 +29,7 @@ export const ProductRevisionHistoryView: React.FC = () => {
       all: items.length,
       revisi: items.filter((i) => i.filterBucket === 'Perlu Revisi').length,
       uji: items.filter((i) => i.filterBucket === 'Menunggu Uji').length,
-      aktif: items.filter((i) => i.filterBucket === 'Aktif Etalase').length,
+      selesai: items.filter((i) => i.filterBucket === 'Selesai').length,
     }),
     [items]
   );
@@ -57,7 +60,7 @@ export const ProductRevisionHistoryView: React.FC = () => {
           ...item,
           revisionStatus: nextStatus,
           statusBadge: nextStatus,
-          filterBucket: nextStatus === 'Selesai' ? 'Aktif Etalase' : 'Menunggu Uji',
+          filterBucket: nextStatus === 'Selesai' ? 'Selesai' : 'Menunggu Uji',
           entries: item.entries.map((entry, idx) =>
             idx === 0 ? { ...entry, statusLabel: nextStatus } : entry
           ),
@@ -107,10 +110,10 @@ export const ProductRevisionHistoryView: React.FC = () => {
           icon={Clock}
         />
         <KpiStatCard
-          label="Aktif di Etalase"
-          value={counts.aktif}
+          label="Selesai"
+          value={counts.selesai}
           unit="produk"
-          pill="Kurasi lolos & HPP terkunci"
+          pill="Kurasi lolos & revisi tuntas"
           icon={CheckCircle2}
         />
       </div>
@@ -121,6 +124,7 @@ export const ProductRevisionHistoryView: React.FC = () => {
         counts={counts}
         filter={filter}
         search={search}
+        isReadOnly={isReadOnly}
         onFilterChange={setFilter}
         onSearchChange={setSearch}
         onOpenDrawer={(item) => setDrawerKey(item.key)}
@@ -129,6 +133,7 @@ export const ProductRevisionHistoryView: React.FC = () => {
       {/* 3. Slide-Over Drawer Linimasa Revisi & Kurasi */}
       <RevisionTimelineCard
         item={activeDrawerItem}
+        isReadOnly={isReadOnly}
         onClose={() => setDrawerKey(null)}
         onAdvanceRevision={handleAdvanceRevision}
         onOpenRevisionForm={handleOpenRevisionForm}

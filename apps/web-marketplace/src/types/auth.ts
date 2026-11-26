@@ -1,4 +1,4 @@
-export type UserRole = 'ANGGOTA' | 'GA' | 'ADMIN_TOKO';
+export type UserRole = 'ANGGOTA' | 'GA';
 
 export interface UserProfile {
   id: string;
@@ -25,13 +25,5 @@ export const PRESET_USERS: UserProfile[] = [
     department: 'General Affairs • Unit Gedung A',
     role: 'GA',
     avatarUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=120&auto=format&fit=crop&q=80',
-  },
-  {
-    id: 'usr-3',
-    name: 'Dewi Sartika',
-    nik: 'SAI-2020-KS01',
-    department: 'Petugas Kasir Gerai Lantai 2',
-    role: 'ADMIN_TOKO',
-    avatarUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&auto=format&fit=crop&q=80',
   },
 ];

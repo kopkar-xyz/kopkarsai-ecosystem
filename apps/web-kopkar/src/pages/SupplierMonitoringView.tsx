@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useKopkarRole } from '../app/auth/RoleContext';
 import { ComplianceKpiCards } from '../features/admin/components/ComplianceKpiCards';
 import { ComplianceRecordForm } from '../features/admin/components/ComplianceRecordForm';
 import { ComplianceRecordList } from '../features/admin/components/ComplianceRecordList';
@@ -7,6 +8,8 @@ import { INITIAL_COMPLIANCE } from '../features/admin/data/adminMockData';
 import type { ComplianceRecord } from '../types/kopkarAdmin';
 
 export const SupplierMonitoringView: React.FC = () => {
+  const { currentUser } = useKopkarRole();
+  const isReadOnly = currentUser.role === 'KEPALA_KOPERASI';
   const [records, setRecords] = useState<ComplianceRecord[]>(INITIAL_COMPLIANCE);
   const [activeTab, setActiveTab] = useState<'defect' | 'inactivity'>('defect');
   const [selectedId, setSelectedId] = useState<string>(INITIAL_COMPLIANCE[0]?.id ?? '');
@@ -52,11 +55,12 @@ export const SupplierMonitoringView: React.FC = () => {
         defectActiveCount={defectRecords.filter((r) => r.severity !== 'Normal').length}
         inactivityCount={inactivityRecords.filter((r) => (r.inactiveDays ?? 0) >= 23).length}
         showForm={showForm}
+        isReadOnly={isReadOnly}
         onToggleForm={() => setShowForm((v) => !v)}
       />
 
       {/* 2. Formulir Temuan Baru (Toggleable) */}
-      {showForm && <ComplianceRecordForm onSubmit={handleCreateRecord} />}
+      {!isReadOnly && showForm && <ComplianceRecordForm onSubmit={handleCreateRecord} />}
 
       {/* 3. Master-Detail Workspace: Daftar Tiket & Panel Sanksi */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
@@ -75,6 +79,7 @@ export const SupplierMonitoringView: React.FC = () => {
           {activeRecord && (
             <ComplianceSanctionPanel
               record={activeRecord}
+              isReadOnly={isReadOnly}
               onApplySanction={handleApplySanction}
             />
           )}

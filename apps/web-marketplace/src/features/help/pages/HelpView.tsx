@@ -7,15 +7,11 @@ interface FaqCategory {
   items: { q: string; a: string }[];
 }
 
-interface HelpViewProps {
-  mode?: 'customer' | 'cashier';
-}
-
 /**
  * HelpView — Halaman Pusat Bantuan & Tanya Jawab Interaktif
- * Membaca data FAQ dinamis yang dikelola di Pengaturan Toko. Budget: < 200 LOC.
+ * Budget: < 200 LOC.
  */
-export const HelpView: React.FC<HelpViewProps> = ({ mode = 'customer' }) => {
+export const HelpView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedFaq, setExpandedFaq] = useState<string | null>(null);
   const [faqs, setFaqs] = useState<FaqItem[]>(() => getStoredFaqs());
@@ -26,16 +22,11 @@ export const HelpView: React.FC<HelpViewProps> = ({ mode = 'customer' }) => {
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
-  const relevantFaqs = faqs.filter((f) =>
-    mode === 'cashier'
-      ? f.targetRole === 'CASHIER' || f.targetRole === 'ALL' || f.category === 'Kasir'
-      : f.targetRole === 'CUSTOMER' || f.targetRole === 'ALL' || f.category !== 'Kasir'
+  const relevantFaqs = faqs.filter(
+    (f) => f.targetRole === 'CUSTOMER' || f.targetRole === 'ALL' || !f.targetRole
   );
 
-  const categoryOrder: Array<FaqItem['category']> =
-    mode === 'cashier'
-      ? ['Kasir', 'Pengambilan', 'Memesan', 'Pembayaran']
-      : ['Memesan', 'Pembayaran', 'Pengambilan'];
+  const categoryOrder: Array<FaqItem['category']> = ['Memesan', 'Pembayaran', 'Pengambilan'];
 
   const otherCategories = Array.from(new Set(relevantFaqs.map((f) => f.category)))
     .filter((c) => !categoryOrder.includes(c));

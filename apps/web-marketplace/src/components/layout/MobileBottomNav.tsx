@@ -1,8 +1,7 @@
 import React from 'react';
-import { Tag, ShoppingBag, HelpCircle, Store } from 'lucide-react';
+import { Tag, ShoppingBag, HelpCircle } from 'lucide-react';
 import { CategoryIcons } from '../../data/categories';
 import { RoutePath } from '../../app/router';
-import { UserProfile } from '../../types/auth';
 
 interface MobileBottomNavProps {
   activeFilter: 'all' | 'promo';
@@ -11,7 +10,6 @@ interface MobileBottomNavProps {
   currentPath: RoutePath;
   onNavigate: (path: RoutePath) => void;
   onOpenCart: () => void;
-  currentUser?: UserProfile;
 }
 
 /**
@@ -25,7 +23,6 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   cartCount,
   currentPath,
   onNavigate,
-  currentUser,
 }) => {
   return (
     <nav
@@ -103,22 +100,6 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           <HelpCircle className="w-5 h-5" />
           <span className="text-[10px]">Bantuan</span>
         </button>
-
-        {/* 5. Kasir Toko - Hanya untuk ADMIN_TOKO */}
-        {currentUser?.role === 'ADMIN_TOKO' && (
-          <button
-            type="button"
-            onClick={() => onNavigate('/cashier')}
-            className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-2xl transition-all cursor-pointer ${
-              currentPath === '/cashier'
-                ? 'text-[#83273B] font-bold bg-[#FDF0F3]'
-                : 'text-[#665E60] hover:text-[#1A1615]'
-            }`}
-          >
-            <Store className="w-5 h-5" />
-            <span className="text-[10px]">Kasir</span>
-          </button>
-        )}
       </div>
     </nav>
   );

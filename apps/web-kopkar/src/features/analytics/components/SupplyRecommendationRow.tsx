@@ -5,18 +5,13 @@ import type { SupplyRecommendationItem } from './SupplyRecommendationTableCard';
 
 interface SupplyRecommendationRowProps {
   item: SupplyRecommendationItem;
+  isReadOnly?: boolean;
   onCreatePo: (id: string) => void;
 }
 
-/**
- * SupplyRecommendationRow — Baris Item Rekomendasi Dropping Pasokan
- * Slicing 1:1 Presisi aistudio-src SupplyRecPage:
- * - Nama Produk: font-semibold text-[13px] text-[#18221D] (Geist)
- * - Tombol Buat PO: rounded-lg bg-[#165239] text-white text-[12px] font-medium
- * Budget: < 200 LOC.
- */
 export const SupplyRecommendationRow: React.FC<SupplyRecommendationRowProps> = ({
   item,
+  isReadOnly = false,
   onCreatePo,
 }) => {
   return (
@@ -69,12 +64,16 @@ export const SupplyRecommendationRow: React.FC<SupplyRecommendationRowProps> = (
         {formatCurrencyIDR(item.estimatedValue)}
       </td>
 
-      {/* Kolom 6: Tombol Aksi */}
+      {/* Kolom 6: Tombol Aksi / Status Monitoring */}
       <td className="py-3 px-3.5 text-right whitespace-nowrap">
         {item.poStatus === 'CREATED' ? (
           <span className="inline-flex items-center gap-1 h-7 px-3 rounded-lg bg-[#EAF4EE] text-[#15803D] text-[12px] font-medium">
             <Check size={13} />
             <span>PO Dibuat</span>
+          </span>
+        ) : isReadOnly ? (
+          <span className="inline-flex items-center h-7 px-3 rounded-lg bg-[#FAF7EE] border border-[#EAE4D3] text-[#526058] text-[12px] font-medium">
+            Siap PO
           </span>
         ) : (
           <button

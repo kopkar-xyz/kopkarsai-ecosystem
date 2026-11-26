@@ -1,5 +1,6 @@
 import React from 'react';
 import { Eye } from 'lucide-react';
+import { FilterCountPill } from '../../../components/ui/FilterCountPill';
 import { formatCurrencyIDR } from '../../../lib/utils';
 import type { ExecutiveApproval } from '../../../types/kopkarAdmin';
 
@@ -20,8 +21,8 @@ export const HeadApprovalDecisionGrid: React.FC<HeadApprovalDecisionGridProps> =
   onTabChange,
   onOpenDrawer,
 }) => {
-  const tabs: Array<{ key: HeadApprovalFilterTab; label: string }> = [
-    { key: 'Semua', label: `Semua ${totalCount}` },
+  const tabs: Array<{ key: HeadApprovalFilterTab; label: string; count?: number }> = [
+    { key: 'Semua', label: 'Semua', count: totalCount },
     { key: 'SK Anggota', label: 'SK Anggota' },
     { key: 'Pinjaman & Suplai', label: 'Pinjaman & Suplai' },
   ];
@@ -47,13 +48,16 @@ export const HeadApprovalDecisionGrid: React.FC<HeadApprovalDecisionGridProps> =
                 key={tab.key}
                 type="button"
                 onClick={() => onTabChange(tab.key)}
-                className={`px-3 py-1.5 rounded-lg text-[12px] font-medium cursor-pointer transition-colors whitespace-nowrap ${
+                className={`px-3 py-1.5 rounded-lg text-[12px] font-medium cursor-pointer transition-colors whitespace-nowrap inline-flex items-center ${
                   active
                     ? 'bg-[#165239] text-white shadow-2xs'
                     : 'text-[#526058] hover:text-[#18221D]'
                 }`}
               >
-                {tab.label}
+                <span>{tab.label}</span>
+                {typeof tab.count === 'number' && (
+                  <FilterCountPill count={tab.count} active={active} />
+                )}
               </button>
             );
           })}

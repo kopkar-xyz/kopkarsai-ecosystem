@@ -3,6 +3,7 @@ import { useRouter } from './app/router';
 import { AppLayout } from './app/layout/AppLayout';
 import { DashboardView } from './pages/DashboardView';
 import { OrdersView } from './pages/OrdersView';
+import { StoreSettingsView } from './pages/StoreSettingsView';
 import { ProductsView } from './pages/ProductsView';
 import { ProductSubmissionView } from './pages/ProductSubmissionView';
 import { ProductDetailView } from './pages/ProductDetailView';
@@ -28,6 +29,8 @@ export const App: React.FC = () => {
         return <DashboardView />;
       case '/orders':
         return <OrdersView />;
+      case '/settings':
+        return <StoreSettingsView />;
       case '/products':
         return <ProductsView />;
       case '/products/new':

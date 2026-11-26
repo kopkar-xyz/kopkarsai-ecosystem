@@ -60,9 +60,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
             const roleBadge =
               usr.role === 'ANGGOTA'
                 ? { label: 'Anggota biasa', style: 'bg-[#E5F3EB] text-[#2E6B4F]' }
-                : usr.role === 'GA'
-                ? { label: 'GA Officer', style: 'bg-[#FCEBA7] text-[#8A5A00]' }
-                : { label: 'Kasir toko', style: 'bg-[#781D32] text-white' };
+                : { label: 'GA Officer', style: 'bg-[#FCEBA7] text-[#8A5A00]' };
 
             return (
               <div

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useKopkarRole } from '../../../app/auth/RoleContext';
+import { FilterCountPill } from '../../../components/ui/FilterCountPill';
 import { SupplyRecommendationRow } from './SupplyRecommendationRow';
 
 export interface SupplyRecommendationItem {
@@ -85,6 +87,8 @@ const DEFAULT_RECOMMENDATIONS: SupplyRecommendationItem[] = [
  * Budget: < 200 LOC.
  */
 export const SupplyRecommendationTableCard: React.FC = () => {
+  const { currentUser } = useKopkarRole();
+  const isReadOnly = currentUser.role === 'KEPALA_KOPERASI';
   const [items, setItems] = useState<SupplyRecommendationItem[]>(DEFAULT_RECOMMENDATIONS);
   const [activeTab, setActiveTab] = useState<'ALL' | 'INCREASE' | 'CREATED'>('ALL');
 
@@ -127,39 +131,28 @@ export const SupplyRecommendationTableCard: React.FC = () => {
 
           {/* Filter Tabs */}
           <div className="flex flex-wrap items-center gap-1.5 bg-[#FAF7EE] p-1 rounded-xl border border-[#EAE4D3] w-full sm:w-auto">
-            <button
-              type="button"
-              onClick={() => setActiveTab('ALL')}
-              className={`px-3 py-1.5 rounded-lg text-[12px] font-medium cursor-pointer transition-colors whitespace-nowrap ${
-                activeTab === 'ALL'
-                  ? 'bg-[#165239] text-white'
-                  : 'text-[#526058] hover:text-[#18221D]'
-              }`}
-            >
-              Semua ({items.length})
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('INCREASE')}
-              className={`px-3 py-1.5 rounded-lg text-[12px] font-medium cursor-pointer transition-colors whitespace-nowrap ${
-                activeTab === 'INCREASE'
-                  ? 'bg-[#165239] text-white'
-                  : 'text-[#526058] hover:text-[#18221D]'
-              }`}
-            >
-              Naik Kuota ({increaseCount})
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('CREATED')}
-              className={`px-3 py-1.5 rounded-lg text-[12px] font-medium cursor-pointer transition-colors whitespace-nowrap ${
-                activeTab === 'CREATED'
-                  ? 'bg-[#165239] text-white'
-                  : 'text-[#526058] hover:text-[#18221D]'
-              }`}
-            >
-              PO Dibuat ({createdCount})
-            </button>
+            {(
+              [
+                { key: 'ALL', label: 'Semua', count: items.length },
+                { key: 'INCREASE', label: 'Naik Kuota', count: increaseCount },
+                { key: 'CREATED', label: 'PO Dibuat', count: createdCount },
+              ] as const
+            ).map((tab) => {
+              const active = activeTab === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`px-3 py-1.5 rounded-lg text-[12px] font-medium cursor-pointer transition-colors whitespace-nowrap inline-flex items-center ${
+                    active ? 'bg-[#165239] text-white' : 'text-[#526058] hover:text-[#18221D]'
+                  }`}
+                >
+                  <span>{tab.label}</span>
+                  <FilterCountPill count={tab.count} active={active} />
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -174,7 +167,9 @@ export const SupplyRecommendationTableCard: React.FC = () => {
               <th className="py-2.5 px-3.5">Sinyal Permintaan</th>
               <th className="py-2.5 px-3.5 text-center">Keyakinan</th>
               <th className="py-2.5 px-3.5">Estimasi Nilai</th>
-              <th className="py-2.5 px-3.5 text-right rounded-r-xl">Aksi</th>
+              <th className="py-2.5 px-3.5 text-right rounded-r-xl">
+                {isReadOnly ? 'Status' : 'Aksi'}
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#F0EBDC] text-[13px]">
@@ -182,6 +177,7 @@ export const SupplyRecommendationTableCard: React.FC = () => {
               <SupplyRecommendationRow
                 key={item.id}
                 item={item}
+                isReadOnly={isReadOnly}
                 onCreatePo={handleCreatePo}
               />
             ))}
