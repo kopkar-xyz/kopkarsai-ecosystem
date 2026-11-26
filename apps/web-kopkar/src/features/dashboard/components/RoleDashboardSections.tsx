@@ -20,7 +20,7 @@ export const MemberDashboardSection: React.FC = () => {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
         <KpiStatCard
           label="Simpanan Aktif"
           value="Rp 4.800.000"
@@ -90,7 +90,7 @@ export const SupplierDashboardSection: React.FC = () => {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
         <KpiStatCard
           label="Pesanan & PO Masuk"
           value={3}

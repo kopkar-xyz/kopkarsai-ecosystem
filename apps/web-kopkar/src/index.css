@@ -303,20 +303,60 @@
   }
 }
 @media (max-width: 480px) {
+  .ads .viewport {
+    border-radius: 16px;
+  }
   .ads .slide .txt {
     max-width: 100%;
   }
   .ads .slide {
-    padding: 22px 20px;
+    min-height: 156px;
+    padding: 16px 18px;
   }
-  .ads .slide .big strong {
-    font-size: 38px;
+  .ads .slide .badge {
+    font-size: 10.5px;
+    padding: 2px 9px;
+    margin-bottom: 6px;
   }
   .ads .slide .t {
-    font-size: 27px;
+    font-size: 21px;
+    line-height: 1.15;
+  }
+  .ads .slide .big {
+    margin-top: 4px;
+    gap: 6px;
+  }
+  .ads .slide .big small {
+    font-size: 12px;
+  }
+  .ads .slide .big strong {
+    font-size: 28px;
+  }
+  .ads .slide .fine {
+    margin: 6px 0 0;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+  .ads .slide .btn {
+    margin-top: 10px;
+    height: 32px;
+    padding: 0 16px;
+    font-size: 12px;
+    border-radius: 10px;
   }
   .ads .slide .art {
-    width: 70%;
-    opacity: 0.35;
+    width: 58%;
+    opacity: 0.32;
+  }
+  .ads .dots {
+    margin-top: 8px;
+    gap: 5px;
+  }
+  .ads .dots button {
+    width: 6px;
+    height: 6px;
+  }
+  .ads .dots button[aria-current="true"] {
+    width: 18px;
   }
 }

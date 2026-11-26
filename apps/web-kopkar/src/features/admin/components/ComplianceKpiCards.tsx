@@ -16,7 +16,7 @@ export const ComplianceKpiCards: React.FC<ComplianceKpiCardsProps> = ({
   onToggleForm,
 }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 select-none">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 select-none">
       <KpiStatCard
         label="Rata-rata SLA Mitra"
         value="91,4%"
@@ -40,7 +40,7 @@ export const ComplianceKpiCards: React.FC<ComplianceKpiCardsProps> = ({
         icon={Clock}
       />
 
-      <div className="p-5 rounded-2xl bg-white border border-[#EAE4D3] flex items-center justify-between gap-2 hover:border-[#165239]/40 transition-colors">
+      <div className="p-3.5 sm:p-5 rounded-2xl bg-white border border-[#EAE4D3] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 hover:border-[#165239]/40 transition-colors">
         <div>
           <div className="text-[13px] text-[#526058]">Catat Temuan</div>
           <div className="text-[11.5px] text-[#7A867E] mt-1">

@@ -27,12 +27,20 @@ export const ProductsView: React.FC = () => {
   const { navigate } = useRouter();
   const { setSelectedRevisionData, setSelectedProductId } = useProductStore();
 
-  const [activeTab, setActiveTab] = useState<'ACTIVE' | 'ALL'>('ACTIVE');
+  const [activeTab, setActiveTab] = useState<'ACTIVE' | 'CURATION' | 'ALL'>('ACTIVE');
   const [selectedCategory, setSelectedCategory] = useState<'Semua' | ProductType>('Semua');
   const [searchQuery, setSearchQuery] = useState('');
 
+  const activeCount = CATALOG_PRODUCTS.filter((p) => p.isActive !== false).length;
+  const curationCount = CATALOG_PRODUCTS.filter((p) => p.isActive === false).length;
+
   const filteredProducts = CATALOG_PRODUCTS.filter((prod) => {
-    const matchTab = activeTab === 'ACTIVE' ? prod.isActive : true;
+    const matchTab =
+      activeTab === 'ACTIVE'
+        ? prod.isActive !== false
+        : activeTab === 'CURATION'
+          ? prod.isActive === false
+          : true;
     const matchCategory = selectedCategory === 'Semua' || prod.productType === selectedCategory;
     const matchSearch =
       prod.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -56,7 +64,7 @@ export const ProductsView: React.FC = () => {
       <div className="bg-white rounded-2xl border border-[#EAE4D3] p-4 sm:p-5 space-y-3.5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           {/* Segmented Switch */}
-          <div className="inline-flex flex-wrap items-center bg-[#F5F0E2] p-1 rounded-xl w-full sm:w-auto">
+          <div className="inline-flex flex-wrap items-center bg-[#F5F0E2] p-1 rounded-xl w-full sm:w-auto gap-0.5">
             <button
               type="button"
               onClick={() => setActiveTab('ACTIVE')}
@@ -66,7 +74,18 @@ export const ProductsView: React.FC = () => {
                   : 'text-[#526058] hover:text-[#18221D]'
               }`}
             >
-              Etalase Aktif (8)
+              Etalase Aktif ({activeCount})
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('CURATION')}
+              className={`flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 rounded-lg text-[12px] sm:text-[12.5px] font-medium transition-colors cursor-pointer whitespace-nowrap tabular-nums ${
+                activeTab === 'CURATION'
+                  ? 'bg-[#B45309] text-white shadow-xs'
+                  : 'text-[#526058] hover:text-[#18221D]'
+              }`}
+            >
+              Kurasi ({curationCount})
             </button>
             <button
               type="button"
@@ -77,7 +96,7 @@ export const ProductsView: React.FC = () => {
                   : 'text-[#526058] hover:text-[#18221D]'
               }`}
             >
-              Semua Produk Mitra (9 · 1 kurasi)
+              Semua ({CATALOG_PRODUCTS.length})
             </button>
           </div>
 

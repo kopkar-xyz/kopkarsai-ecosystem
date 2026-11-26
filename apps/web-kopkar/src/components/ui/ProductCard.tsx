@@ -56,17 +56,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     return 'porsi';
   };
 
+  const isInactive = product.isActive === false;
+
   return (
     <div
       onClick={onClick}
-      className={`group rounded-2xl overflow-hidden bg-white border border-[#EAE4D3] hover:-translate-y-1 hover:shadow-[0_14px_30px_-10px_rgba(22,82,57,0.16)] hover:border-[#165239]/45 transition-all duration-300 flex flex-col justify-between cursor-pointer select-none ${className}`}
+      className={`group rounded-2xl overflow-hidden border hover:-translate-y-1 hover:shadow-[0_14px_30px_-10px_rgba(22,82,57,0.16)] transition-all duration-300 flex flex-col justify-between cursor-pointer select-none ${
+        isInactive
+          ? 'bg-[#FAF8F2]/80 border-dashed border-[#D6CEBA] hover:border-[#B45309]/50'
+          : 'bg-white border-[#EAE4D3] hover:border-[#165239]/45'
+      } ${className}`}
     >
       {/* 1. Gambar Produk + Floating Unit & Rating Pills */}
       <div className="aspect-[4/3] w-full bg-[#F5F0E2] relative overflow-hidden">
         <img
           src={product.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80'}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+          className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out ${
+            isInactive ? 'opacity-75 grayscale-[25%]' : ''
+          }`}
           loading="lazy"
         />
         <div
@@ -80,6 +88,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <Star size={10} className="fill-[#F2C94C] text-[#F2C94C] sm:w-[11px] sm:h-[11px]" />
           {(product.rating ?? 4.8).toFixed(1)}
         </span>
+        {isInactive && (
+          <span className="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 px-2 sm:px-2.5 py-0.5 rounded-full bg-[#FEF3C7]/95 backdrop-blur-sm border border-[#F59E0B]/35 text-[9.5px] sm:text-[10.5px] font-semibold text-[#B45309] shadow-2xs">
+            Belum Aktif · Kurasi
+          </span>
+        )}
       </div>
 
       {/* 2. Informasi Produk */}

@@ -22,7 +22,11 @@ export const ProductDetailView: React.FC = () => {
   const { navigate } = useRouter();
   const { selectedProductId } = useProductStore();
 
-  const [isActive, setIsActive] = useState(true);
+  // Cari produk dari data katalog (default ke Nasi Kotak Ayam Bakar Madu)
+  const catalogItem =
+    CATALOG_PRODUCTS.find((p) => p.id === selectedProductId) || CATALOG_PRODUCTS[0];
+
+  const [isActive, setIsActive] = useState(catalogItem.isActive !== false);
   const [activeTab, setActiveTab] = useState<'financial' | 'specs' | 'composition' | 'history'>(
     'financial'
   );
@@ -33,10 +37,6 @@ export const ProductDetailView: React.FC = () => {
     { key: 'composition' as const, label: 'Komposisi & Simpan', icon: Package },
     { key: 'history' as const, label: 'Riwayat Versi (2)', icon: ClipboardList },
   ];
-
-  // Cari produk dari data katalog (default ke Nasi Kotak Ayam Bakar Madu)
-  const catalogItem =
-    CATALOG_PRODUCTS.find((p) => p.id === selectedProductId) || CATALOG_PRODUCTS[0];
 
   const handleToggleActive = () => {
     setIsActive((prev) => !prev);
@@ -66,7 +66,7 @@ export const ProductDetailView: React.FC = () => {
       <ProductDetailHeroCard
         name={catalogItem.name}
         categoryTag={`${catalogItem.category} · Buat Sendiri · Pabrik ${catalogItem.unit} · v2.0`}
-        badgeStatus="Disetujui & Aktif"
+        badgeStatus={isActive ? 'Disetujui & Aktif' : 'Belum Aktif · Dalam Kurasi'}
         partnerSubtitle={`Mitra: ${catalogItem.supplier || 'Dapur Oishi Mitra'} · Halal ID321100184920 · P-IRT 205327501`}
         price={catalogItem.price}
         stock={`${catalogItem.stock} porsi`}
