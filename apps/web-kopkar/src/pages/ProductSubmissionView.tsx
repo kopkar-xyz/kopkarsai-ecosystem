@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Save, Send } from 'lucide-react';
+import { AlertCircle, ArrowLeft } from 'lucide-react';
 import { useRouter } from '../app/router';
 import { useKopkarRole } from '../app/auth/RoleContext';
 import { useProductSubmission } from '../features/product-submission/hooks/useProductSubmission';
@@ -8,6 +8,7 @@ import { SubmissionStep1Schedule } from '../features/product-submission/componen
 import { SubmissionStep2Data } from '../features/product-submission/components/SubmissionStep2Data';
 import { SubmissionStep3Supply } from '../features/product-submission/components/SubmissionStep3Supply';
 import { SubmissionStep4Pricing } from '../features/product-submission/components/SubmissionStep4Pricing';
+import { SubmissionConfirmModal } from '../features/product-submission/components/SubmissionConfirmModal';
 import { SubmissionSuccessModal } from '../features/product-submission/components/SubmissionSuccessModal';
 
 /**
@@ -21,31 +22,43 @@ export const ProductSubmissionView: React.FC = () => {
   const isMemberApplicant = currentUser.role === 'ANGGOTA';
   const backTarget = isMemberApplicant ? '/' : '/products';
   const [currentStep, setCurrentStep] = useState(1);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const {
     formData,
+    errors,
     isSubmitting,
     showSuccessModal,
     lastSubmittedId,
+    lastSubmittedIsDraft,
     marginAmount,
     marginPercent,
     updateField,
     addIngredient,
     removeIngredient,
     handleImageSelect,
+    validate,
     submit,
     resetForm,
     setShowSuccessModal,
   } = useProductSubmission();
 
-  const handleFormSubmit = async (e?: React.FormEvent) => {
+  const handleOpenConfirm = (e?: React.FormEvent) => {
     e?.preventDefault();
-    await submit(false);
+    validate(false);
+    setShowConfirmModal(true);
   };
+
+  const handleConfirmSubmit = async () => {
+    const ok = await submit(false);
+    if (ok) setShowConfirmModal(false);
+  };
+
+  const errorMessages = Object.values(errors).filter(Boolean);
 
   return (
     <div className="space-y-5 animate-fadeIn select-none">
-      {/* 1. Header Bar: Kembali ke Katalog, Simpan Draf & Kirim Pengajuan */}
+      {/* 1. Header Bar: Kembali ke Katalog */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#F0EBDC]">
         <button
           type="button"
@@ -55,28 +68,6 @@ export const ProductSubmissionView: React.FC = () => {
           <ArrowLeft className="w-4 h-4" />
           <span>{isMemberApplicant ? 'Kembali ke Beranda' : 'Kembali ke Manajemen Produk'}</span>
         </button>
-
-        <div className="flex items-center gap-2.5">
-          <button
-            type="button"
-            onClick={() => submit(true)}
-            disabled={isSubmitting}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-[#EAE4D3] bg-white hover:bg-[#FAF7EE] text-[13px] font-medium text-[#18221D] transition-colors cursor-pointer"
-          >
-            <Save className="w-4 h-4 text-[#526058]" />
-            <span>Simpan Draf</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleFormSubmit()}
-            disabled={isSubmitting}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#165239] hover:bg-[#11402c] text-white font-semibold text-[13px] transition-colors cursor-pointer disabled:opacity-50"
-          >
-            <Send className="w-4 h-4" />
-            <span>Kirim Pengajuan</span>
-          </button>
-        </div>
       </div>
 
       {/* 2. Grid 2 Kolom: Sidebar Stepper (Kiri) & Konten Form Multi-Step (Kanan) */}
@@ -93,7 +84,21 @@ export const ProductSubmissionView: React.FC = () => {
         </div>
 
         {/* Kolom Kanan: Langkah Form Aktif */}
-        <div className="lg:col-span-8 xl:col-span-9">
+        <div className="lg:col-span-8 xl:col-span-9 space-y-4">
+          {errorMessages.length > 0 && (
+            <div className="p-3.5 rounded-xl bg-[#FEF2F2] border border-[#FECACA] text-xs text-[#991B1B] flex items-start gap-2.5">
+              <AlertCircle size={16} className="shrink-0 mt-0.5 text-[#DC2626]" />
+              <div>
+                <p className="font-semibold">Lengkapi data pengajuan terlebih dahulu:</p>
+                <ul className="list-disc pl-4 mt-1 space-y-0.5">
+                  {errorMessages.map((msg) => (
+                    <li key={msg}>{msg}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
           {currentStep === 1 && (
             <SubmissionStep1Schedule
               formData={formData}
@@ -130,7 +135,7 @@ export const ProductSubmissionView: React.FC = () => {
               marginAmount={marginAmount}
               marginPercent={marginPercent}
               onChange={updateField}
-              onSubmit={handleFormSubmit}
+              onSubmit={handleOpenConfirm}
               onPrev={() => setCurrentStep(3)}
               isSubmitting={isSubmitting}
             />
@@ -138,10 +143,28 @@ export const ProductSubmissionView: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Modal Sukses Pengajuan Produk */}
+      {/* 3. Modal Konfirmasi Sebelum Pengiriman (Sesuai Aturan Koperasi) */}
+      <SubmissionConfirmModal
+        isOpen={showConfirmModal}
+        formData={formData}
+        validationErrors={errors}
+        marginAmount={marginAmount}
+        marginPercent={marginPercent}
+        isSubmitting={isSubmitting}
+        onClose={() => setShowConfirmModal(false)}
+        onGoToStep={(step) => {
+          setShowConfirmModal(false);
+          setCurrentStep(step);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onConfirm={handleConfirmSubmit}
+      />
+
+      {/* 4. Modal Sukses Pengajuan Produk */}
       <SubmissionSuccessModal
         isOpen={showSuccessModal}
         submissionId={lastSubmittedId}
+        isDraft={lastSubmittedIsDraft}
         formData={formData}
         marginAmount={marginAmount}
         marginPercent={marginPercent}

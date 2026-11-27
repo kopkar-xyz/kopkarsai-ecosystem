@@ -70,9 +70,8 @@ export const FoodProductCard: React.FC<FoodProductCardProps> = ({
 
         {/* Title */}
         <h3
-          className={`font-heading text-sm sm:text-base font-bold transition-colors line-clamp-1 leading-snug mb-0.5 ${
-            isSelected ? 'text-[#83273B]' : 'text-[#1A1615] group-hover:text-[#83273B]'
-          }`}
+          className={`font-heading text-sm sm:text-base font-bold transition-colors line-clamp-1 leading-snug mb-0.5 ${isSelected ? 'text-[#83273B]' : 'text-[#1A1615] group-hover:text-[#83273B]'
+            }`}
         >
           {product.name}
         </h3>
@@ -110,11 +109,10 @@ export const FoodProductCard: React.FC<FoodProductCardProps> = ({
               e.stopPropagation();
               onClick(product);
             }}
-            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 shrink-0 ${
-              isSelected
-                ? 'bg-[#F4C63D] hover:bg-[#E5A812] text-[#1A1615]'
-                : 'bg-[#83273B] hover:bg-[#681E2E] text-white'
-            }`}
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 shrink-0 ${isSelected
+              ? 'bg-[#F4C63D] hover:bg-[#E5A812] text-[#1A1615]'
+              : 'bg-[#83273B] hover:bg-[#681E2E] text-white'
+              }`}
             aria-label={isSelected ? 'Menu terpilih' : 'Pilih hidangan'}
           >
             {isSelected ? (
