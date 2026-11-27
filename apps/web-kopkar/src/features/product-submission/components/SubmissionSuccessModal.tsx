@@ -7,6 +7,7 @@ import type { CompleteSubmissionFormData } from '../types';
 interface SubmissionSuccessModalProps {
   isOpen: boolean;
   submissionId: string | null;
+  isDraft?: boolean;
   formData: CompleteSubmissionFormData;
   marginAmount: number;
   marginPercent: number;
@@ -19,6 +20,7 @@ interface SubmissionSuccessModalProps {
 export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
   isOpen,
   submissionId,
+  isDraft = false,
   formData,
   marginAmount,
   marginPercent,
@@ -30,6 +32,14 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
   if (!isOpen) return null;
 
   const isRevision = Boolean(formData.editingSubmissionId);
+  const titleText = isDraft
+    ? 'Draf Pengajuan Berhasil Disimpan!'
+    : isRevision
+    ? 'Revisi Pengajuan Berhasil Dikirim!'
+    : 'Pengajuan Produk Berhasil Terkirim!';
+  const subtitleText = isDraft
+    ? 'Pengajuan tersimpan sebagai DRAFT. Lengkapi dan kirim sebelum jadwal pengantaran sampel.'
+    : 'Data tercatat dengan status MENUNGGU_PENGUJIAN dan masuk ke antrean uji kelayakan pengurus koperasi.';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
@@ -56,10 +66,10 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
             Tiket: {submissionId || 'SUB-2024'}
           </span>
           <h2 className="text-xl sm:text-2xl font-heading font-extrabold text-[#1A2421] mt-2">
-            {isRevision ? 'Revisi Pengajuan Berhasil Dikirim!' : 'Pengajuan Produk Berhasil Terkirim!'}
+            {titleText}
           </h2>
           <p className="text-xs sm:text-sm font-body text-[#5C6F67] mt-1">
-            Data transaksi tersimpan dan otomatis masuk ke antrean kurasi pengurus koperasi.
+            {subtitleText}
           </p>
         </div>
 
@@ -103,9 +113,19 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
         <div className="p-3 bg-[#EAF4EE] rounded-xl border border-[#A9C3A2]/60 text-xs font-body text-[#1F5B45]">
           <p className="font-heading font-bold">Langkah Selanjutnya:</p>
           <p className="text-[11px] text-[#2F6F56] mt-0.5">
-            Serahkan <strong>2 porsi sampel fisik</strong> ke meja kasir toko koperasi sesuai
-            jadwal di atas. Tim penilai akan menguji kelayakan rasa dan kemasan pada hari{' '}
-            <strong>Kamis</strong> dan status kelulusan diumumkan setiap hari <strong>Jumat</strong>.
+            {isDraft ? (
+              <>
+                Draf belum masuk antrean kurasi. Anda dapat melengkapi data lalu menekan tombol{' '}
+                <strong>Kirim Pengajuan Produk</strong> di Langkah 4 agar dijadwalkan untuk uji sampel.
+              </>
+            ) : (
+              <>
+                Serahkan sampel fisik produk ke gerai toko koperasi sesuai jadwal{' '}
+                <strong>{formData.dropDay === 'SELASA' ? 'Selasa' : 'Rabu'} ({formData.dropShift === 'SHIFT_A' ? 'Shift A' : 'Shift B'})</strong> di{' '}
+                <strong>{formData.dropLocation}</strong>. Tim penilai menguji kelayakan paling lambat hari{' '}
+                <strong>Kamis</strong> dan hasil diumumkan setiap hari <strong>Jumat</strong> via notifikasi & email.
+              </>
+            )}
           </p>
         </div>
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { DesktopSidebar } from './DesktopSidebar';
 import { DesktopHeader } from './DesktopHeader';
 import { MobileHeader } from './MobileHeader';
-import { MobileBottomNav } from './MobileBottomNav';
 import { KopkarRoleModal } from '../../components/ui/KopkarRoleModal';
 import { useRouter } from '../router';
 import { getKopkarPageMeta } from './navConfig';
@@ -46,13 +45,10 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         <MobileHeader />
 
         {/* Main Content Area */}
-        <main className="relative z-10 flex-1 w-full max-w-[1320px] mx-auto px-3.5 py-4 sm:p-7 space-y-5 sm:space-y-6 pb-28 md:pb-8 min-w-0 overflow-x-hidden">
+        <main className="relative z-10 flex-1 w-full max-w-[1320px] mx-auto px-3.5 py-4 sm:p-7 space-y-5 sm:space-y-6 pb-8 min-w-0 overflow-x-hidden">
           {children}
         </main>
       </div>
-
-      {/* Mobile Full-Green Bottom Nav */}
-      <MobileBottomNav />
 
       {/* Role Switcher Modal (Triggered by Profile in Navbar/Sidebar) */}
       <KopkarRoleModal />

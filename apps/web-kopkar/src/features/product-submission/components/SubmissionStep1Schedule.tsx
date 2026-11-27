@@ -1,6 +1,7 @@
 import React from 'react';
-import { Calendar, ArrowRight } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import type { CompleteSubmissionFormData } from '../types';
+import { SubmissionStepFooter } from './SubmissionStepFooter';
 
 interface SubmissionStep1ScheduleProps {
   formData: CompleteSubmissionFormData;
@@ -132,24 +133,11 @@ export const SubmissionStep1Schedule: React.FC<SubmissionStep1ScheduleProps> = (
       </div>
 
       {/* 4. Bottom Action Bar */}
-      <div className="pt-4 border-t border-[#E9E2D2]/60 flex items-center justify-between gap-3">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2 rounded-xl text-xs font-sans font-medium text-[#6F776F] hover:text-[#14261E] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
-        >
-          Batal
-        </button>
-
-        <button
-          type="button"
-          onClick={onNext}
-          className="h-10 px-5 rounded-xl bg-[#1F5C45] hover:bg-[#174736] text-white text-xs font-heading font-medium flex items-center gap-2 transition-all cursor-pointer shadow-xs active:scale-95"
-        >
-          <span>Lanjut: Data & Karakteristik</span>
-          <ArrowRight size={15} />
-        </button>
-      </div>
+      <SubmissionStepFooter
+        onCancel={onCancel}
+        onNext={onNext}
+        nextLabel="Lanjut: Data & Karakteristik"
+      />
     </div>
   );
 };

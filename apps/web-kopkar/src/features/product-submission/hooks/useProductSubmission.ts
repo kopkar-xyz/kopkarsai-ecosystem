@@ -32,6 +32,19 @@ export const INITIAL_FORM_DATA: CompleteSubmissionFormData = {
   dropLocation: 'SAI-B',
 };
 
+export function getFirstSubmissionErrorStep(errors: SubmissionFormErrors): number | null {
+  if (errors.name || errors.productionTime || errors.ingredientsInput || errors.imageFile) {
+    return 2;
+  }
+  if (errors.shelfLife) {
+    return 3;
+  }
+  if (errors.costPrice || errors.sellingPrice || errors.qtyKirim) {
+    return 4;
+  }
+  return null;
+}
+
 export function useProductSubmission() {
   const {
     submitProductForm,
@@ -47,6 +60,7 @@ export function useProductSubmission() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [lastSubmittedId, setLastSubmittedId] = useState<string | null>(null);
+  const [lastSubmittedIsDraft, setLastSubmittedIsDraft] = useState(false);
 
   // Sync if selectedRevisionData changes from external trigger (e.g. from detail modal)
   useEffect(() => {
@@ -172,9 +186,9 @@ export function useProductSubmission() {
     setErrors({});
   }, [setSelectedRevisionData]);
 
-  // Validation
+  // Validation returning errors object so callers can navigate to first invalid step
   const validate = useCallback(
-    (isDraft = false): boolean => {
+    (isDraft = false): { valid: boolean; errors: SubmissionFormErrors } => {
       const newErrors: SubmissionFormErrors = {};
 
       if (!formData.name.trim()) {
@@ -207,7 +221,7 @@ export function useProductSubmission() {
       }
 
       setErrors(newErrors);
-      return Object.keys(newErrors).length === 0;
+      return { valid: Object.keys(newErrors).length === 0, errors: newErrors };
     },
     [formData]
   );
@@ -215,7 +229,7 @@ export function useProductSubmission() {
   // Submit form
   const submit = useCallback(
     async (isDraft = false): Promise<boolean> => {
-      if (!validate(isDraft)) return false;
+      if (!validate(isDraft).valid) return false;
 
       setIsSubmitting(true);
       try {
@@ -223,6 +237,7 @@ export function useProductSubmission() {
 
         const submissionId = submitProductForm(formData, isDraft);
         setLastSubmittedId(submissionId);
+        setLastSubmittedIsDraft(isDraft);
         setShowSuccessModal(true);
         setSelectedRevisionData(null);
         return true;
@@ -242,6 +257,7 @@ export function useProductSubmission() {
     setErrors({});
     setShowSuccessModal(false);
     setLastSubmittedId(null);
+    setLastSubmittedIsDraft(false);
   }, [formData.imagePreviewUrl, setSelectedRevisionData]);
 
   return {
@@ -250,6 +266,7 @@ export function useProductSubmission() {
     isSubmitting,
     showSuccessModal,
     lastSubmittedId,
+    lastSubmittedIsDraft,
     marginAmount,
     marginPercent,
     updateField,
@@ -259,6 +276,7 @@ export function useProductSubmission() {
     removeImage,
     loadSubmissionForRevision,
     cancelRevisionMode,
+    validate,
     submit,
     resetForm,
     setShowSuccessModal,

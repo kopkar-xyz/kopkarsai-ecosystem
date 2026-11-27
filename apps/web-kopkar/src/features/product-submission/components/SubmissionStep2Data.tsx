@@ -1,8 +1,9 @@
 import React from 'react';
-import { Package, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Package } from 'lucide-react';
 import type { CompleteSubmissionFormData, ProductTypeOption } from '../types';
 import { SubmissionStep2Ingredients } from './SubmissionStep2Ingredients';
 import { SubmissionStep2Timing } from './SubmissionStep2Timing';
+import { SubmissionStepFooter } from './SubmissionStepFooter';
 
 const PRODUCT_TYPES: ProductTypeOption[] = [
   'Gorengan', 'Jajanan Basah', 'Jajanan Kering', 'Keripik / Kerupuk',
@@ -181,25 +182,11 @@ export const SubmissionStep2Data: React.FC<SubmissionStep2DataProps> = ({
       />
 
       {/* 5. Bottom Action Bar */}
-      <div className="pt-4 border-t border-[#E9E2D2]/60 flex items-center justify-between gap-3">
-        <button
-          type="button"
-          onClick={onPrev}
-          className="h-10 px-4 rounded-xl border border-[#E9E2D2] text-xs font-sans font-medium text-[#14261E] hover:bg-[#FAF7F2] flex items-center gap-1.5 transition-colors cursor-pointer"
-        >
-          <ArrowLeft size={15} />
-          <span>Sebelumnya</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={onNext}
-          className="h-10 px-5 rounded-xl bg-[#1F5C45] hover:bg-[#174736] text-white text-xs font-heading font-medium flex items-center gap-2 transition-all cursor-pointer shadow-xs active:scale-95"
-        >
-          <span>Lanjut: Pasokan & Daya Tahan</span>
-          <ArrowRight size={15} />
-        </button>
-      </div>
+      <SubmissionStepFooter
+        onPrev={onPrev}
+        onNext={onNext}
+        nextLabel="Lanjut: Pasokan & Daya Tahan"
+      />
     </div>
   );
 };
